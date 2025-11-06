@@ -7,7 +7,8 @@
     <title>Laravel</title>
 </head>
 @vite('resources/js/app.js')
+@inertiaHead
 <body>
-    <h1 class="text-3xl font-bold underline text-lime-500">Hello World</h1>
+    @inertia
 </body>
 </html>
