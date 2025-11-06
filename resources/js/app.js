@@ -3,6 +3,10 @@ import '../css/app.css';
 
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
+import Antd from 'ant-design-vue';
+import { ConfigProvider } from 'ant-design-vue';
+import { antdTheme } from './theme/antd-theme';
+import 'ant-design-vue/dist/reset.css';
 
 createInertiaApp({
   resolve: name => {
@@ -10,8 +14,14 @@ createInertiaApp({
     return pages[`./Pages/${name}.vue`]
   },
   setup({ el, App, props, plugin }) {
-    createApp({ render: () => h(App, props) })
-      .use(plugin)
-      .mount(el)
+    const app = createApp({
+      render: () => h(ConfigProvider, { theme: antdTheme }, {
+        default: () => h(App, props)
+      })
+    });
+    
+    app.use(plugin);
+    app.use(Antd);
+    app.mount(el);
   },
 })
