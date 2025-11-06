@@ -1,6 +1,11 @@
 @import 'tailwindcss';
 @import './antd-theme.css';
 
+/* Theme System - Professional Dark/Light Theme Support */
+@import './themes/light-theme.css';
+@import './themes/dark-theme.css';
+@import './themes/theme-utilities.css';
+
 @source '../views/**/*.blade.php';
 @source '../js/**/*.js';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

@@ -1,0 +1,225 @@
+/**
+ * Dark Theme - Professional Event Management System
+ * Modern, Elegant, Eye-friendly Dark Design
+ */
+
+:root[data-theme="dark"] {
+    /* ============================================
+       PRIMARY COLORS - Blue Theme (Lighter for Dark)
+       ============================================ */
+    --color-primary: #40a9ff;
+    --color-primary-50: #111b26;
+    --color-primary-100: #1a2f47;
+    --color-primary-200: #234368;
+    --color-primary-300: #2c5789;
+    --color-primary-400: #356baa;
+    --color-primary-500: #40a9ff;
+    --color-primary-600: #69c0ff;
+    --color-primary-700: #91d5ff;
+    --color-primary-800: #bae7ff;
+    --color-primary-900: #e6f7ff;
+    
+    /* ============================================
+       SUCCESS COLORS - Green (Lighter)
+       ============================================ */
+    --color-success: #73d13d;
+    --color-success-50: #0d1f0a;
+    --color-success-100: #1a3e14;
+    --color-success-200: #275d1e;
+    --color-success-300: #347c28;
+    --color-success-400: #419b32;
+    --color-success-500: #73d13d;
+    --color-success-600: #95de64;
+    --color-success-700: #b7eb8f;
+    --color-success-800: #d9f7be;
+    --color-success-900: #f6ffed;
+    
+    /* ============================================
+       WARNING COLORS - Orange (Lighter)
+       ============================================ */
+    --color-warning: #ffc53d;
+    --color-warning-50: #1f1a0a;
+    --color-warning-100: #3e3414;
+    --color-warning-200: #5d4e1e;
+    --color-warning-300: #7c6828;
+    --color-warning-400: #9b8232;
+    --color-warning-500: #ffc53d;
+    --color-warning-600: #ffd666;
+    --color-warning-700: #ffe58f;
+    --color-warning-800: #fff1b8;
+    --color-warning-900: #fffbe6;
+    
+    /* ============================================
+       ERROR COLORS - Red (Lighter)
+       ============================================ */
+    --color-error: #ff7875;
+    --color-error-50: #1f0f0f;
+    --color-error-100: #3e1e1e;
+    --color-error-200: #5d2d2d;
+    --color-error-300: #7c3c3c;
+    --color-error-400: #9b4b4b;
+    --color-error-500: #ff7875;
+    --color-error-600: #ffa39e;
+    --color-error-700: #ffccc7;
+    --color-error-800: #ffe6e3;
+    --color-error-900: #fff1f0;
+    
+    /* ============================================
+       INFO COLORS - Cyan (Lighter)
+       ============================================ */
+    --color-info: #36cfc9;
+    --color-info-50: #0a1f1f;
+    --color-info-100: #143e3e;
+    --color-info-200: #1e5d5d;
+    --color-info-300: #287c7c;
+    --color-info-400: #329b9b;
+    --color-info-500: #36cfc9;
+    --color-info-600: #5cdbd3;
+    --color-info-700: #87e8de;
+    --color-info-800: #b5f5ec;
+    --color-info-900: #e6fffb;
+    
+    /* ============================================
+       NEUTRAL COLORS - Dark Grays
+       ============================================ */
+    --color-gray-50: #1f1f1f;
+    --color-gray-100: #262626;
+    --color-gray-200: #434343;
+    --color-gray-300: #595959;
+    --color-gray-400: #8c8c8c;
+    --color-gray-500: #bfbfbf;
+    --color-gray-600: #d9d9d9;
+    --color-gray-700: #f0f0f0;
+    --color-gray-800: #f5f5f5;
+    --color-gray-900: #fafafa;
+    
+    /* ============================================
+       BACKGROUND COLORS
+       ============================================ */
+    --bg-primary: #141414;
+    --bg-secondary: #1f1f1f;
+    --bg-tertiary: #262626;
+    --bg-elevated: #1f1f1f;
+    --bg-hover: #262626;
+    --bg-active: #2d2d2d;
+    --bg-disabled: #1a1a1a;
+    --bg-overlay: rgba(0, 0, 0, 0.65);
+    --bg-backdrop: rgba(0, 0, 0, 0.45);
+    
+    /* ============================================
+       TEXT COLORS
+       ============================================ */
+    --text-primary: rgba(255, 255, 255, 0.85);
+    --text-secondary: rgba(255, 255, 255, 0.65);
+    --text-tertiary: rgba(255, 255, 255, 0.45);
+    --text-disabled: rgba(255, 255, 255, 0.25);
+    --text-inverse: rgba(0, 0, 0, 0.85);
+    --text-link: #40a9ff;
+    --text-link-hover: #69c0ff;
+    
+    /* ============================================
+       BORDER COLORS
+       ============================================ */
+    --border-color: #434343;
+    --border-color-light: #2d2d2d;
+    --border-color-dark: #595959;
+    --border-color-hover: #69c0ff;
+    --border-color-focus: #40a9ff;
+    --border-color-error: #ff7875;
+    
+    /* ============================================
+       SHADOW COLORS
+       ============================================ */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-base: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.6);
+    --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    
+    /* ============================================
+       COMPONENT SPECIFIC COLORS
+       ============================================ */
+    /* Card */
+    --card-bg: #1f1f1f;
+    --card-border: #2d2d2d;
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    
+    /* Input */
+    --input-bg: #1f1f1f;
+    --input-border: #434343;
+    --input-border-hover: #69c0ff;
+    --input-border-focus: #40a9ff;
+    --input-placeholder: rgba(255, 255, 255, 0.25);
+    
+    /* Button */
+    --button-primary-bg: #40a9ff;
+    --button-primary-hover: #69c0ff;
+    --button-primary-active: #1890ff;
+    --button-default-bg: #1f1f1f;
+    --button-default-hover: #262626;
+    --button-default-active: #2d2d2d;
+    
+    /* Table */
+    --table-bg: #1f1f1f;
+    --table-header-bg: #262626;
+    --table-row-hover: #262626;
+    --table-border: #2d2d2d;
+    
+    /* Menu */
+    --menu-bg: #1f1f1f;
+    --menu-item-hover: #262626;
+    --menu-item-active: #1a2f47;
+    --menu-item-selected: #234368;
+    
+    /* Modal */
+    --modal-bg: #1f1f1f;
+    --modal-mask: rgba(0, 0, 0, 0.65);
+    --modal-header-bg: #262626;
+    
+    /* Sidebar */
+    --sidebar-bg: #141414;
+    --sidebar-border: #2d2d2d;
+    --sidebar-item-hover: #1f1f1f;
+    --sidebar-item-active: #1a2f47;
+    
+    /* Badge */
+    --badge-default-bg: #2d2d2d;
+    --badge-primary-bg: #1a2f47;
+    --badge-success-bg: #1a3e14;
+    --badge-warning-bg: #3e3414;
+    --badge-error-bg: #3e1e1e;
+    
+    /* Tooltip */
+    --tooltip-bg: rgba(255, 255, 255, 0.85);
+    --tooltip-text: rgba(0, 0, 0, 0.85);
+    
+    /* Divider */
+    --divider-color: #2d2d2d;
+    
+    /* ============================================
+       GRADIENT COLORS
+       ============================================ */
+    --gradient-primary: linear-gradient(135deg, #40a9ff 0%, #1890ff 100%);
+    --gradient-success: linear-gradient(135deg, #73d13d 0%, #52c41a 100%);
+    --gradient-warning: linear-gradient(135deg, #ffc53d 0%, #faad14 100%);
+    --gradient-error: linear-gradient(135deg, #ff7875 0%, #ff4d4f 100%);
+    
+    /* ============================================
+       SPACING & SIZING
+       ============================================ */
+    --radius-sm: 4px;
+    --radius-base: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+    
+    /* ============================================
+       TRANSITIONS
+       ============================================ */
+    --transition-fast: 150ms ease-in-out;
+    --transition-base: 300ms ease-in-out;
+    --transition-slow: 500ms ease-in-out;
+}
+

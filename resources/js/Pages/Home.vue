@@ -1,20 +1,34 @@
 <script setup>
 import { ref } from 'vue';
+import ThemeToggle from '../components/ThemeToggle.vue';
+import { useTheme } from '../composables/useTheme';
 
 const title = ref('Event Management System');
+const { currentTheme, toggleTheme } = useTheme();
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-50 p-8">
-        <div class="max-w-6xl mx-auto space-y-8">
-            <!-- Header -->
-            <div class="text-center space-y-2">
-                <h1 class="text-4xl font-bold text-gray-900">{{ title }}</h1>
-                <p class="text-gray-600">Professional & Modern UI Color Palette</p>
+    <div class="min-h-screen" style="background-color: var(--bg-primary); color: var(--text-primary);">
+        <div class="max-w-6xl mx-auto p-8 space-y-8">
+            <!-- Header with Theme Toggle -->
+            <div class="flex justify-between items-center">
+                <div class="text-center flex-1 space-y-2">
+                    <h1 class="text-4xl font-bold" style="color: var(--text-primary);">{{ title }}</h1>
+                    <p style="color: var(--text-secondary);">Professional & Modern UI with Dark/Light Theme</p>
+                </div>
+                <ThemeToggle />
             </div>
 
+            <!-- Theme Info -->
+            <a-card :title="`Current Theme: ${currentTheme === 'light' ? 'Light' : 'Dark'}`" class="shadow-lg" style="background-color: var(--card-bg); border-color: var(--card-border);">
+                <p style="color: var(--text-secondary);">
+                    Click the theme toggle button (🌙/☀️) in the top right to switch between light and dark themes.
+                    Your preference will be saved automatically.
+                </p>
+            </a-card>
+
             <!-- Color Palette Showcase -->
-            <a-card title="Color Palette" class="shadow-lg">
+            <a-card title="Color Palette" class="shadow-lg" style="background-color: var(--card-bg); border-color: var(--card-border);">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <!-- Primary Blue -->
                     <div class="space-y-2">
