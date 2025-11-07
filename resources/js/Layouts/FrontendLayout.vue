@@ -92,7 +92,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t mt-20" :class="isDark ? 'bg-[#1f1f1f] border-[#2d2d2d]' : 'border-gray-200'">
+    <footer class="border-t mt-20" :class="isDark ? 'bg-[#1f1f1f] border-[#2d2d2d]' : 'bg-white border-gray-200'">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <!-- About -->
@@ -162,17 +162,23 @@
           <!-- Newsletter -->
           <div>
             <h3 class="text-lg font-semibold mb-4" :class="isDark ? 'text-white' : 'text-gray-900'">Newsletter</h3>
-            <p class="text-sm mb-4" :class="isDark ? 'text-gray-400' : 'text-gray-600'">
+            <p class="text-sm mb-4 leading-relaxed" :class="isDark ? 'text-gray-400' : 'text-gray-600'">
               Subscribe to get updates on upcoming events and exclusive offers.
             </p>
-            <a-input-group compact>
-              <a-input
-                v-model:value="newsletterEmail"
-                placeholder="Your email"
-                class="flex-1"
-              />
-              <a-button type="primary">Subscribe</a-button>
-            </a-input-group>
+            <div class="newsletter-form">
+              <a-input-group compact class="newsletter-input-group">
+                <a-input
+                  v-model:value="newsletterEmail"
+                  placeholder="Your email"
+                  class="newsletter-input"
+                  :class="isDark ? 'newsletter-input-dark' : 'newsletter-input-light'"
+                  size="large"
+                />
+                <a-button type="primary" size="large" class="newsletter-button">
+                  Subscribe
+                </a-button>
+              </a-input-group>
+            </div>
           </div>
         </div>
 
@@ -331,5 +337,90 @@ const handleLogin = () => {
 
 .mobile-menu-light a:hover {
   color: rgba(0, 0, 0, 0.85) !important;
+}
+
+/* Footer Newsletter Form */
+.newsletter-form {
+  width: 100%;
+}
+
+.newsletter-input-group {
+  display: flex;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.newsletter-input-group .ant-input-group {
+  display: flex;
+  width: 100%;
+}
+
+.newsletter-input {
+  flex: 1;
+  border-radius: 8px 0 0 8px !important;
+  transition: all 0.3s ease;
+}
+
+.newsletter-button {
+  border-radius: 0 8px 8px 0 !important;
+  min-width: 120px;
+  font-weight: 500;
+}
+
+/* Newsletter Input Light Theme */
+.newsletter-input-light {
+  background-color: #ffffff !important;
+  border-color: #d9d9d9 !important;
+  color: rgba(0, 0, 0, 0.85) !important;
+}
+
+.newsletter-input-light::placeholder {
+  color: rgba(0, 0, 0, 0.25) !important;
+}
+
+.newsletter-input-light:hover {
+  border-color: #40a9ff !important;
+}
+
+.newsletter-input-light:focus,
+.newsletter-input-light.ant-input-focused {
+  border-color: #40a9ff !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+}
+
+/* Newsletter Input Dark Theme */
+.newsletter-input-dark {
+  background-color: #262626 !important;
+  border-color: #434343 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.newsletter-input-dark::placeholder {
+  color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.newsletter-input-dark:hover {
+  border-color: #595959 !important;
+}
+
+.newsletter-input-dark:focus,
+.newsletter-input-dark.ant-input-focused {
+  border-color: #40a9ff !important;
+  box-shadow: 0 0 0 2px rgba(64, 169, 255, 0.2) !important;
+}
+
+/* Newsletter Input Group Dark Theme */
+[data-theme="dark"] .newsletter-input-group .ant-input-group-addon {
+  background-color: transparent !important;
+  border-color: #434343 !important;
+}
+
+[data-theme="dark"] .newsletter-input-group .ant-input {
+  border-right: none !important;
+}
+
+[data-theme="dark"] .newsletter-input-group .ant-btn {
+  border-left: 1px solid #434343 !important;
 }
 </style>

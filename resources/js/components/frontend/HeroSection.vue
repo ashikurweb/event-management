@@ -18,18 +18,6 @@
             </p>
           </div>
 
-          <!-- Search -->
-          <div class="max-w-2xl mx-auto lg:mx-0">
-            <a-input-search
-              v-model:value="searchQuery"
-              placeholder="Search events, categories, locations..."
-              size="large"
-              class="w-full"
-              @search="handleSearch"
-              enter-button
-            />
-          </div>
-
           <!-- Stats -->
           <div class="flex flex-wrap justify-center lg:justify-start gap-8 pt-4">
             <div class="text-center lg:text-left">
@@ -62,16 +50,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { router } from '@inertiajs/vue3';
 import { CalendarOutlined } from '@ant-design/icons-vue';
-
-const searchQuery = ref('');
-
-const handleSearch = (value) => {
-  if (value) {
-    router.visit(`/events?search=${encodeURIComponent(value)}`);
-  }
-};
 </script>
 
