@@ -1,12 +1,13 @@
 <template>
-  <div class="dashboard-sidebar" :class="{ collapsed: collapsed }">
-    <!-- Logo -->
-    <div class="sidebar-logo">
-      <div class="logo-icon">U</div>
+  <div class="dashboard-sidebar" :class="{ collapsed: collapsed, 'mobile-open': mobileOpen, 'mobile-closed': !mobileOpen }">
+    <!-- Logo - Sticky -->
+    <div class="sidebar-logo sticky-logo">
+      <div class="logo-icon">E</div>
       <span v-if="!collapsed" class="logo-text">EventHub</span>
     </div>
 
     <!-- Menu -->
+    <div class="menu-container">
     <a-menu
       v-model:selectedKeys="selectedKeys"
       v-model:openKeys="openKeys"
@@ -243,6 +244,7 @@
         <a-menu-item key="settings-profile">Profile Settings</a-menu-item>
       </a-sub-menu>
     </a-menu>
+    </div>
   </div>
 </template>
 
@@ -277,6 +279,10 @@ const props = defineProps({
   collapsed: {
     type: Boolean,
     default: false,
+  },
+  mobileOpen: {
+    type: Boolean,
+    default: true,
   },
 });
 
@@ -328,9 +334,10 @@ const handleMenuClick = ({ key }) => {
   box-shadow: var(--shadow-base, 2px 0 8px rgba(0, 0, 0, 0.1));
   transition: width 0.2s ease-in-out, background-color 0.1s ease-out, box-shadow 0.1s ease-out;
   z-index: 1000;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   border-right: 1px solid var(--sidebar-border, #2d2d2d);
+  display: flex;
+  flex-direction: column;
 }
 
 [data-theme="light"] .dashboard-sidebar {
@@ -347,6 +354,102 @@ const handleMenuClick = ({ key }) => {
   width: 80px;
 }
 
+/* Tablet Styles */
+@media (max-width: 1024px) {
+  .dashboard-sidebar {
+    width: 240px;
+  }
+
+  .dashboard-sidebar.collapsed {
+    width: 80px;
+  }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .dashboard-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    width: 280px;
+  }
+
+  .dashboard-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .dashboard-sidebar.mobile-closed {
+    transform: translateX(-100%);
+  }
+
+  .dashboard-sidebar.collapsed {
+    width: 280px; /* Full width on mobile when open */
+  }
+
+  .sidebar-logo {
+    height: 56px;
+    padding: 12px;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .logo-text {
+    font-size: 16px;
+  }
+
+  .dashboard-menu {
+    padding: 4px 0;
+  }
+
+  :deep(.ant-menu-item),
+  :deep(.ant-menu-submenu-title) {
+    margin: 2px 4px !important;
+    height: 36px;
+    line-height: 36px;
+    font-size: 14px;
+  }
+
+  :deep(.ant-menu-item-icon) {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-sidebar {
+    width: 260px;
+  }
+
+  .dashboard-sidebar.collapsed {
+    width: 260px;
+  }
+
+  .sidebar-logo {
+    height: 52px;
+    padding: 10px;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .logo-text {
+    font-size: 14px;
+  }
+
+  :deep(.ant-menu-item),
+  :deep(.ant-menu-submenu-title) {
+    height: 32px;
+    line-height: 32px;
+    font-size: 13px;
+  }
+}
+
 .sidebar-logo {
   height: 64px;
   display: flex;
@@ -356,6 +459,24 @@ const handleMenuClick = ({ key }) => {
   border-bottom: 1px solid var(--border-color-light, #f0f0f0);
   gap: 12px;
   transition: border-color 0.1s ease-out;
+}
+
+.sticky-logo {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--sidebar-bg, #141414);
+  border-bottom: 1px solid var(--border-color-light, #f0f0f0);
+}
+
+[data-theme="light"] .sticky-logo {
+  background: #fff;
+  border-bottom-color: #f0f0f0;
+}
+
+[data-theme="dark"] .sticky-logo {
+  background: #141414;
+  border-bottom-color: #2d2d2d;
 }
 
 .logo-icon {
@@ -388,6 +509,12 @@ const handleMenuClick = ({ key }) => {
   opacity: 0;
   width: 0;
   overflow: hidden;
+}
+
+.menu-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .dashboard-menu {

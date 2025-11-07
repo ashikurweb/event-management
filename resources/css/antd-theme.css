@@ -153,36 +153,58 @@
 
 /* Input Search Dark Theme */
 :root[data-theme="dark"] .ant-input-search {
-    background: var(--input-bg, #1f1f1f) !important;
+    background-color: transparent !important;
+}
+
+:root[data-theme="dark"] .ant-input-search .ant-input-group-wrapper {
+    background-color: transparent !important;
+}
+
+:root[data-theme="dark"] .ant-input-search .ant-input-group {
+    background-color: transparent !important;
 }
 
 :root[data-theme="dark"] .ant-input-search .ant-input {
-    background: var(--input-bg, #1f1f1f) !important;
-    border-color: var(--input-border, #434343) !important;
-    color: var(--text-primary, rgba(255, 255, 255, 0.85)) !important;
+    background-color: #262626 !important;
+    border-color: #434343 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-input-search .ant-input:hover {
+    background-color: #262626 !important;
+    border-color: #595959 !important;
+}
+
+:root[data-theme="dark"] .ant-input-search .ant-input:focus,
+:root[data-theme="dark"] .ant-input-search .ant-input-focused {
+    background-color: #262626 !important;
+    border-color: #40a9ff !important;
+    box-shadow: 0 0 0 2px rgba(64, 169, 255, 0.2) !important;
 }
 
 :root[data-theme="dark"] .ant-input-search .ant-input::placeholder {
-    color: var(--input-placeholder, rgba(255, 255, 255, 0.25)) !important;
+    color: rgba(255, 255, 255, 0.25) !important;
 }
 
 :root[data-theme="dark"] .ant-input-search .ant-input-search-button {
-    background: #ffffff !important;
-    border-color: #ffffff !important;
-    color: #000000 !important;
+    background-color: #262626 !important;
+    border-color: #434343 !important;
+    border-left-color: #434343 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
 }
 
 :root[data-theme="dark"] .ant-input-search .ant-input-search-button .anticon {
-    color: #000000 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
 }
 
 :root[data-theme="dark"] .ant-input-search .ant-input-search-button:hover {
-    background: #f0f0f0 !important;
-    border-color: #f0f0f0 !important;
+    background-color: #404040 !important;
+    border-color: #595959 !important;
+    border-left-color: #595959 !important;
 }
 
 :root[data-theme="dark"] .ant-input-search .ant-input-search-button:hover .anticon {
-    color: #000000 !important;
+    color: rgba(255, 255, 255, 1) !important;
 }
 
 /* Button Dark Theme */

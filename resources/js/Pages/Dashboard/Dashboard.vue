@@ -501,11 +501,224 @@ const getStatusColor = (status) => {
   gap: 4px;
 }
 
-@media (max-width: 768px) {
-  .stats-grid,
+/* Responsive Styles */
+@media (max-width: 1200px) {
   .charts-row,
   .content-row {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .charts-row,
+  .content-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .stat-card {
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .stat-content {
+    gap: 16px;
+  }
+
+  .stat-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 24px;
+    border-radius: 12px;
+  }
+
+  .stat-value {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .stat-trend {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .chart-card,
+  .content-card {
+    margin-bottom: 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .chart-placeholder {
+    height: 220px;
+    padding: 20px;
+  }
+
+  .chart-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+  }
+
+  .chart-text {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .event-meta {
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .event-meta span {
+    font-size: 12px;
+  }
+
+  :deep(.content-card .ant-card-head) {
+    padding: 16px !important;
+    border-bottom: 1px solid var(--border-color-light, #f0f0f0) !important;
+  }
+
+  :deep(.content-card .ant-card-head-title) {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  :deep(.content-card .ant-card-body) {
+    padding: 16px !important;
+  }
+
+  :deep(.content-card .ant-table) {
+    font-size: 13px;
+  }
+
+  :deep(.content-card .ant-table-thead > tr > th) {
+    padding: 12px 8px !important;
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--bg-elevated, #fafafa) !important;
+  }
+
+  :deep(.content-card .ant-table-tbody > tr > td) {
+    padding: 12px 8px !important;
+    font-size: 12px;
+  }
+
+  :deep(.content-card .ant-list-item) {
+    padding: 12px 0 !important;
+  }
+
+  :deep(.content-card .ant-list-item-meta-title) {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  :deep(.content-card .ant-list-item-meta-description) {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .stat-card {
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  .stat-content {
+    gap: 12px;
+  }
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    border-radius: 10px;
+  }
+
+  .stat-value {
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .stat-label {
+    font-size: 12px;
+  }
+
+  .stat-trend {
+    font-size: 12px;
+  }
+
+  .chart-card,
+  .content-card {
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+
+  .chart-placeholder {
+    height: 180px;
+    padding: 16px;
+  }
+
+  .chart-icon {
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+
+  .chart-text {
+    font-size: 13px;
+  }
+
+  :deep(.content-card .ant-card-head) {
+    padding: 12px 16px !important;
+  }
+
+  :deep(.content-card .ant-card-head-title) {
+    font-size: 15px;
+  }
+
+  :deep(.content-card .ant-card-body) {
+    padding: 12px !important;
+  }
+
+  :deep(.content-card .ant-table-thead > tr > th) {
+    padding: 10px 6px !important;
+    font-size: 11px;
+  }
+
+  :deep(.content-card .ant-table-tbody > tr > td) {
+    padding: 10px 6px !important;
+    font-size: 11px;
+  }
+
+  :deep(.content-card .ant-list-item) {
+    padding: 10px 0 !important;
+  }
+
+  :deep(.content-card .ant-list-item-meta-title) {
+    font-size: 13px;
+  }
+
+  :deep(.content-card .ant-list-item-meta-description) {
+    font-size: 11px;
   }
 }
 </style>

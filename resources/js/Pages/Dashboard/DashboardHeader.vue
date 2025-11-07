@@ -1,17 +1,22 @@
 <template>
-  <div class="dashboard-header">
+  <div class="dashboard-header" :class="{ 'sidebar-collapsed': collapsed }">
     <div class="header-left">
       <a-button
         type="text"
-        class="sidebar-toggle"
+        class="sidebar-toggle hamburger-btn"
         @click="$emit('toggle-sidebar')"
       >
-        <template #icon><MenuUnfoldOutlined v-if="collapsed" /><MenuFoldOutlined v-else /></template>
+        <template #icon>
+          <MenuOutlined v-if="!mobileOpen" class="hamburger-icon" />
+          <MenuUnfoldOutlined v-else-if="collapsed" />
+          <MenuFoldOutlined v-else />
+        </template>
       </a-button>
       
       <a-input-search
         v-model:value="searchValue"
         placeholder="Search events, users, orders..."
+        class="header-search"
         style="width: 300px"
         @search="handleSearch"
       />
@@ -19,27 +24,27 @@
 
     <div class="header-right">
       <!-- Theme Toggle -->
-      <ThemeToggle />
+      <ThemeToggle class="header-action" />
 
-      <!-- Quick Actions -->
-      <a-button type="primary" @click="handleCreateEvent">
+      <!-- Quick Actions - Hidden on Mobile -->
+      <a-button type="primary" class="create-event-btn" @click="handleCreateEvent">
         <template #icon><PlusOutlined /></template>
-        Create Event
+        <span class="create-event-text">Create Event</span>
       </a-button>
 
-      <a-button type="text" @click="handleViewCalendar">
+      <a-button type="text" class="calendar-btn" @click="handleViewCalendar">
         <template #icon><CalendarOutlined /></template>
       </a-button>
 
       <!-- Notifications -->
-      <a-badge :count="notificationCount" :overflow-count="99">
-        <a-button type="text" @click="showNotifications = true">
+      <a-badge :count="notificationCount" :overflow-count="99" class="notification-badge">
+        <a-button type="text" class="header-action notification-btn" @click="showNotifications = true">
           <template #icon><BellOutlined /></template>
         </a-button>
       </a-badge>
 
       <!-- User Profile Dropdown -->
-      <a-dropdown :trigger="['click']">
+      <a-dropdown :trigger="['click']" class="user-dropdown">
         <div class="user-profile">
           <a-avatar :src="userAvatar" :size="32">
             {{ userInitials }}
@@ -100,6 +105,7 @@ import { ref, computed } from 'vue';
 import { router } from '@inertiajs/vue3';
 import ThemeToggle from '../../Components/ThemeToggle.vue';
 import {
+  MenuOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   PlusOutlined,
@@ -113,6 +119,10 @@ import {
 
 const props = defineProps({
   collapsed: {
+    type: Boolean,
+    default: false,
+  },
+  mobileOpen: {
     type: Boolean,
     default: false,
   },
@@ -180,11 +190,18 @@ const handleViewCalendar = () => {
   align-items: center;
   justify-content: space-between;
   box-shadow: var(--shadow-base, 0 2px 8px rgba(0, 0, 0, 0.06));
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 256px;
+  right: 0;
   z-index: 100;
   border-bottom: 1px solid var(--border-color-light, #2d2d2d);
-  transition: background-color 0.1s ease-out, border-color 0.1s ease-out, box-shadow 0.1s ease-out;
+  transition: left 0.2s, background-color 0.1s ease-out, border-color 0.1s ease-out, box-shadow 0.1s ease-out;
+}
+
+/* Header positioning when sidebar is collapsed */
+.dashboard-header.sidebar-collapsed {
+  left: 80px;
 }
 
 [data-theme="light"] .dashboard-header {
@@ -207,12 +224,78 @@ const handleViewCalendar = () => {
   font-size: 18px;
 }
 
+.hamburger-btn {
+  display: none;
+}
+
+.hamburger-icon {
+  font-size: 20px;
+}
+
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: inline-flex !important;
+  }
+}
+
 [data-theme="dark"] .sidebar-toggle :deep(.anticon) {
   color: rgba(255, 255, 255, 0.85) !important;
 }
 
+/* Search Bar Dark Mode Styles */
 [data-theme="dark"] .header-left :deep(.ant-input-search .anticon) {
   color: rgba(255, 255, 255, 0.65) !important;
+}
+
+[data-theme="dark"] .header-search :deep(.ant-input-group-wrapper) {
+  background-color: transparent !important;
+}
+
+[data-theme="dark"] .header-search :deep(.ant-input-group) {
+  background-color: transparent !important;
+}
+
+[data-theme="dark"] .header-search :deep(.ant-input) {
+  background-color: #262626 !important;
+  border-color: #434343 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .header-search :deep(.ant-input::placeholder) {
+  color: rgba(255, 255, 255, 0.25) !important;
+}
+
+[data-theme="dark"] .header-search :deep(.ant-input:hover) {
+  background-color: #262626 !important;
+  border-color: #595959 !important;
+}
+
+[data-theme="dark"] .header-search :deep(.ant-input:focus),
+[data-theme="dark"] .header-search :deep(.ant-input-focused) {
+  background-color: #262626 !important;
+  border-color: #40a9ff !important;
+  box-shadow: 0 0 0 2px rgba(64, 169, 255, 0.2) !important;
+}
+
+[data-theme="dark"] .header-search :deep(.ant-input-search-button) {
+  background-color: #262626 !important;
+  border-color: #434343 !important;
+  border-left-color: #434343 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .header-search :deep(.ant-input-search-button .anticon) {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .header-search :deep(.ant-input-search-button:hover) {
+  background-color: #404040 !important;
+  border-color: #595959 !important;
+  border-left-color: #595959 !important;
+}
+
+[data-theme="dark"] .header-search :deep(.ant-input-search-button:hover .anticon) {
+  color: rgba(255, 255, 255, 1) !important;
 }
 
 [data-theme="dark"] .header-right :deep(.anticon) {
@@ -305,13 +388,119 @@ const handleViewCalendar = () => {
   font-size: 12px;
 }
 
-@media (max-width: 768px) {
-  .header-left :deep(.ant-input-search) {
-    display: none;
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .header-search {
+    width: 200px !important;
   }
-  
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 0 12px;
+    height: 56px;
+    position: fixed;
+    top: 0;
+    left: 0 !important; /* Full width on mobile */
+    right: 0;
+    z-index: 100;
+  }
+
+  .dashboard-header.sidebar-collapsed {
+    left: 0 !important; /* Full width on mobile */
+  }
+
+  .header-left {
+    gap: 8px;
+  }
+
+  .header-search {
+    display: none !important;
+  }
+
+  .header-right {
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  /* Hide Create Event button and Calendar on mobile */
+  .create-event-btn,
+  .calendar-btn {
+    display: none !important;
+  }
+
+  /* Show only: Theme Toggle, Notifications, Profile Dropdown */
+  .header-action {
+    display: inline-flex !important;
+  }
+
+  .notification-badge {
+    display: inline-block;
+  }
+
+  .user-dropdown {
+    display: inline-block;
+  }
+
   .user-name {
     display: none;
+  }
+
+  .user-profile {
+    padding: 4px 8px;
+    gap: 6px;
+  }
+
+  .user-profile :deep(.ant-avatar) {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .notification-btn,
+  .header-action {
+    padding: 4px 8px !important;
+    min-width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :deep(.ant-drawer) {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header {
+    padding: 0 8px;
+    height: 52px;
+  }
+
+  .header-left {
+    gap: 4px;
+  }
+
+  .header-right {
+    gap: 4px;
+  }
+
+  .user-profile {
+    padding: 2px 4px;
+    gap: 4px;
+  }
+
+  .user-profile :deep(.ant-avatar) {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .notification-btn,
+  .header-action {
+    padding: 4px !important;
+    min-width: 36px;
+    height: 36px;
   }
 }
 </style>
