@@ -39,10 +39,10 @@
           <ThemeToggle />
           <a-button
             type="primary"
-            class="hidden sm:block !flex items-center"
+            class="hidden sm:block account-btn"
             @click="handleLogin"
           >
-            <UserOutlined />
+            <template #icon><UserOutlined /></template>
             <span>My Account</span>
           </a-button>
           <!-- Hamburger Menu Button - Only visible on mobile/tablet (below lg breakpoint) -->
@@ -160,15 +160,17 @@ const handleLogin = () => {
 </script>
 
 <style scoped>
-/* Remove any default icon from Login button */
-:deep(.ant-btn-primary) {
-  display: inline-flex;
+/* My Account Button */
+.account-btn {
+  display: inline-flex !important;
   align-items: center;
   justify-content: center;
+  gap: 8px;
 }
 
-:deep(.ant-btn-primary .anticon) {
-  display: none !important;
+.account-btn :deep(.anticon) {
+  display: inline-flex !important;
+  font-size: 16px;
 }
 
 /* Hamburger button - Only show on mobile/tablet (below lg breakpoint) */

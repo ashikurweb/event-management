@@ -207,6 +207,55 @@
     color: rgba(255, 255, 255, 1) !important;
 }
 
+/* General Input Dark Theme */
+:root[data-theme="dark"] .ant-input {
+    background-color: #1a1a1a !important;
+    border-color: #434343 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-input:hover {
+    background-color: #1a1a1a !important;
+    border-color: #595959 !important;
+}
+
+:root[data-theme="dark"] .ant-input:focus,
+:root[data-theme="dark"] .ant-input-focused {
+    background-color: #1a1a1a !important;
+    border-color: #40a9ff !important;
+    box-shadow: 0 0 0 2px rgba(64, 169, 255, 0.2) !important;
+}
+
+:root[data-theme="dark"] .ant-input::placeholder {
+    color: rgba(255, 255, 255, 0.25) !important;
+}
+
+:root[data-theme="dark"] .ant-input-password .ant-input {
+    background-color: #1a1a1a !important;
+    border-color: #434343 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-input-password .ant-input:hover {
+    background-color: #1a1a1a !important;
+    border-color: #595959 !important;
+}
+
+:root[data-theme="dark"] .ant-input-password .ant-input:focus,
+:root[data-theme="dark"] .ant-input-password .ant-input-focused {
+    background-color: #1a1a1a !important;
+    border-color: #40a9ff !important;
+    box-shadow: 0 0 0 2px rgba(64, 169, 255, 0.2) !important;
+}
+
+:root[data-theme="dark"] .ant-input-password-icon {
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+
+:root[data-theme="dark"] .ant-input-password-icon:hover {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
 /* Button Dark Theme */
 :root[data-theme="dark"] .ant-btn-default {
     background: var(--button-default-bg, #1f1f1f) !important;

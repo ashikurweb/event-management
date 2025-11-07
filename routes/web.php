@@ -18,3 +18,6 @@ Route::get('/events', function () {
 Route::get('/events/{id}', function ($id) {
     return Inertia::render('Events/EventDetail', ['id' => $id]);
 })->name('event.detail');
+
+// Authentication Routes
+require __DIR__.'/auth.php';
