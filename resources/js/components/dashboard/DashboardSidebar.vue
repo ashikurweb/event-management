@@ -324,12 +324,23 @@ const handleMenuClick = ({ key }) => {
   top: 0;
   height: 100vh;
   width: 256px;
-  background: #fff;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-  transition: width 0.2s;
+  background: var(--sidebar-bg, #141414);
+  box-shadow: var(--shadow-base, 2px 0 8px rgba(0, 0, 0, 0.1));
+  transition: width 0.2s, background-color 0.3s, box-shadow 0.3s;
   z-index: 1000;
   overflow-y: auto;
   overflow-x: hidden;
+  border-right: 1px solid var(--sidebar-border, #2d2d2d);
+}
+
+[data-theme="light"] .dashboard-sidebar {
+  background: #fff;
+  border-right-color: #f0f0f0;
+}
+
+[data-theme="dark"] .dashboard-sidebar {
+  background: #141414;
+  border-right-color: #2d2d2d;
 }
 
 .dashboard-sidebar.collapsed {
@@ -342,8 +353,9 @@ const handleMenuClick = ({ key }) => {
   align-items: center;
   justify-content: center;
   padding: 16px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border-color-light, #f0f0f0);
   gap: 12px;
+  transition: border-color 0.3s;
 }
 
 .logo-icon {
@@ -363,9 +375,13 @@ const handleMenuClick = ({ key }) => {
 .logo-text {
   font-size: 18px;
   font-weight: 600;
-  color: #262626;
+  color: var(--text-primary, #262626);
   white-space: nowrap;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, color 0.3s;
+}
+
+[data-theme="dark"] .logo-text {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .dashboard-sidebar.collapsed .logo-text {
@@ -394,7 +410,7 @@ const handleMenuClick = ({ key }) => {
 
 :deep(.ant-menu-item:hover),
 :deep(.ant-menu-submenu-title:hover) {
-  background-color: #f5f5f5;
+  background-color: var(--bg-hover, #f5f5f5);
 }
 
 :deep(.ant-menu-submenu-title) {
@@ -414,13 +430,25 @@ const handleMenuClick = ({ key }) => {
   background: #f1f1f1;
 }
 
+[data-theme="dark"] .dashboard-sidebar::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
 .dashboard-sidebar::-webkit-scrollbar-thumb {
   background: #c1c1c1;
   border-radius: 3px;
 }
 
+[data-theme="dark"] .dashboard-sidebar::-webkit-scrollbar-thumb {
+  background: #434343;
+}
+
 .dashboard-sidebar::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
+}
+
+[data-theme="dark"] .dashboard-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #595959;
 }
 </style>
 

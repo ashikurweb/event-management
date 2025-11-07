@@ -18,6 +18,9 @@
     </div>
 
     <div class="header-right">
+      <!-- Theme Toggle -->
+      <ThemeToggle />
+
       <!-- Quick Actions -->
       <a-button type="primary" @click="handleCreateEvent">
         <template #icon><PlusOutlined /></template>
@@ -95,6 +98,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { router } from '@inertiajs/vue3';
+import ThemeToggle from '../ThemeToggle.vue';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -170,15 +174,27 @@ const handleViewCalendar = () => {
 <style scoped>
 .dashboard-header {
   height: 64px;
-  background: #fff;
+  background: var(--bg-secondary, #1f1f1f);
   padding: 0 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-base, 0 2px 8px rgba(0, 0, 0, 0.06));
   position: sticky;
   top: 0;
   z-index: 100;
+  border-bottom: 1px solid var(--border-color-light, #2d2d2d);
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+[data-theme="light"] .dashboard-header {
+  background: #fff;
+  border-bottom-color: #f0f0f0;
+}
+
+[data-theme="dark"] .dashboard-header {
+  background: #1f1f1f;
+  border-bottom-color: #2d2d2d;
 }
 
 .header-left {
@@ -189,6 +205,22 @@ const handleViewCalendar = () => {
 
 .sidebar-toggle {
   font-size: 18px;
+}
+
+[data-theme="dark"] .sidebar-toggle :deep(.anticon) {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .header-left :deep(.ant-input-search .anticon) {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+[data-theme="dark"] .header-right :deep(.anticon) {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .header-right .ant-btn-text :deep(.anticon) {
+  color: rgba(255, 255, 255, 0.85) !important;
 }
 
 .header-right {
@@ -208,17 +240,21 @@ const handleViewCalendar = () => {
 }
 
 .user-profile:hover {
-  background-color: #f5f5f5;
+  background-color: var(--bg-hover, #f5f5f5);
 }
 
 .user-name {
   font-weight: 500;
-  color: #262626;
+  color: var(--text-primary, #262626);
+}
+
+[data-theme="dark"] .user-name {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .dropdown-icon {
   font-size: 12px;
-  color: #8c8c8c;
+  color: var(--text-tertiary, #8c8c8c);
 }
 
 .notifications-list {
@@ -229,17 +265,17 @@ const handleViewCalendar = () => {
   display: flex;
   gap: 12px;
   padding: 12px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border-color-light, #f0f0f0);
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .notification-item:hover {
-  background-color: #fafafa;
+  background-color: var(--bg-hover, #fafafa);
 }
 
 .notification-item.unread {
-  background-color: #e6f7ff;
+  background-color: var(--bg-elevated, #e6f7ff);
 }
 
 .notification-icon {
@@ -254,18 +290,18 @@ const handleViewCalendar = () => {
 
 .notification-title {
   font-weight: 500;
-  color: #262626;
+  color: var(--text-primary, #262626);
   margin-bottom: 4px;
 }
 
 .notification-message {
-  color: #595959;
+  color: var(--text-secondary, #595959);
   font-size: 14px;
   margin-bottom: 4px;
 }
 
 .notification-time {
-  color: #8c8c8c;
+  color: var(--text-tertiary, #8c8c8c);
   font-size: 12px;
 }
 

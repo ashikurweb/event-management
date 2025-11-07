@@ -4,7 +4,7 @@
     <div class="stats-grid">
       <a-card class="stat-card">
         <div class="stat-content">
-          <div class="stat-icon" style="background: #e6f7ff; color: #1890ff;">
+          <div class="stat-icon stat-icon-primary">
             <CalendarOutlined />
           </div>
           <div class="stat-info">
@@ -19,7 +19,7 @@
 
       <a-card class="stat-card">
         <div class="stat-content">
-          <div class="stat-icon" style="background: #f6ffed; color: #52c41a;">
+          <div class="stat-icon stat-icon-success">
             <IdcardOutlined />
           </div>
           <div class="stat-info">
@@ -34,7 +34,7 @@
 
       <a-card class="stat-card">
         <div class="stat-content">
-          <div class="stat-icon" style="background: #fff7e6; color: #faad14;">
+          <div class="stat-icon stat-icon-warning">
             <MoneyCollectOutlined />
           </div>
           <div class="stat-info">
@@ -49,7 +49,7 @@
 
       <a-card class="stat-card">
         <div class="stat-content">
-          <div class="stat-icon" style="background: #fff1f0; color: #ff4d4f;">
+          <div class="stat-icon stat-icon-error">
             <UserOutlined />
           </div>
           <div class="stat-info">
@@ -67,15 +67,15 @@
     <div class="charts-row">
       <a-card title="Revenue Overview" class="chart-card">
         <div class="chart-placeholder">
-          <BarChartOutlined style="font-size: 48px; color: #1890ff; opacity: 0.3;" />
-          <p>Revenue Chart</p>
+          <BarChartOutlined class="chart-icon chart-icon-primary" />
+          <p class="chart-text">Revenue Chart</p>
         </div>
       </a-card>
 
       <a-card title="Event Statistics" class="chart-card">
         <div class="chart-placeholder">
-          <BarChartOutlined style="font-size: 48px; color: #52c41a; opacity: 0.3;" />
-          <p>Event Stats Chart</p>
+          <BarChartOutlined class="chart-icon chart-icon-success" />
+          <p class="chart-text">Event Stats Chart</p>
         </div>
       </a-card>
     </div>
@@ -227,8 +227,16 @@ const getStatusColor = (status) => {
 }
 
 .stat-card {
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-base, 8px);
+  box-shadow: var(--card-shadow, 0 2px 8px rgba(0, 0, 0, 0.06));
+  background: var(--card-bg, #fff);
+  border: 1px solid var(--card-border, #f0f0f0);
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+:deep(.stat-card .ant-card-body) {
+  background: var(--card-bg, #fff) !important;
+  color: var(--text-primary, #262626) !important;
 }
 
 .stat-content {
@@ -245,6 +253,47 @@ const getStatusColor = (status) => {
   align-items: center;
   justify-content: center;
   font-size: 24px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.stat-icon-primary {
+  background: var(--color-primary-50, #e6f7ff);
+  color: var(--color-primary, #1890ff);
+}
+
+[data-theme="dark"] .stat-icon-primary {
+  background: var(--color-primary-50, #111b26);
+  color: var(--color-primary, #40a9ff);
+}
+
+.stat-icon-success {
+  background: var(--color-success-50, #f6ffed);
+  color: var(--color-success, #52c41a);
+}
+
+[data-theme="dark"] .stat-icon-success {
+  background: var(--color-success-50, #0d1f0a);
+  color: var(--color-success, #73d13d);
+}
+
+.stat-icon-warning {
+  background: var(--color-warning-50, #fffbe6);
+  color: var(--color-warning, #faad14);
+}
+
+[data-theme="dark"] .stat-icon-warning {
+  background: var(--color-warning-50, #1f1a0a);
+  color: var(--color-warning, #ffc53d);
+}
+
+.stat-icon-error {
+  background: var(--color-error-50, #fff1f0);
+  color: var(--color-error, #ff4d4f);
+}
+
+[data-theme="dark"] .stat-icon-error {
+  background: var(--color-error-50, #1f0f0f);
+  color: var(--color-error, #ff7875);
 }
 
 .stat-info {
@@ -254,24 +303,27 @@ const getStatusColor = (status) => {
 .stat-value {
   font-size: 24px;
   font-weight: 600;
-  color: #262626;
+  color: var(--text-primary, #262626);
   line-height: 1.2;
   margin-bottom: 4px;
+  transition: color 0.3s;
 }
 
 .stat-label {
   font-size: 14px;
-  color: #8c8c8c;
+  color: var(--text-secondary, #8c8c8c);
+  transition: color 0.3s;
 }
 
 .stat-trend {
   margin-top: 12px;
   font-size: 12px;
   font-weight: 500;
+  transition: color 0.3s;
 }
 
 .stat-trend.up {
-  color: #52c41a;
+  color: var(--color-success, #52c41a);
 }
 
 .charts-row {
@@ -282,8 +334,25 @@ const getStatusColor = (status) => {
 }
 
 .chart-card {
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-base, 8px);
+  box-shadow: var(--card-shadow, 0 2px 8px rgba(0, 0, 0, 0.06));
+  background: var(--card-bg, #fff);
+  border: 1px solid var(--card-border, #f0f0f0);
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+:deep(.chart-card .ant-card-head) {
+  background: var(--card-bg, #fff) !important;
+  border-bottom: 1px solid var(--card-border, #f0f0f0) !important;
+}
+
+:deep(.chart-card .ant-card-head-title) {
+  color: var(--text-primary, #262626) !important;
+}
+
+:deep(.chart-card .ant-card-body) {
+  background: var(--card-bg, #fff) !important;
+  color: var(--text-primary, #262626) !important;
 }
 
 .chart-placeholder {
@@ -292,7 +361,40 @@ const getStatusColor = (status) => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #8c8c8c;
+}
+
+.chart-icon {
+  font-size: 48px;
+  opacity: 0.3;
+  transition: color 0.3s;
+}
+
+.chart-icon-primary {
+  color: var(--color-primary, #1890ff);
+}
+
+.chart-icon-success {
+  color: var(--color-success, #52c41a);
+}
+
+.chart-icon {
+  font-size: 48px;
+  opacity: 0.3;
+  transition: color 0.3s;
+}
+
+.chart-icon-primary {
+  color: var(--color-primary, #1890ff);
+}
+
+.chart-icon-success {
+  color: var(--color-success, #52c41a);
+}
+
+.chart-text {
+  color: var(--text-tertiary, #8c8c8c);
+  margin-top: 12px;
+  transition: color 0.3s;
 }
 
 .content-row {
@@ -302,20 +404,95 @@ const getStatusColor = (status) => {
 }
 
 .content-card {
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-base, 8px);
+  box-shadow: var(--card-shadow, 0 2px 8px rgba(0, 0, 0, 0.06));
+  background: var(--card-bg, #fff);
+  border: 1px solid var(--card-border, #f0f0f0);
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+:deep(.content-card .ant-card-body) {
+  background: var(--card-bg, #fff) !important;
+  color: var(--text-primary, #262626) !important;
+}
+
+:deep(.content-card .ant-card-head) {
+  background: var(--card-bg, #fff) !important;
+  border-bottom: 1px solid var(--card-border, #f0f0f0) !important;
+}
+
+:deep(.content-card .ant-card-head-title) {
+  color: var(--text-primary, #262626) !important;
+}
+
+:deep(.content-card .ant-table) {
+  background: var(--card-bg, #fff) !important;
+  color: var(--text-primary, #262626) !important;
+}
+
+:deep(.content-card .ant-table-thead > tr > th) {
+  background: var(--bg-elevated, #fafafa) !important;
+  color: var(--text-primary, #262626) !important;
+  border-bottom: 1px solid var(--border-color-light, #f0f0f0) !important;
+}
+
+:deep(.content-card .ant-table-tbody > tr > td) {
+  border-bottom: 1px solid var(--border-color-light, #f0f0f0) !important;
+  color: var(--text-primary, #262626) !important;
+}
+
+:deep(.content-card .ant-table-tbody > tr:hover > td) {
+  background: var(--bg-hover, #fafafa) !important;
+}
+
+:deep(.content-card .ant-list-item) {
+  border-bottom: 1px solid var(--border-color-light, #f0f0f0) !important;
+}
+
+:deep(.content-card .ant-list-item-meta-title) {
+  color: var(--text-primary, #262626) !important;
+}
+
+:deep(.content-card .ant-list-item-meta-title > a) {
+  color: var(--text-link, #1890ff) !important;
+}
+
+:deep(.content-card .ant-list-item-meta-description) {
+  color: var(--text-secondary, #595959) !important;
+}
+
+:deep(.content-card .ant-list-item) {
+  border-bottom: 1px solid var(--border-color-light, #f0f0f0) !important;
+}
+
+:deep(.content-card .ant-list-item-meta-title) {
+  color: var(--text-primary, #262626);
+}
+
+:deep(.content-card .ant-list-item-meta-title > a) {
+  color: var(--text-primary, #262626);
+}
+
+:deep(.content-card .ant-list-item-meta-title > a:hover) {
+  color: var(--color-primary, #1890ff);
+}
+
+:deep(.content-card .ant-list-item-meta-description) {
+  color: var(--text-secondary, #8c8c8c);
 }
 
 .amount {
   font-weight: 600;
-  color: #52c41a;
+  color: var(--color-success, #52c41a);
+  transition: color 0.3s;
 }
 
 .event-meta {
   display: flex;
   gap: 16px;
   font-size: 12px;
-  color: #8c8c8c;
+  color: var(--text-tertiary, #8c8c8c);
+  transition: color 0.3s;
 }
 
 .event-meta span {
