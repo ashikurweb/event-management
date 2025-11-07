@@ -160,13 +160,43 @@
     radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
 }
 
-/* Header Styles */
-.header-glass {
-  @apply bg-white/80 backdrop-blur-xl border-b border-gray-200/50;
+/* Header Styles - Completely transparent by default, no background */
+.header-transparent {
+  background: transparent !important;
+  border-bottom: 1px solid transparent !important;
+  box-shadow: none !important;
+  transition: all 0.3s ease;
 }
 
-[data-theme="dark"] .header-glass {
-  @apply bg-[#1f1f1f]/80 border-[#2d2d2d]/50;
+/* Ensure header is transparent in both light and dark themes */
+[data-theme="dark"] .header-transparent {
+  background: transparent !important;
+  border-bottom: 1px solid transparent !important;
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .header-transparent {
+  background: transparent !important;
+  border-bottom: 1px solid transparent !important;
+  box-shadow: none !important;
+}
+
+/* Header Scrolled - Light Theme */
+.header-scrolled-light {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.5) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Header Scrolled - Dark Theme */
+.header-scrolled-dark {
+  background: rgba(31, 31, 31, 0.95) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(45, 45, 45, 0.5) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* Animation */

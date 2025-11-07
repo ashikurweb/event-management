@@ -1,7 +1,14 @@
 <template>
   <div class="min-h-screen bg-gray-50 transition-colors duration-200" :class="{ 'bg-[#141414]': isDark }">
     <!-- Header -->
-    <header class="header-glass sticky top-0 z-50 shadow-sm">
+    <header 
+      class="header-transparent sticky top-0 z-50 transition-all duration-300"
+      :class="[
+        isScrolled 
+          ? (isDark ? 'header-scrolled-dark' : 'header-scrolled-light')
+          : ''
+      ]"
+    >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20 gap-4">
           <!-- Logo -->
@@ -193,7 +200,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
 import ThemeToggle from '../components/ThemeToggle.vue';
@@ -211,7 +218,21 @@ const page = usePage();
 const { isDark } = useTheme();
 const mobileMenuOpen = ref(false);
 const newsletterEmail = ref('');
+const isScrolled = ref(false);
 const currentYear = computed(() => new Date().getFullYear());
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 20;
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+  handleScroll(); // Check initial scroll position
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 
 const navItems = [
   { key: 'home', label: 'Home', href: '/' },
