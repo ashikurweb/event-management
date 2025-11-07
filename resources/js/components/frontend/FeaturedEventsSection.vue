@@ -1,12 +1,18 @@
 <template>
-  <section class="py-20 bg-white" :class="{ 'bg-[#1f1f1f]': isDark }">
+  <section class="py-20" :class="isDark ? 'bg-[#1f1f1f]' : 'bg-white'">
     <div class="section-container">
       <div class="flex justify-between items-center mb-12">
         <div>
-          <h2 class="section-title">Featured Events</h2>
-          <p class="section-description">Handpicked events you don't want to miss</p>
+          <h2 class="section-title" :class="isDark ? 'text-white' : 'text-gray-900'">Featured Events</h2>
+          <p class="section-description" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Handpicked events you don't want to miss</p>
         </div>
-        <a-button type="link" size="large" @click="handleViewAll" class="hidden sm:flex">
+        <a-button 
+          type="link" 
+          size="large" 
+          @click="handleViewAll" 
+          class="hidden sm:flex"
+          :class="isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'"
+        >
           View All <ArrowRightOutlined class="ml-2" />
         </a-button>
       </div>
@@ -39,16 +45,16 @@
             <h3 class="event-card-title">{{ event.title }}</h3>
             <p class="event-card-description">{{ event.short_description }}</p>
             <div class="event-card-meta">
-              <span class="flex items-center gap-1">
-                <CalendarOutlined />
+              <span class="flex items-center gap-1" :class="isDark ? 'text-gray-400' : 'text-gray-500'">
+                <CalendarOutlined :class="isDark ? 'text-gray-400' : 'text-gray-500'" />
                 {{ formatDate(event.start_date) }}
               </span>
-              <span v-if="event.event_type !== 'online'" class="flex items-center gap-1">
-                <EnvironmentOutlined />
+              <span v-if="event.event_type !== 'online'" class="flex items-center gap-1" :class="isDark ? 'text-gray-400' : 'text-gray-500'">
+                <EnvironmentOutlined :class="isDark ? 'text-gray-400' : 'text-gray-500'" />
                 {{ event.venue_city || 'TBA' }}
               </span>
-              <span v-else class="flex items-center gap-1">
-                <VideoCameraOutlined />
+              <span v-else class="flex items-center gap-1" :class="isDark ? 'text-gray-400' : 'text-gray-500'">
+                <VideoCameraOutlined :class="isDark ? 'text-gray-400' : 'text-gray-500'" />
                 Online
               </span>
             </div>
