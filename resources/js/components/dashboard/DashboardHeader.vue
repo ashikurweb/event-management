@@ -184,7 +184,7 @@ const handleViewCalendar = () => {
   top: 0;
   z-index: 100;
   border-bottom: 1px solid var(--border-color-light, #2d2d2d);
-  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+  transition: background-color 0.1s ease-out, border-color 0.1s ease-out, box-shadow 0.1s ease-out;
 }
 
 [data-theme="light"] .dashboard-header {

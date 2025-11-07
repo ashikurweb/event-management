@@ -35,7 +35,7 @@ const sidebarCollapsed = ref(false);
   display: flex;
   min-height: 100vh;
   background-color: var(--bg-primary, #f0f2f5);
-  transition: background-color 0.3s;
+  transition: background-color 0.1s ease-out;
 }
 
 .dashboard-main {

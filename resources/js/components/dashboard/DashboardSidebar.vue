@@ -326,7 +326,7 @@ const handleMenuClick = ({ key }) => {
   width: 256px;
   background: var(--sidebar-bg, #141414);
   box-shadow: var(--shadow-base, 2px 0 8px rgba(0, 0, 0, 0.1));
-  transition: width 0.2s, background-color 0.3s, box-shadow 0.3s;
+  transition: width 0.2s ease-in-out, background-color 0.1s ease-out, box-shadow 0.1s ease-out;
   z-index: 1000;
   overflow-y: auto;
   overflow-x: hidden;
@@ -355,7 +355,7 @@ const handleMenuClick = ({ key }) => {
   padding: 16px;
   border-bottom: 1px solid var(--border-color-light, #f0f0f0);
   gap: 12px;
-  transition: border-color 0.3s;
+  transition: border-color 0.1s ease-out;
 }
 
 .logo-icon {
@@ -377,7 +377,7 @@ const handleMenuClick = ({ key }) => {
   font-weight: 600;
   color: var(--text-primary, #262626);
   white-space: nowrap;
-  transition: opacity 0.2s, color 0.3s;
+  transition: opacity 0.1s ease-out, color 0.1s ease-out;
 }
 
 [data-theme="dark"] .logo-text {

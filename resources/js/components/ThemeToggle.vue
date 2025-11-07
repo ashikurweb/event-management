@@ -1,6 +1,6 @@
 <template>
     <button
-        @click="toggleTheme"
+        @click="handleToggle"
         class="theme-toggle"
         :title="currentTheme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'"
         aria-label="Toggle theme"
@@ -14,6 +14,11 @@
 import { useTheme } from '../composables/useTheme';
 
 const { currentTheme, toggleTheme } = useTheme();
+
+// Ensure instant theme change on click
+const handleToggle = () => {
+    toggleTheme();
+};
 </script>
 
 <style scoped>

@@ -4,13 +4,26 @@
  */
 
 /* ============================================
-   GLOBAL THEME TRANSITIONS
+   GLOBAL THEME TRANSITIONS - Ultra Fast & Instant
    ============================================ */
-* {
-    transition: background-color var(--transition-base),
-                color var(--transition-base),
-                border-color var(--transition-base),
-                box-shadow var(--transition-base);
+*,
+*::before,
+*::after {
+    transition: background-color 0.1s ease-out,
+                color 0.1s ease-out,
+                border-color 0.1s ease-out,
+                box-shadow 0.1s ease-out,
+                fill 0.1s ease-out,
+                stroke 0.1s ease-out;
+}
+
+/* Exclude certain elements from transition for instant feel */
+svg,
+img,
+canvas,
+video,
+iframe {
+    transition: none;
 }
 
 /* ============================================

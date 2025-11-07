@@ -221,10 +221,11 @@
     --radius-full: 9999px;
     
     /* ============================================
-       TRANSITIONS
+       TRANSITIONS - Ultra Fast for instant theme switching
        ============================================ */
-    --transition-fast: 150ms ease-in-out;
-    --transition-base: 300ms ease-in-out;
-    --transition-slow: 500ms ease-in-out;
+    --transition-fast: 100ms ease-out;
+    --transition-base: 100ms ease-out; /* Ultra fast for instant feel */
+    --transition-slow: 200ms ease-out;
+    --transition-theme: 100ms ease-out; /* Specific for theme changes - instant */
 }
 

@@ -231,7 +231,7 @@ const getStatusColor = (status) => {
   box-shadow: var(--card-shadow, 0 2px 8px rgba(0, 0, 0, 0.06));
   background: var(--card-bg, #fff);
   border: 1px solid var(--card-border, #f0f0f0);
-  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+  transition: background-color 0.1s ease-out, border-color 0.1s ease-out, box-shadow 0.1s ease-out;
 }
 
 :deep(.stat-card .ant-card-body) {
@@ -253,7 +253,7 @@ const getStatusColor = (status) => {
   align-items: center;
   justify-content: center;
   font-size: 24px;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.1s ease-out, color 0.1s ease-out;
 }
 
 .stat-icon-primary {
@@ -306,20 +306,20 @@ const getStatusColor = (status) => {
   color: var(--text-primary, #262626);
   line-height: 1.2;
   margin-bottom: 4px;
-  transition: color 0.3s;
+  transition: color 0.1s ease-out;
 }
 
 .stat-label {
   font-size: 14px;
   color: var(--text-secondary, #8c8c8c);
-  transition: color 0.3s;
+  transition: color 0.1s ease-out;
 }
 
 .stat-trend {
   margin-top: 12px;
   font-size: 12px;
   font-weight: 500;
-  transition: color 0.3s;
+  transition: color 0.1s ease-out;
 }
 
 .stat-trend.up {
@@ -338,7 +338,7 @@ const getStatusColor = (status) => {
   box-shadow: var(--card-shadow, 0 2px 8px rgba(0, 0, 0, 0.06));
   background: var(--card-bg, #fff);
   border: 1px solid var(--card-border, #f0f0f0);
-  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+  transition: background-color 0.1s ease-out, border-color 0.1s ease-out, box-shadow 0.1s ease-out;
 }
 
 :deep(.chart-card .ant-card-head) {
@@ -366,7 +366,7 @@ const getStatusColor = (status) => {
 .chart-icon {
   font-size: 48px;
   opacity: 0.3;
-  transition: color 0.3s;
+  transition: color 0.1s ease-out;
 }
 
 .chart-icon-primary {
@@ -380,7 +380,7 @@ const getStatusColor = (status) => {
 .chart-icon {
   font-size: 48px;
   opacity: 0.3;
-  transition: color 0.3s;
+  transition: color 0.1s ease-out;
 }
 
 .chart-icon-primary {
@@ -394,7 +394,7 @@ const getStatusColor = (status) => {
 .chart-text {
   color: var(--text-tertiary, #8c8c8c);
   margin-top: 12px;
-  transition: color 0.3s;
+  transition: color 0.1s ease-out;
 }
 
 .content-row {
@@ -408,7 +408,7 @@ const getStatusColor = (status) => {
   box-shadow: var(--card-shadow, 0 2px 8px rgba(0, 0, 0, 0.06));
   background: var(--card-bg, #fff);
   border: 1px solid var(--card-border, #f0f0f0);
-  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+  transition: background-color 0.1s ease-out, border-color 0.1s ease-out, box-shadow 0.1s ease-out;
 }
 
 :deep(.content-card .ant-card-body) {
@@ -484,7 +484,7 @@ const getStatusColor = (status) => {
 .amount {
   font-weight: 600;
   color: var(--color-success, #52c41a);
-  transition: color 0.3s;
+  transition: color 0.1s ease-out;
 }
 
 .event-meta {
@@ -492,7 +492,7 @@ const getStatusColor = (status) => {
   gap: 16px;
   font-size: 12px;
   color: var(--text-tertiary, #8c8c8c);
-  transition: color 0.3s;
+  transition: color 0.1s ease-out;
 }
 
 .event-meta span {
