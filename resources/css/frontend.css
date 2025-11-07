@@ -153,6 +153,42 @@
   @apply from-blue-700 via-blue-600 to-purple-700;
 }
 
+/* Hero Section Text Colors - Light Mode */
+[data-theme="light"] .hero-title {
+  color: #000000 !important;
+}
+
+[data-theme="light"] .hero-description {
+  color: #000000 !important;
+  opacity: 0.8;
+}
+
+[data-theme="light"] .hero-stat-number {
+  color: #000000 !important;
+}
+
+[data-theme="light"] .hero-stat-label {
+  color: #000000 !important;
+  opacity: 0.7;
+}
+
+/* Hero Section Text Colors - Dark Mode */
+[data-theme="dark"] .hero-title {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .hero-description {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+[data-theme="dark"] .hero-stat-number {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .hero-stat-label {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
 .hero-pattern {
   background-image: 
     radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
@@ -165,7 +201,9 @@
   background: transparent !important;
   border-bottom: 1px solid transparent !important;
   box-shadow: none !important;
-  transition: all 0.3s ease;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 /* Ensure header is transparent in both light and dark themes */
@@ -173,30 +211,36 @@
   background: transparent !important;
   border-bottom: 1px solid transparent !important;
   box-shadow: none !important;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
 }
 
 [data-theme="light"] .header-transparent {
   background: transparent !important;
   border-bottom: 1px solid transparent !important;
   box-shadow: none !important;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
 }
 
 /* Header Scrolled - Light Theme */
 .header-scrolled-light {
-  background: rgba(255, 255, 255, 0.95) !important;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(229, 231, 235, 0.5) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.6) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 /* Header Scrolled - Dark Theme */
 .header-scrolled-dark {
-  background: rgba(31, 31, 31, 0.95) !important;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(45, 45, 45, 0.5) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  background: rgba(20, 20, 20, 0.85) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(45, 45, 45, 0.6) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 /* Animation */

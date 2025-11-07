@@ -44,7 +44,8 @@
               class="hidden sm:block !flex items-center"
               @click="handleLogin"
             >
-              <span>Login</span>
+            <UserOutlined />
+              <span>My Account</span>
             </a-button>
             <!-- Hamburger Menu Button - Only visible on mobile/tablet (below lg breakpoint) -->
             <a-button
@@ -206,6 +207,7 @@ import { Link } from '@inertiajs/vue3';
 import ThemeToggle from '../components/ThemeToggle.vue';
 import { useTheme } from '../composables/useTheme';
 import {
+  UserOutlined,
   MenuOutlined,
   CloseOutlined,
   FacebookOutlined,
@@ -222,16 +224,29 @@ const isScrolled = ref(false);
 const currentYear = computed(() => new Date().getFullYear());
 
 const handleScroll = () => {
-  isScrolled.value = window.scrollY > 20;
+  isScrolled.value = window.scrollY > 10;
+};
+
+// Throttle scroll handler for better performance
+let scrollTimeout = null;
+const throttledHandleScroll = () => {
+  if (scrollTimeout) return;
+  scrollTimeout = setTimeout(() => {
+    handleScroll();
+    scrollTimeout = null;
+  }, 10);
 };
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('scroll', throttledHandleScroll, { passive: true });
   handleScroll(); // Check initial scroll position
 });
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('scroll', throttledHandleScroll);
+  if (scrollTimeout) {
+    clearTimeout(scrollTimeout);
+  }
 });
 
 const navItems = [
