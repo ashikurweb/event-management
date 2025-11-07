@@ -36,20 +36,13 @@ export const useThemeStore = defineStore('theme', {
         },
 
         /**
-         * Apply theme to document - Ultra Instant
+         * Apply theme to document
          */
         applyTheme(theme) {
             const root = document.documentElement;
-            // Apply theme instantly - synchronous for immediate effect
             root.setAttribute('data-theme', theme);
             this.currentTheme = theme;
-            // Save immediately (synchronous)
-            try {
-                localStorage.setItem('theme', theme);
-            } catch (e) {
-                // Fallback if localStorage fails
-                console.warn('Failed to save theme to localStorage:', e);
-            }
+            localStorage.setItem('theme', theme);
         },
 
         /**

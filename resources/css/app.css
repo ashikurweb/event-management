@@ -6,6 +6,9 @@
 @import './themes/dark-theme.css';
 @import './themes/theme-utilities.css';
 
+/* Frontend Global Styles */
+@import './frontend.css';
+
 @source '../views/**/*.blade.php';
 @source '../js/**/*.js';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

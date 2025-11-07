@@ -167,8 +167,22 @@
 }
 
 :root[data-theme="dark"] .ant-input-search .ant-input-search-button {
-    background: var(--input-bg, #1f1f1f) !important;
-    border-color: var(--input-border, #434343) !important;
+    background: #ffffff !important;
+    border-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+:root[data-theme="dark"] .ant-input-search .ant-input-search-button .anticon {
+    color: #000000 !important;
+}
+
+:root[data-theme="dark"] .ant-input-search .ant-input-search-button:hover {
+    background: #f0f0f0 !important;
+    border-color: #f0f0f0 !important;
+}
+
+:root[data-theme="dark"] .ant-input-search .ant-input-search-button:hover .anticon {
+    color: #000000 !important;
 }
 
 /* Button Dark Theme */
