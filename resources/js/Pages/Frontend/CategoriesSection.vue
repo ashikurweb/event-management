@@ -31,7 +31,7 @@
 
 <script setup>
 import { router } from '@inertiajs/vue3';
-import { useTheme } from '../../composables/useTheme';
+import { useTheme } from '../../Composables/useTheme';
 import {
   FolderOutlined,
   SettingOutlined,

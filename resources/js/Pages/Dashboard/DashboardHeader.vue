@@ -98,7 +98,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { router } from '@inertiajs/vue3';
-import ThemeToggle from '../ThemeToggle.vue';
+import ThemeToggle from '../../Components/ThemeToggle.vue';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,

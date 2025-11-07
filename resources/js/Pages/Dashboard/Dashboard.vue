@@ -133,7 +133,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import DashboardLayout from '../Layouts/DashboardLayout.vue';
+import DashboardLayout from '../../Layouts/DashboardLayout.vue';
 import {
   CalendarOutlined,
   IdcardOutlined,

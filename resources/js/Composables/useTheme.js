@@ -4,7 +4,7 @@
  */
 
 import { computed } from 'vue';
-import { useThemeStore } from '../stores/theme';
+import { useThemeStore } from '../Stores/theme';
 
 /**
  * Theme Composable Hook

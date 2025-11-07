@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { useTheme } from '../composables/useTheme';
+import { useTheme } from '../Composables/useTheme';
 
 const { currentTheme, toggleTheme } = useTheme();
 

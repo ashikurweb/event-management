@@ -112,8 +112,8 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
-import FrontendHeader from '../components/frontend/Header.vue';
-import { useTheme } from '../composables/useTheme';
+import FrontendHeader from '../Pages/Frontend/Header.vue';
+import { useTheme } from '../Composables/useTheme';
 import {
   FacebookOutlined,
   TwitterOutlined,

@@ -97,8 +97,8 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
-import ThemeToggle from '../ThemeToggle.vue';
-import { useTheme } from '../../composables/useTheme';
+import ThemeToggle from '../../Components/ThemeToggle.vue';
+import { useTheme } from '../../Composables/useTheme';
 import {
   UserOutlined,
   MenuOutlined,

@@ -51,7 +51,7 @@
 
 <script setup>
 import { CalendarOutlined } from '@ant-design/icons-vue';
-import { useTheme } from '../../composables/useTheme';
+import { useTheme } from '../../Composables/useTheme';
 
 const { isDark } = useTheme();
 </script>

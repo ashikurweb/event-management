@@ -313,7 +313,7 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
-import FrontendLayout from '../Layouts/FrontendLayout.vue';
+import FrontendLayout from '../../Layouts/FrontendLayout.vue';
 import {
   CalendarOutlined,
   StarFilled,

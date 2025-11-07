@@ -6,8 +6,8 @@ import { createInertiaApp } from '@inertiajs/vue3'
 import { createPinia } from 'pinia'
 import Antd from 'ant-design-vue';
 import { ConfigProvider } from 'ant-design-vue';
-import { antdTheme } from './theme/antd-theme';
-import { useThemeStore } from './stores/theme';
+import { antdTheme } from './Theme/antd-theme';
+import { useThemeStore } from './Stores/theme';
 import 'ant-design-vue/dist/reset.css';
 
 // Initialize Pinia

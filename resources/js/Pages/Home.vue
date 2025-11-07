@@ -11,11 +11,11 @@
 <script setup>
 import { ref } from 'vue';
 import FrontendLayout from '../Layouts/FrontendLayout.vue';
-import HeroSection from '../components/frontend/HeroSection.vue';
-import CategoriesSection from '../components/frontend/CategoriesSection.vue';
-import FeaturedEventsSection from '../components/frontend/FeaturedEventsSection.vue';
-import UpcomingEventsSection from '../components/frontend/UpcomingEventsSection.vue';
-import CTASection from '../components/frontend/CTASection.vue';
+import HeroSection from './Frontend/HeroSection.vue';
+import CategoriesSection from './Frontend/CategoriesSection.vue';
+import FeaturedEventsSection from './Frontend/FeaturedEventsSection.vue';
+import UpcomingEventsSection from './Frontend/UpcomingEventsSection.vue';
+import CTASection from './Frontend/CTASection.vue';
 import {
   FolderOutlined,
   SettingOutlined,

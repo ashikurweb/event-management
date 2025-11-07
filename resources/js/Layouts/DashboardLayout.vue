@@ -24,8 +24,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import DashboardSidebar from '../components/dashboard/DashboardSidebar.vue';
-import DashboardHeader from '../components/dashboard/DashboardHeader.vue';
+import DashboardSidebar from '../Pages/Dashboard/DashboardSidebar.vue';
+import DashboardHeader from '../Pages/Dashboard/DashboardHeader.vue';
 
 const sidebarCollapsed = ref(false);
 </script>
