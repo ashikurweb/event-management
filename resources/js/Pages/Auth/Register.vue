@@ -73,19 +73,6 @@
                 </div>
               </a-form-item>
 
-              <a-form-item name="phone">
-                <div class="modern-input-wrapper">
-                  <PhoneOutlined class="input-icon" />
-                  <a-input
-                    v-model:value="form.phone"
-                    size="large"
-                    placeholder="Phone number (optional)"
-                    class="modern-input"
-                    :bordered="false"
-                  />
-                </div>
-              </a-form-item>
-
               <a-form-item name="password">
                 <div class="modern-input-wrapper">
                   <LockOutlined class="input-icon" />
@@ -156,7 +143,6 @@ import {
   MailOutlined,
   LockOutlined,
   UserOutlined,
-  PhoneOutlined,
 } from '@ant-design/icons-vue';
 
 const loading = ref(false);
@@ -165,7 +151,6 @@ const form = reactive({
   first_name: '',
   last_name: '',
   email: '',
-  phone: '',
   password: '',
   password_confirmation: '',
   terms: false,
@@ -193,9 +178,6 @@ const rules = {
   email: [
     { required: true, message: 'Please enter your email', trigger: 'blur' },
     { type: 'email', message: 'Please enter a valid email', trigger: 'blur' },
-  ],
-  phone: [
-    { pattern: /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/, message: 'Please enter a valid phone number', trigger: 'blur' },
   ],
   password: [
     { required: true, message: 'Please enter your password', trigger: 'blur' },
