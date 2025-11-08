@@ -8,6 +8,9 @@
       <slot />
     </main>
 
+    <!-- Notifications -->
+    <NotificationContainer />
+
     <!-- Footer -->
     <footer class="border-t mt-20" :class="isDark ? 'bg-[#1f1f1f] border-[#2d2d2d]' : 'bg-white border-gray-200'">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -113,6 +116,7 @@
 import { ref, computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import FrontendHeader from '../Pages/Frontend/Header.vue';
+import NotificationContainer from '../Components/NotificationContainer.vue';
 import { useTheme } from '../Composables/useTheme';
 import {
   FacebookOutlined,

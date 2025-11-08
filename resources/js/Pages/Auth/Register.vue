@@ -99,14 +99,14 @@
                 </div>
               </a-form-item>
 
-              <div class="form-options">
+              <a-form-item name="terms">
                 <a-checkbox v-model:checked="form.terms">
                   I agree to the
                   <a href="/terms" class="link-text">Terms of Service</a>
                   and
                   <a href="/privacy" class="link-text">Privacy Policy</a>
                 </a-checkbox>
-              </div>
+              </a-form-item>
 
               <a-form-item>
                 <PrimaryButton

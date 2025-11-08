@@ -28,6 +28,9 @@
         <slot />
       </div>
     </div>
+
+    <!-- Notifications -->
+    <NotificationContainer />
   </div>
 </template>
 
@@ -35,6 +38,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import DashboardSidebar from '../Pages/Dashboard/DashboardSidebar.vue';
 import DashboardHeader from '../Pages/Dashboard/DashboardHeader.vue';
+import NotificationContainer from '../Components/NotificationContainer.vue';
 
 const sidebarCollapsed = ref(false);
 const sidebarOpen = ref(false);

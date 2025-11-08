@@ -4,17 +4,38 @@ namespace App\Http\Controllers\Auth\Register;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Register\RegisterRequest;
-use Illuminate\Http\Request;
+use App\Services\Auth\RegisterService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class RegisterController extends Controller
 {
     /**
+     * Register service instance.
+     *
+     * @var RegisterService
+     */
+    protected RegisterService $registerService;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param RegisterService $registerService
+     */
+    public function __construct(RegisterService $registerService)
+    {
+        $this->registerService = $registerService;
+    }
+
+    /**
      * Show the registration form.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function showRegisterForm()
+    public function showRegisterForm(): Response
     {
         return Inertia::render('Auth/Register');
     }
@@ -22,30 +43,69 @@ class RegisterController extends Controller
     /**
      * Handle a registration request for the application.
      *
-     * @param  \App\Http\Requests\Auth\Register\RegisterRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param RegisterRequest $request
+     * @return RedirectResponse
      */
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request): RedirectResponse
     {
-        // Backend logic will be implemented later
-        // This is just the structure
-        
-        $validated = $request->validated();
-        
-        // Registration logic will go here
-        // $user = User::create([
-        //     'first_name' => $validated['first_name'],
-        //     'last_name' => $validated['last_name'],
-        //     'email' => $validated['email'],
-        //     'phone' => $validated['phone'] ?? null,
-        //     'password' => Hash::make($validated['password']),
-        // ]);
-        
-        // Auth::login($user);
-        
-        // return redirect()->route('dashboard');
-        
-        return back()->with('success', 'Registration successful!');
+        try {
+            $validated = $request->validated();
+
+            // Create user using service
+            $user = $this->registerService->createUser($validated);
+
+            // Send welcome email (async if queue is configured)
+            $this->registerService->sendWelcomeEmail($user);
+
+            // Send email verification notification
+            $this->registerService->sendEmailVerification($user);
+
+            // Automatically log in the user
+            Auth::login($user);
+
+            // Regenerate session to prevent session fixation
+            $request->session()->regenerate();
+
+            // Log successful registration and login
+            Log::info('User registered and logged in successfully', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+
+            // Redirect to intended page or dashboard
+            return redirect()
+                ->intended(route('dashboard'))
+                ->with('success', 'Registration successful! Welcome to EventHub.');
+
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Handle database errors
+            Log::error('Database error during registration', [
+                'error' => $e->getMessage(),
+                'email' => $request->input('email'),
+            ]);
+
+            return back()
+                ->withInput($request->except('password', 'password_confirmation'))
+                ->withErrors([
+                    'email' => 'Registration failed due to a system error. Please try again later.',
+                ]);
+
+        } catch (\Exception $e) {
+            // Handle any other exceptions
+            Log::error('Unexpected error during registration', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'email' => $request->input('email'),
+            ]);
+
+            return back()
+                ->withInput($request->except('password', 'password_confirmation'))
+                ->withErrors([
+                    'email' => 'An unexpected error occurred. Please try again later.',
+                ]);
+        }
     }
 }
 
