@@ -60,13 +60,11 @@ class RegisterController extends Controller
             // Send email verification notification
             $this->registerService->sendEmailVerification($user);
 
-            // Automatically log in the user
+            // Log in the user (but they need to verify email to access dashboard)
             Auth::login($user);
-
-            // Regenerate session to prevent session fixation
             $request->session()->regenerate();
 
-            // Log successful registration and login
+            // Log successful registration
             Log::info('User registered and logged in successfully', [
                 'user_id' => $user->id,
                 'email' => $user->email,
@@ -74,10 +72,10 @@ class RegisterController extends Controller
                 'user_agent' => $request->userAgent(),
             ]);
 
-            // Redirect to intended page or dashboard
+            // Redirect to email verification notice page
             return redirect()
-                ->intended(route('dashboard'))
-                ->with('success', 'Registration successful! Welcome to EventHub.');
+                ->route('verification.notice')
+                ->with('success', 'Registration successful! Please verify your email address to continue.');
 
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle database errors

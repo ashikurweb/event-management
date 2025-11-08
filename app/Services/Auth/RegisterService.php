@@ -3,10 +3,14 @@
 namespace App\Services\Auth;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\VerifyEmailNotification;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Register Service
@@ -34,13 +38,11 @@ class RegisterService
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 'status' => 'active',
+                // email_verified_at will be null until verified
             ]);
 
-            // Create user profile if needed
-            // $user->profile()->create([]);
-
-            // Assign default role if needed
-            // $this->assignDefaultRole($user);
+            // Assign default role (attendee)
+            $this->assignDefaultRole($user);
 
             DB::commit();
 
@@ -68,17 +70,36 @@ class RegisterService
 
     /**
      * Assign default role to user.
+     * 
+     * Uses configuration from config/roles.php for flexibility.
+     * For event management systems, 'attendee' is the industry standard.
      *
      * @param User $user
      * @return void
      */
     protected function assignDefaultRole(User $user): void
     {
-        // Uncomment if you have roles system
-        // $defaultRole = Role::where('name', 'user')->first();
-        // if ($defaultRole) {
-        //     $user->roles()->attach($defaultRole->id);
-        // }
+        try {
+            $defaultRole = Config::get('roles.default_role', 'attendee');
+            
+            $user->assignRole($defaultRole);
+            
+            Log::info('Default role assigned to user', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'role' => $defaultRole,
+            ]);
+        } catch (\Exception $e) {
+            Log::warning('Default role assignment failed. Please ensure RolePermissionSeeder has been run.', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'default_role' => Config::get('roles.default_role', 'attendee'),
+                'error' => $e->getMessage(),
+            ]);
+            
+            // Don't throw exception - allow registration to complete
+            // Admin can manually assign role later
+        }
     }
 
     /**
@@ -108,15 +129,19 @@ class RegisterService
      */
     public function sendEmailVerification(User $user): void
     {
-        // Uncomment when email verification is implemented
-        // try {
-        //     $user->sendEmailVerificationNotification();
-        // } catch (\Exception $e) {
-        //     Log::warning('Failed to send email verification', [
-        //         'user_id' => $user->id,
-        //         'error' => $e->getMessage(),
-        //     ]);
-        // }
+        try {
+            $user->notify(new VerifyEmailNotification());
+            Log::info('Email verification sent', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+            ]);
+        } catch (\Exception $e) {
+            Log::warning('Failed to send email verification', [
+                'user_id' => $user->id,
+                'error' => $e->getMessage(),
+            ]);
+            // Don't throw exception, just log it
+        }
     }
 }
 
