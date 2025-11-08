@@ -122,16 +122,14 @@
               </div>
 
               <a-form-item>
-                <a-button
-                  type="primary"
+                <PrimaryButton
                   html-type="submit"
                   size="large"
                   block
-                  class="submit-btn"
                   :loading="loading"
-                >
-                  Create Account
-                </a-button>
+                  loading-text="Creating account..."
+                  text="Create Account"
+                />
               </a-form-item>
             </a-form>
 
@@ -153,6 +151,7 @@ import { ref, reactive } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
 import FrontendLayout from '../../Layouts/FrontendLayout.vue';
+import PrimaryButton from '../../Components/PrimaryButton.vue';
 import {
   MailOutlined,
   LockOutlined,
