@@ -61,7 +61,9 @@ class RegisterController extends Controller
             $this->registerService->sendEmailVerification($user);
 
             // Log in the user (but they need to verify email to access dashboard)
-            Auth::login($user);
+            // Note: Registration doesn't use "remember me" for security
+            // User can enable it after email verification via login
+            Auth::login($user, false);
             $request->session()->regenerate();
 
             // Log successful registration

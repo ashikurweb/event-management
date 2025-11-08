@@ -43,6 +43,8 @@ Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 've
     ->middleware(['signed', 'throttle:6,1'])
     ->name('verification.verify');
 
-// Logout Route (can be added later)
-// Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+// Logout Route
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+});
 

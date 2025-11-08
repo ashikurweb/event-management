@@ -53,7 +53,7 @@
           <DownOutlined class="dropdown-icon" />
         </div>
         <template #overlay>
-          <a-menu>
+          <a-menu @click="handleMenuClick">
             <a-menu-item key="profile">
               <UserOutlined /> Profile
             </a-menu-item>
@@ -178,6 +178,24 @@ const handleCreateEvent = () => {
 
 const handleViewCalendar = () => {
   router.visit('/dashboard/calendar');
+};
+
+const handleMenuClick = ({ key }) => {
+  switch (key) {
+    case 'profile':
+      router.visit('/dashboard/profile');
+      break;
+    case 'settings':
+      router.visit('/dashboard/settings');
+      break;
+    case 'logout':
+      router.post('/logout', {}, {
+        onSuccess: () => {
+          // Redirect handled by backend
+        },
+      });
+      break;
+  }
 };
 </script>
 

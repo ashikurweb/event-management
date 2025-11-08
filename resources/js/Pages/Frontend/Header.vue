@@ -37,7 +37,42 @@
         <!-- Actions -->
         <div class="flex items-center gap-3">
           <ThemeToggle />
+          
+          <!-- User Profile Dropdown (if logged in) -->
+          <a-dropdown 
+            v-if="isAuthenticated" 
+            :trigger="['click']" 
+            class="user-dropdown"
+          >
+            <div class="user-profile">
+              <a-avatar :src="userAvatar" :size="32" class="user-avatar">
+                {{ userInitials }}
+              </a-avatar>
+              <span class="user-name hidden sm:inline">{{ userName }}</span>
+              <DownOutlined class="dropdown-icon" />
+            </div>
+            <template #overlay>
+              <a-menu @click="handleMenuClick">
+                <a-menu-item key="dashboard">
+                  <DashboardOutlined /> Dashboard
+                </a-menu-item>
+                <a-menu-item key="profile">
+                  <UserOutlined /> Profile
+                </a-menu-item>
+                <a-menu-item key="settings">
+                  <SettingOutlined /> Settings
+                </a-menu-item>
+                <a-menu-divider />
+                <a-menu-item key="logout">
+                  <LogoutOutlined /> Logout
+                </a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
+
+          <!-- Login Button (if not logged in) -->
           <a-button
+            v-else
             type="primary"
             class="hidden sm:block account-btn"
             @click="handleLogin"
@@ -45,6 +80,7 @@
             <template #icon><UserOutlined /></template>
             <span>My Account</span>
           </a-button>
+
           <!-- Hamburger Menu Button - Only visible on mobile/tablet (below lg breakpoint) -->
           <a-button
             type="text"
@@ -103,12 +139,59 @@ import {
   UserOutlined,
   MenuOutlined,
   CloseOutlined,
+  DownOutlined,
+  DashboardOutlined,
+  SettingOutlined,
+  LogoutOutlined,
 } from '@ant-design/icons-vue';
 
 const page = usePage();
 const { isDark } = useTheme();
 const mobileMenuOpen = ref(false);
 const isScrolled = ref(false);
+
+// User data from Inertia
+const isAuthenticated = computed(() => {
+  return page.props.auth?.user !== null && page.props.auth?.user !== undefined;
+});
+
+const user = computed(() => {
+  return page.props.auth?.user || null;
+});
+
+const userName = computed(() => {
+  if (!user.value) return '';
+  return user.value.name || `${user.value.first_name || ''} ${user.value.last_name || ''}`.trim() || 'User';
+});
+
+const userAvatar = computed(() => {
+  if (!user.value) return null;
+  return user.value.avatar || null;
+});
+
+const userInitials = computed(() => {
+  if (!user.value) return 'U';
+  const firstName = user.value.first_name || '';
+  const lastName = user.value.last_name || '';
+  
+  if (firstName && lastName) {
+    return `${firstName[0]}${lastName[0]}`.toUpperCase();
+  }
+  
+  if (firstName) {
+    return firstName[0].toUpperCase();
+  }
+  
+  if (userName.value) {
+    const names = userName.value.split(' ');
+    if (names.length >= 2) {
+      return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase();
+    }
+    return names[0][0].toUpperCase();
+  }
+  
+  return 'U';
+});
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 10;
@@ -156,6 +239,27 @@ const selectedKeys = computed(() => {
 
 const handleLogin = () => {
   router.visit('/login');
+};
+
+const handleMenuClick = ({ key }) => {
+  switch (key) {
+    case 'dashboard':
+      router.visit('/dashboard');
+      break;
+    case 'profile':
+      router.visit('/dashboard/profile');
+      break;
+    case 'settings':
+      router.visit('/dashboard/settings');
+      break;
+    case 'logout':
+      router.post('/logout', {}, {
+        onSuccess: () => {
+          // Redirect handled by backend
+        },
+      });
+      break;
+  }
 };
 </script>
 
@@ -241,6 +345,112 @@ const handleLogin = () => {
 
 .mobile-menu-light a:hover {
   color: rgba(0, 0, 0, 0.85) !important;
+}
+
+/* User Profile Dropdown */
+.user-dropdown {
+  display: inline-block;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.user-profile:hover {
+  background-color: var(--bg-hover, rgba(0, 0, 0, 0.05));
+}
+
+[data-theme="dark"] .user-profile:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.user-avatar {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary, #262626);
+  white-space: nowrap;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+[data-theme="dark"] .user-name {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dropdown-icon {
+  font-size: 12px;
+  color: var(--text-secondary, #8c8c8c);
+  transition: transform 0.2s;
+}
+
+[data-theme="dark"] .dropdown-icon {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.user-dropdown :deep(.ant-dropdown-open) .dropdown-icon {
+  transform: rotate(180deg);
+}
+
+/* User Menu Styles */
+.user-dropdown :deep(.ant-dropdown-menu) {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 4px;
+  min-width: 180px;
+}
+
+[data-theme="dark"] .user-dropdown :deep(.ant-dropdown-menu) {
+  background-color: #1f1f1f;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-dropdown :deep(.ant-menu-item) {
+  border-radius: 6px;
+  margin: 2px 0;
+  padding: 8px 12px;
+  height: auto;
+  line-height: 1.5;
+}
+
+.user-dropdown :deep(.ant-menu-item:hover) {
+  background-color: var(--bg-hover, #f5f5f5);
+}
+
+[data-theme="dark"] .user-dropdown :deep(.ant-menu-item:hover) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.user-dropdown :deep(.ant-menu-item-icon) {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .user-name {
+    display: none;
+  }
+  
+  .user-profile {
+    padding: 4px 8px;
+    gap: 6px;
+  }
 }
 </style>
 
