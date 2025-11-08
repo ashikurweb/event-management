@@ -28,7 +28,12 @@ Route::middleware('guest')->group(function () {
 });
 
 // Social Login Routes
-Route::get('/auth/{provider}/redirect', [LoginController::class, 'redirectToProvider'])->name('social.redirect');
+// Redirect route - only for guests
+Route::middleware('guest')->group(function () {
+    Route::get('/auth/{provider}/redirect', [LoginController::class, 'redirectToProvider'])->name('social.redirect');
+});
+
+// Callback route - accessible without guest middleware (OAuth providers redirect here)
 Route::get('/auth/{provider}/callback', [LoginController::class, 'handleProviderCallback'])->name('social.callback');
 
 // Email Verification Routes

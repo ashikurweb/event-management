@@ -90,6 +90,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Get the user's social accounts.
+     */
+    public function socialAccounts()
+    {
+        return $this->hasMany(SocialAccount::class);
+    }
+
+    /**
      * Get the user's roles.
      */
     public function roles()

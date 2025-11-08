@@ -44,7 +44,7 @@
       </a-badge>
 
       <!-- User Profile Dropdown -->
-      <a-dropdown :trigger="['click']" class="user-dropdown">
+      <a-dropdown :trigger="['click']" class="user-dropdown" v-if="user">
         <div class="user-profile">
           <a-avatar :src="userAvatar" :size="32">
             {{ userInitials }}
@@ -102,7 +102,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import ThemeToggle from '../../Components/ThemeToggle.vue';
 import {
   MenuOutlined,
@@ -130,16 +130,40 @@ const props = defineProps({
 
 const emit = defineEmits(['toggle-sidebar']);
 
+const page = usePage();
 const searchValue = ref('');
 const showNotifications = ref(false);
 const notificationCount = ref(5);
 
-// Mock user data - replace with actual user data
-const userName = ref('John Doe');
-const userAvatar = ref(null);
+// Dynamic user data from Inertia shared props
+const user = computed(() => page.props.auth?.user || null);
+
+const userName = computed(() => {
+  if (!user.value) return 'Guest';
+  // Use full_name if available, otherwise combine first_name and last_name
+  return user.value.name || `${user.value.first_name || ''} ${user.value.last_name || ''}`.trim() || 'User';
+});
+
+const userAvatar = computed(() => {
+  if (!user.value) return null;
+  // Return avatar URL if available
+  return user.value.avatar || null;
+});
+
 const userInitials = computed(() => {
-  const names = userName.value.split(' ');
-  return names.map(n => n[0]).join('').toUpperCase();
+  if (!user.value) return 'G';
+  
+  // Use full_name if available
+  if (user.value.name) {
+    const names = user.value.name.split(' ');
+    return names.map(n => n[0]).join('').toUpperCase().slice(0, 2);
+  }
+  
+  // Fallback to first_name and last_name
+  const firstName = user.value.first_name || '';
+  const lastName = user.value.last_name || '';
+  const initials = (firstName[0] || '') + (lastName[0] || '');
+  return initials.toUpperCase() || 'U';
 });
 
 // Mock notifications

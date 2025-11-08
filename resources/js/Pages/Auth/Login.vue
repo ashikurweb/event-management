@@ -170,7 +170,8 @@ const handleLogin = (values) => {
 };
 
 const handleSocialLogin = (provider) => {
-  router.get(`/auth/${provider}/redirect`);
+  // Use full page redirect for OAuth (not Inertia)
+  window.location.href = `/auth/${provider}/redirect`;
 };
 </script>
 
