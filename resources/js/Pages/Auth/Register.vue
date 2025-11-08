@@ -222,49 +222,51 @@ const handleRegister = (values) => {
 
 <style scoped>
 .auth-container {
-  min-height: calc(100vh - 80px);
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px 20px;
   position: relative;
   overflow: hidden;
+  background: #ffffff;
 }
 
-/* Light Mode Background - Aurora Dream Diagonal Flow */
-.auth-container {
-  background: 
-    radial-gradient(ellipse 80% 60% at 5% 40%, rgba(175, 109, 255, 0.48), transparent 67%),
-    radial-gradient(ellipse 70% 60% at 45% 45%, rgba(255, 100, 180, 0.41), transparent 67%),
-    radial-gradient(ellipse 62% 52% at 83% 76%, rgba(255, 235, 170, 0.44), transparent 63%),
-    radial-gradient(ellipse 60% 48% at 75% 20%, rgba(120, 190, 255, 0.36), transparent 66%),
-    linear-gradient(45deg, #f7eaff 0%, #fde2ea 100%);
-}
-
-/* Dark Mode Background - Crimson Core Glow */
-[data-theme="dark"] .auth-container {
-  background: 
-    linear-gradient(0deg, rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-    radial-gradient(68% 58% at 50% 50%, #c81e3a 0%, #a51d35 16%, #7d1a2f 32%, #591828 46%, #3c1722 60%, #2a151d 72%, #1f1317 84%, #141013 94%, #0a0a0a 100%),
-    radial-gradient(90% 75% at 50% 50%, rgba(228,42,66,0.06) 0%, rgba(228,42,66,0) 55%),
-    radial-gradient(150% 120% at 8% 8%, rgba(0,0,0,0) 42%, #0b0a0a 82%, #070707 100%),
-    radial-gradient(150% 120% at 92% 92%, rgba(0,0,0,0) 42%, #0b0a0a 82%, #070707 100%),
-    radial-gradient(60% 50% at 50% 60%, rgba(240,60,80,0.06), rgba(0,0,0,0) 60%),
-    #050505;
-}
-
-/* Soft vignette for dark mode */
-[data-theme="dark"] .auth-container::after {
+/* Light Mode - White Noise Pattern */
+.auth-container::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.5) 100%);
-  opacity: 0.95;
-  pointer-events: none;
+  inset: 0;
   z-index: 0;
+  background: #ffffff;
+  background-image: 
+    radial-gradient(circle at 1px 1px, rgba(139, 92, 246, 0.15) 1px, transparent 0),
+    radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.12) 1px, transparent 0),
+    radial-gradient(circle at 1px 1px, rgba(236, 72, 153, 0.1) 1px, transparent 0);
+  background-size: 20px 20px, 30px 30px, 25px 25px;
+  background-position: 0 0, 10px 10px, 15px 5px;
+  pointer-events: none;
+}
+
+/* Dark Mode - Black Background with Colored Noise Pattern */
+[data-theme="dark"] .auth-container {
+  background: #000000;
+}
+
+[data-theme="dark"] .auth-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #000000;
+  background-image: 
+    radial-gradient(circle at 1px 1px, rgba(139, 92, 246, 0.2) 1px, transparent 0),
+    radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.18) 1px, transparent 0),
+    radial-gradient(circle at 1px 1px, rgba(236, 72, 153, 0.15) 1px, transparent 0);
+  background-size: 20px 20px, 30px 30px, 25px 25px;
+  background-position: 0 0, 10px 10px, 15px 5px;
+  pointer-events: none;
 }
 
 .auth-wrapper {
