@@ -1,59 +1,446 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎉 Event Management System
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo">
 </p>
 
-## About Laravel
+<p align="center">
+  <strong>Modern Event Management Platform built with Laravel 12 & Vue 3</strong>
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📋 Table of Contents
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [System Requirements](#-system-requirements)
+- [Installation Guide](#-installation-guide)
+- [Configuration](#-configuration)
+- [Database Setup](#-database-setup)
+- [Running the Application](#-running-the-application)
+- [Project Structure](#-project-structure)
+- [Features](#-features)
+- [Troubleshooting](#-troubleshooting)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🔧 System Requirements
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Before you begin, ensure you have the following installed on your system:
 
-## Laravel Sponsors
+- **PHP** >= 8.2
+- **Composer** >= 2.0
+- **Node.js** >= 22.0
+- **npm** >= 11.4.2
+- **MySQL** >= 8.0 or **PostgreSQL** >= 13.0
+- **Git**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🚀 Installation Guide
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Step 1: Clone the Repository
 
-## Contributing
+```bash
+git clone <repository-url>
+cd event-management
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Step 2: Install PHP Dependencies
 
-## Code of Conduct
+```bash
+composer install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Step 3: Install Node Dependencies
 
-## Security Vulnerabilities
+```bash
+npm install
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Step 4: Environment Configuration
 
-## License
+```bash
+# Copy environment file
+cp .env.example .env
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Generate application key
+php artisan key:generate
+```
+
+### Step 5: Configure Database
+
+Open `.env` file and update the database configuration:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=event_management
+DB_USERNAME=root
+DB_PASSWORD=your_password
+```
+
+### Step 6: Run Migrations and Seeders
+
+**Option 1: Using Custom Command (Recommended)**
+```bash
+php artisan custom:run
+```
+
+**Option 2: Manual Steps**
+```bash
+# Run migrations
+php artisan migrate:fresh
+
+# Seed the database
+php artisan db:seed
+```
+
+### Step 7: Generate Ziggy Routes (For Route Helper)
+
+```bash
+php artisan ziggy:generate
+```
+
+### Step 8: Build Frontend Assets
+
+**For Development:**
+```bash
+npm run dev
+```
+
+**For Production:**
+```bash
+npm run build
+```
+
+### Step 9: Start the Development Server
+
+**Terminal 1 - Laravel Server:**
+```bash
+php artisan serve
+```
+
+**Terminal 2 - Vite Dev Server (if using npm run dev):**
+```bash
+npm run dev
+```
+
+The application will be available at: `http://localhost:8000`
+
+---
+
+## ⚙️ Configuration
+
+### Application Settings
+
+Update these settings in `.env` file:
+
+```env
+APP_NAME="Event Management System"
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://localhost:8000
+```
+
+### Mail Configuration
+
+For email functionality, configure your mail settings:
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_username
+MAIL_PASSWORD=your_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=noreply@eventhub.com
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+### Social Authentication
+
+Configure OAuth providers in `.env`:
+
+```env
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:8000/auth/google/callback
+
+FACEBOOK_CLIENT_ID=your_facebook_client_id
+FACEBOOK_CLIENT_SECRET=your_facebook_client_secret
+FACEBOOK_REDIRECT_URI=http://localhost:8000/auth/facebook/callback
+
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
+GITHUB_REDIRECT_URI=http://localhost:8000/auth/github/callback
+```
+
+---
+
+## 🗄️ Database Setup
+
+### Create Database
+
+```sql
+CREATE DATABASE event_management CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+### Run Migrations
+
+```bash
+php artisan migrate:fresh
+```
+
+### Seed Database
+
+The seeder will create:
+- **Roles**: admin, organizer, attendee, vendor, sponsor
+- **Permissions**: Based on role hierarchy
+- **Default Configuration**: Role settings
+
+```bash
+php artisan db:seed
+```
+
+### Create Admin User (Optional)
+
+```bash
+php artisan tinker
+```
+
+```php
+$user = \App\Models\User::create([
+    'first_name' => 'Admin',
+    'last_name' => 'User',
+    'email' => 'admin@eventhub.com',
+    'password' => \Illuminate\Support\Facades\Hash::make('password'),
+    'status' => 'active',
+    'email_verified_at' => now(),
+]);
+
+$adminRole = \App\Models\Role::where('name', 'admin')->first();
+$user->assignRole($adminRole);
+```
+
+---
+
+## 🏃 Running the Application
+
+### Development Mode
+
+**Start Laravel Server:**
+```bash
+php artisan serve
+```
+
+**Start Vite Dev Server:**
+```bash
+npm run dev
+```
+
+**Access the application:**
+- Frontend: `http://localhost:8000`
+- Vite HMR: `http://localhost:5173` (if using separate Vite server)
+
+### Production Mode
+
+```bash
+# Build assets
+npm run build
+
+# Optimize Laravel
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# Start server
+php artisan serve
+```
+
+---
+
+## 📁 Project Structure
+
+```
+event-management/
+├── app/
+│   ├── Console/Commands/      # Custom Artisan Commands
+│   ├── Http/
+│   │   ├── Controllers/        # Application Controllers
+│   │   ├── Middleware/         # Custom Middleware
+│   │   └── Requests/           # Form Request Validation
+│   ├── Models/                 # Eloquent Models
+│   ├── Notifications/          # Email Notifications
+│   ├── Providers/              # Service Providers
+│   └── Services/               # Business Logic Services
+├── config/                     # Configuration Files
+├── database/
+│   ├── migrations/             # Database Migrations
+│   └── seeders/               # Database Seeders
+├── public/                     # Public Assets
+├── resources/
+│   ├── css/                    # Stylesheets
+│   ├── js/                     # JavaScript/Vue Components
+│   │   ├── Components/         # Reusable Vue Components
+│   │   ├── Composables/        # Vue Composables
+│   │   ├── Layouts/           # Vue Layouts
+│   │   ├── Pages/              # Vue Pages
+│   │   ├── Stores/            # Pinia Stores
+│   │   └── utils/              # Utility Functions
+│   └── views/                  # Blade Templates
+├── routes/                     # Route Definitions
+└── storage/                     # Storage Directory
+```
+
+---
+
+## ✨ Features
+
+### Authentication & Authorization
+- ✅ User Registration & Login
+- ✅ Email Verification
+- ✅ Social Authentication (Google, Facebook, GitHub)
+- ✅ Role-Based Access Control (RBAC)
+- ✅ Permission Management
+
+### Event Management
+- ✅ Event Creation & Management
+- ✅ Event Categories & Tags
+- ✅ Event Scheduling
+- ✅ Speaker Management
+- ✅ Venue Management
+
+### User Management
+- ✅ User Profiles
+- ✅ Role Assignment
+- ✅ Activity Logging
+- ✅ Notification Preferences
+
+### Additional Features
+- ✅ Password Reset (OTP-based)
+- ✅ Email Notifications
+- ✅ Theme Support (Light/Dark)
+- ✅ Responsive Design
+- ✅ Ziggy Route Helper
+
+---
+
+## 🛠️ Troubleshooting
+
+### Issue: Composer install fails
+
+**Solution:**
+```bash
+composer clear-cache
+composer install --no-cache
+```
+
+### Issue: npm install fails
+
+**Solution:**
+```bash
+rm -rf node_modules package-lock.json
+npm cache clean --force
+npm install
+```
+
+### Issue: Database connection error
+
+**Solution:**
+- Check database credentials in `.env`
+- Ensure MySQL/PostgreSQL service is running
+- Verify database exists
+
+### Issue: Permission denied errors
+
+**Solution:**
+```bash
+# Linux/Mac
+chmod -R 775 storage bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache
+
+# Or set permissions
+sudo chmod -R 775 storage bootstrap/cache
+```
+
+### Issue: Route helper not working
+
+**Solution:**
+```bash
+php artisan ziggy:generate
+npm run build
+```
+
+### Issue: Vite assets not loading
+
+**Solution:**
+```bash
+# Clear cache
+php artisan cache:clear
+php artisan config:clear
+php artisan view:clear
+
+# Rebuild assets
+npm run build
+```
+
+---
+
+## 📝 Quick Commands Reference
+
+```bash
+# Database
+php artisan migrate:fresh          # Fresh migration
+php artisan db:seed               # Seed database
+php artisan custom:run             # Fresh migrate + seed
+
+# Cache
+php artisan cache:clear            # Clear cache
+php artisan config:clear           # Clear config cache
+php artisan route:clear            # Clear route cache
+php artisan view:clear             # Clear view cache
+
+# Assets
+npm run dev                        # Development build
+npm run build                      # Production build
+
+# Ziggy
+php artisan ziggy:generate         # Generate route helper
+
+# Server
+php artisan serve                  # Start Laravel server
+```
+
+---
+
+## 🔐 Default Credentials
+
+After seeding, you can create an admin user using the method mentioned in [Database Setup](#-database-setup) section.
+
+**Default Role:** `attendee` (assigned to new registrations)
+
+---
+
+## 📚 Additional Resources
+
+- [Laravel Documentation](https://laravel.com/docs)
+- [Vue 3 Documentation](https://vuejs.org/)
+- [Inertia.js Documentation](https://inertiajs.com/)
+- [Ant Design Vue](https://antdv.com/)
+
+---
+
+## 📄 License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+---
+
+## 👥 Support
+
+For issues and questions, please open an issue on the repository.
+
+---
+
+**Happy Coding! 🚀**
