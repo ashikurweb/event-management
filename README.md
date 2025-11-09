@@ -41,7 +41,7 @@ Before you begin, ensure you have the following installed on your system:
 ### Step 1: Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/ashikurweb/event-management.git
 cd event-management
 ```
 
@@ -96,13 +96,7 @@ php artisan migrate:fresh
 php artisan db:seed
 ```
 
-### Step 7: Generate Ziggy Routes (For Route Helper)
-
-```bash
-php artisan ziggy:generate
-```
-
-### Step 8: Build Frontend Assets
+### Step 7: Build Frontend Assets
 
 **For Development:**
 ```bash
@@ -114,19 +108,9 @@ npm run dev
 npm run build
 ```
 
-### Step 9: Start the Development Server
+### Step 8: Access the Application
 
-**Terminal 1 - Laravel Server:**
-```bash
-php artisan serve
-```
-
-**Terminal 2 - Vite Dev Server (if using npm run dev):**
-```bash
-npm run dev
-```
-
-The application will be available at: `http://localhost:8000`
+The application will be available at your configured server URL (e.g., `http://localhost:8000` or your virtual host).
 
 ---
 
@@ -229,19 +213,14 @@ $user->assignRole($adminRole);
 
 ### Development Mode
 
-**Start Laravel Server:**
-```bash
-php artisan serve
-```
-
 **Start Vite Dev Server:**
 ```bash
 npm run dev
 ```
 
 **Access the application:**
-- Frontend: `http://localhost:8000`
-- Vite HMR: `http://localhost:5173` (if using separate Vite server)
+- Frontend: Your configured server URL (e.g., `http://localhost:8000` or virtual host)
+- Vite HMR: Automatically handled by Vite
 
 ### Production Mode
 
@@ -253,9 +232,6 @@ npm run build
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
-
-# Start server
-php artisan serve
 ```
 
 ---
@@ -322,7 +298,6 @@ event-management/
 - ✅ Email Notifications
 - ✅ Theme Support (Light/Dark)
 - ✅ Responsive Design
-- ✅ Ziggy Route Helper
 
 ---
 
@@ -364,13 +339,6 @@ chown -R www-data:www-data storage bootstrap/cache
 sudo chmod -R 775 storage bootstrap/cache
 ```
 
-### Issue: Route helper not working
-
-**Solution:**
-```bash
-php artisan ziggy:generate
-npm run build
-```
 
 ### Issue: Vite assets not loading
 
@@ -404,12 +372,6 @@ php artisan view:clear             # Clear view cache
 # Assets
 npm run dev                        # Development build
 npm run build                      # Production build
-
-# Ziggy
-php artisan ziggy:generate         # Generate route helper
-
-# Server
-php artisan serve                  # Start Laravel server
 ```
 
 ---
