@@ -28,10 +28,10 @@
 Before you begin, ensure you have the following installed on your system:
 
 - **PHP** >= 8.2
-- **Composer** >= 2.0
+- **Composer** >= 2.8.2
 - **Node.js** >= 22.0
 - **npm** >= 11.4.2
-- **MySQL** >= 8.0 or **PostgreSQL** >= 13.0
+- **MySQL** >= 8.0
 - **Git**
 
 ---
@@ -110,7 +110,7 @@ npm run build
 
 ### Step 8: Access the Application
 
-The application will be available at your configured server URL (e.g., `http://localhost:8000` or your virtual host).
+The application will be available at your configured server URL (e.g., `http://event-management.test` or your virtual host).
 
 ---
 
