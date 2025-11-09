@@ -90,7 +90,7 @@ php artisan custom:run
 **Option 2: Manual Steps**
 ```bash
 # Run migrations
-php artisan migrate:fresh
+php artisan migrate
 
 # Seed the database
 php artisan db:seed
