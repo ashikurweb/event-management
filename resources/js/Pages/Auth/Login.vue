@@ -1,3 +1,42 @@
+<script setup>
+import { ref, reactive } from 'vue';
+import { router } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
+import FrontendLayout from '../../Layouts/FrontendLayout.vue';
+import PrimaryButton from '../../Components/PrimaryButton.vue';
+import {
+  MailOutlined,
+  LockOutlined,
+  GoogleOutlined,
+  FacebookOutlined,
+  GithubOutlined,
+} from '@ant-design/icons-vue';
+import { loginRules } from '../../utils/validationRules';
+
+const loading = ref(false);
+
+const form = reactive({
+  email: '',
+  password: '',
+  remember: false,
+});
+
+const rules = loginRules;
+
+const handleLogin = (values) => {
+  loading.value = true;
+  router.post('/login', values, {
+    onFinish: () => {
+      loading.value = false;
+    },
+  });
+};
+
+const handleSocialLogin = (provider) => {
+  window.location.href = `/auth/${provider}/redirect`;
+};
+</script>
+
 <template>
   <FrontendLayout>
     <div class="auth-container">
@@ -126,54 +165,6 @@
     </div>
   </FrontendLayout>
 </template>
-
-<script setup>
-import { ref, reactive } from 'vue';
-import { router } from '@inertiajs/vue3';
-import { Link } from '@inertiajs/vue3';
-import FrontendLayout from '../../Layouts/FrontendLayout.vue';
-import PrimaryButton from '../../Components/PrimaryButton.vue';
-import {
-  MailOutlined,
-  LockOutlined,
-  GoogleOutlined,
-  FacebookOutlined,
-  GithubOutlined,
-} from '@ant-design/icons-vue';
-
-const loading = ref(false);
-
-const form = reactive({
-  email: '',
-  password: '',
-  remember: false,
-});
-
-const rules = {
-  email: [
-    { required: true, message: 'Please enter your email', trigger: 'blur' },
-    { type: 'email', message: 'Please enter a valid email', trigger: 'blur' },
-  ],
-  password: [
-    { required: true, message: 'Please enter your password', trigger: 'blur' },
-    { min: 8, message: 'Password must be at least 8 characters', trigger: 'blur' },
-  ],
-};
-
-const handleLogin = (values) => {
-  loading.value = true;
-  router.post('/login', values, {
-    onFinish: () => {
-      loading.value = false;
-    },
-  });
-};
-
-const handleSocialLogin = (provider) => {
-  // Use full page redirect for OAuth (not Inertia)
-  window.location.href = `/auth/${provider}/redirect`;
-};
-</script>
 
 <style scoped>
 .auth-container {

@@ -1,3 +1,39 @@
+<script setup>
+import { ref, reactive } from 'vue';
+import { router } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
+import FrontendLayout from '../../Layouts/FrontendLayout.vue';
+import PrimaryButton from '../../Components/PrimaryButton.vue';
+import {
+  MailOutlined,
+  LockOutlined,
+  UserOutlined,
+} from '@ant-design/icons-vue';
+import { registerRules } from '../../utils/validationRules';
+
+const loading = ref(false);
+
+const form = reactive({
+  first_name: '',
+  last_name: '',
+  email: '',
+  password: '',
+  password_confirmation: '',
+  terms: false,
+});
+
+const rules = registerRules(form);
+
+const handleRegister = (values) => {
+  loading.value = true;
+  router.post('/register', values, {
+    onFinish: () => {
+      loading.value = false;
+    },
+  });
+};
+</script>
+
 <template>
   <FrontendLayout>
     <div class="auth-container">
@@ -132,75 +168,6 @@
     </div>
   </FrontendLayout>
 </template>
-
-<script setup>
-import { ref, reactive } from 'vue';
-import { router } from '@inertiajs/vue3';
-import { Link } from '@inertiajs/vue3';
-import FrontendLayout from '../../Layouts/FrontendLayout.vue';
-import PrimaryButton from '../../Components/PrimaryButton.vue';
-import {
-  MailOutlined,
-  LockOutlined,
-  UserOutlined,
-} from '@ant-design/icons-vue';
-
-const loading = ref(false);
-
-const form = reactive({
-  first_name: '',
-  last_name: '',
-  email: '',
-  password: '',
-  password_confirmation: '',
-  terms: false,
-});
-
-const validatePasswordConfirmation = (rule, value) => {
-  if (!value) {
-    return Promise.reject('Please confirm your password');
-  }
-  if (value !== form.password) {
-    return Promise.reject('Passwords do not match');
-  }
-  return Promise.resolve();
-};
-
-const rules = {
-  first_name: [
-    { required: true, message: 'Please enter your first name', trigger: 'blur' },
-    { min: 2, message: 'First name must be at least 2 characters', trigger: 'blur' },
-  ],
-  last_name: [
-    { required: true, message: 'Please enter your last name', trigger: 'blur' },
-    { min: 2, message: 'Last name must be at least 2 characters', trigger: 'blur' },
-  ],
-  email: [
-    { required: true, message: 'Please enter your email', trigger: 'blur' },
-    { type: 'email', message: 'Please enter a valid email', trigger: 'blur' },
-  ],
-  password: [
-    { required: true, message: 'Please enter your password', trigger: 'blur' },
-    { min: 8, message: 'Password must be at least 8 characters', trigger: 'blur' },
-    { pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, message: 'Password must contain uppercase, lowercase, and number', trigger: 'blur' },
-  ],
-  password_confirmation: [
-    { required: true, validator: validatePasswordConfirmation, trigger: 'blur' },
-  ],
-  terms: [
-    { validator: (rule, value) => value ? Promise.resolve() : Promise.reject('You must agree to the terms'), trigger: 'change' },
-  ],
-};
-
-const handleRegister = (values) => {
-  loading.value = true;
-  router.post('/register', values, {
-    onFinish: () => {
-      loading.value = false;
-    },
-  });
-};
-</script>
 
 <style scoped>
 .auth-container {
