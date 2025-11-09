@@ -51,7 +51,6 @@ class RegisterController extends Controller
         try {
             $user = $this->registerService->createUser($request->validated());
             
-            $this->registerService->sendWelcomeEmail($user);
             $this->registerService->sendEmailVerification($user);
             
             Auth::login($user);
