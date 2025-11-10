@@ -293,11 +293,86 @@ const page = usePage();
 const selectedKeys = ref(['dashboard']);
 const openKeys = ref([]);
 
+// Map URL to menu key
+const getMenuKeyFromUrl = (url) => {
+  // Remove query parameters
+  const path = url.split('?')[0];
+  
+  // Create reverse route map
+  const urlToKeyMap = {
+    '/dashboard': 'dashboard',
+    '/dashboard/events': 'events-all',
+    '/dashboard/events/create': 'events-create',
+    '/dashboard/events/tags': 'events-tags',
+    '/dashboard/roles': 'roles-all',
+    '/dashboard/roles/create': 'roles-create',
+    '/dashboard/permissions': 'permissions-all',
+    '/dashboard/permissions/assign': 'permissions-assign',
+    '/dashboard/roles/assign-users': 'role-user-assign',
+    '/dashboard/settings/general': 'settings-general',
+    '/dashboard/settings/payment': 'settings-payment',
+    '/dashboard/settings/email': 'settings-email',
+    '/dashboard/settings/system': 'settings-system',
+    '/dashboard/settings/profile': 'settings-profile',
+  };
+
+  // Check exact match first
+  if (urlToKeyMap[path]) {
+    return urlToKeyMap[path];
+  }
+
+  // Check for status query parameters (events)
+  if (path === '/dashboard/events') {
+    const urlParams = new URLSearchParams(url.split('?')[1] || '');
+    const status = urlParams.get('status');
+    if (status) {
+      return `events-${status}`;
+    }
+    return 'events-all';
+  }
+
+  // Fallback: try to extract from path
+  const parts = path.split('/').filter(p => p && p !== 'dashboard');
+  if (parts.length > 0) {
+    return parts.join('-');
+  }
+
+  return 'dashboard';
+};
+
+// Get parent menu key for sub-menus
+const getParentKey = (key) => {
+  const parentMap = {
+    'events-all': 'events',
+    'events-create': 'events',
+    'events-draft': 'events',
+    'events-published': 'events',
+    'events-cancelled': 'events',
+    'events-tags': 'events',
+    'settings-general': 'settings',
+    'settings-payment': 'settings',
+    'settings-email': 'settings',
+    'settings-system': 'settings',
+    'settings-profile': 'settings',
+    'roles-all': 'roles-permissions',
+    'roles-create': 'roles-permissions',
+    'permissions-all': 'roles-permissions',
+    'permissions-assign': 'roles-permissions',
+    'role-user-assign': 'roles-permissions',
+  };
+  return parentMap[key] || null;
+};
+
 // Watch route changes
 watch(() => page.url, (newUrl) => {
-  // Extract key from URL
-  const path = newUrl.split('/').pop() || 'dashboard';
-  selectedKeys.value = [path];
+  const menuKey = getMenuKeyFromUrl(newUrl);
+  selectedKeys.value = [menuKey];
+  
+  // Open parent sub-menu if child is selected
+  const parentKey = getParentKey(menuKey);
+  if (parentKey && !openKeys.value.includes(parentKey)) {
+    openKeys.value = [...openKeys.value, parentKey];
+  }
 }, { immediate: true });
 
 const handleMenuClick = ({ key }) => {
@@ -531,14 +606,52 @@ const handleMenuClick = ({ key }) => {
   line-height: 40px;
 }
 
+/* Light theme active state */
 :deep(.ant-menu-item-selected) {
   background-color: #e6f7ff !important;
   color: #1890ff !important;
 }
 
+:deep(.ant-menu-item-selected::after) {
+  display: none !important;
+}
+
+/* Dark theme active state */
+[data-theme="dark"] :deep(.ant-menu-item-selected) {
+  background-color: #111b26 !important;
+  color: #40a9ff !important;
+}
+
+/* Light theme hover state */
 :deep(.ant-menu-item:hover),
 :deep(.ant-menu-submenu-title:hover) {
   background-color: var(--bg-hover, #f5f5f5);
+}
+
+/* Dark theme hover state */
+[data-theme="dark"] :deep(.ant-menu-item:hover),
+[data-theme="dark"] :deep(.ant-menu-submenu-title:hover) {
+  background-color: #262626 !important;
+}
+
+/* Light theme menu item */
+:deep(.ant-menu-item) {
+  color: var(--text-primary, #262626);
+}
+
+/* Dark theme menu item */
+[data-theme="dark"] :deep(.ant-menu-item) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Light theme submenu title */
+:deep(.ant-menu-submenu-title) {
+  color: var(--text-primary, #262626);
+}
+
+/* Dark theme submenu title */
+[data-theme="dark"] :deep(.ant-menu-submenu-title) {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 :deep(.ant-menu-submenu-title) {

@@ -23,6 +23,9 @@
     </div>
 
     <div class="header-right">
+      <!-- Language Switcher -->
+      <LanguageSwitcher class="header-action" />
+
       <!-- Theme Toggle -->
       <ThemeToggle class="header-action" />
 
@@ -104,6 +107,7 @@
 import { ref, computed } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import ThemeToggle from '../../Components/ThemeToggle.vue';
+import LanguageSwitcher from '../../Components/LanguageSwitcher.vue';
 import {
   MenuOutlined,
   MenuUnfoldOutlined,
