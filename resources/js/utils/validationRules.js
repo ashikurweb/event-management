@@ -107,3 +107,65 @@ export const registerRules = (form) => ({
   terms: termsRules,
 });
 
+/**
+ * Mail mailer validation rules
+ */
+export const mailMailerRules = [
+  { required: true, message: 'Please enter mail mailer', trigger: 'blur' },
+];
+
+/**
+ * Mail host validation rules
+ */
+export const mailHostRules = [
+  { required: true, message: 'Please enter mail host', trigger: 'blur' },
+];
+
+/**
+ * Mail port validation rules
+ */
+export const mailPortRules = [
+  { required: true, message: 'Please enter mail port', trigger: 'blur' },
+];
+
+/**
+ * Mail username validation rules
+ */
+export const mailUsernameRules = [
+  { required: true, message: 'Please enter mail username', trigger: 'blur' },
+];
+
+/**
+ * Mail password validation rules
+ */
+export const mailPasswordRules = [
+  { required: true, message: 'Please enter mail password', trigger: 'blur' },
+];
+
+/**
+ * Mail encryption validation rules
+ */
+export const mailEncryptionRules = [
+  { required: true, message: 'Please enter mail encryption', trigger: 'blur' },
+];
+
+/**
+ * Mail from address validation rules
+ */
+export const mailFromAddressRules = [
+  { required: true, message: 'Please enter mail from address', trigger: 'blur' },
+];
+
+/**
+ * Mail configuration form validation rules
+ */
+export const mailRules = {
+  mail_mailer: mailMailerRules,
+  mail_host: mailHostRules,
+  mail_port: mailPortRules,
+  mail_username: mailUsernameRules,
+  mail_password: mailPasswordRules,
+  mail_encryption: mailEncryptionRules,
+  mail_from_address: mailFromAddressRules,
+};
+

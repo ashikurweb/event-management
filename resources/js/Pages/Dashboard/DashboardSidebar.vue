@@ -315,6 +315,7 @@ const handleMenuClick = ({ key }) => {
     'permissions-all': '/dashboard/permissions',
     'permissions-assign': '/dashboard/permissions/assign',
     'role-user-assign': '/dashboard/roles/assign-users',
+    'settings-general': '/dashboard/settings/general',
     // Add more route mappings as needed
   };
 
