@@ -17,7 +17,6 @@
     },
     "dependencies": {
         "@ant-design/icons-vue": "^7.0.1",
-        "@inertiajs/progress": "^0.2.7",
         "@inertiajs/vue3": "^2.2.15",
         "ant-design-vue": "^4.2.6",
         "nprogress": "^0.2.0",
