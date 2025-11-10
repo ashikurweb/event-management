@@ -124,7 +124,7 @@ Update these settings in `.env` file:
 APP_NAME="Event Management System"
 APP_ENV=local
 APP_DEBUG=true
-APP_URL=http://localhost:8000
+APP_URL=http://event-management.test
 ```
 
 ### Mail Configuration
