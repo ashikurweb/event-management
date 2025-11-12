@@ -256,6 +256,93 @@
     color: rgba(255, 255, 255, 0.85) !important;
 }
 
+/* Input Error State - Dark Mode */
+/* Form Item Error State */
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input,
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input:hover,
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input:focus,
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input.ant-input-focused {
+    border-color: #ff7875 !important;
+    background-color: #1a1a1a !important;
+}
+
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input:focus,
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input.ant-input-focused {
+    box-shadow: 0 0 0 2px rgba(255, 120, 117, 0.2) !important;
+}
+
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input-affix-wrapper,
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input-affix-wrapper:hover {
+    border-color: #ff7875 !important;
+    background-color: #262626 !important;
+}
+
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input-affix-wrapper:focus,
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input-affix-wrapper.ant-input-affix-wrapper-focused {
+    border-color: #ff7875 !important;
+    box-shadow: 0 0 0 2px rgba(255, 120, 117, 0.2) !important;
+}
+
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input-password,
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input-password:hover {
+    border-color: #ff7875 !important;
+    background-color: #1a1a1a !important;
+}
+
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input-password:focus,
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input-password.ant-input-password-focused {
+    border-color: #ff7875 !important;
+    box-shadow: 0 0 0 2px rgba(255, 120, 117, 0.2) !important;
+}
+
+:root[data-theme="dark"] .ant-form-item-has-error .ant-input-password .ant-input {
+    border-color: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Direct Status Error Class */
+:root[data-theme="dark"] .ant-input-status-error,
+:root[data-theme="dark"] .ant-input-status-error:hover,
+:root[data-theme="dark"] .ant-input-status-error:focus,
+:root[data-theme="dark"] .ant-input-status-error.ant-input-focused {
+    border-color: #ff7875 !important;
+    background-color: #1a1a1a !important;
+}
+
+:root[data-theme="dark"] .ant-input-status-error:focus,
+:root[data-theme="dark"] .ant-input-status-error.ant-input-focused {
+    box-shadow: 0 0 0 2px rgba(255, 120, 117, 0.2) !important;
+}
+
+:root[data-theme="dark"] .ant-input-affix-wrapper-status-error,
+:root[data-theme="dark"] .ant-input-affix-wrapper-status-error:hover {
+    border-color: #ff7875 !important;
+    background-color: #262626 !important;
+}
+
+:root[data-theme="dark"] .ant-input-affix-wrapper-status-error:focus,
+:root[data-theme="dark"] .ant-input-affix-wrapper-status-error.ant-input-affix-wrapper-focused {
+    border-color: #ff7875 !important;
+    box-shadow: 0 0 0 2px rgba(255, 120, 117, 0.2) !important;
+}
+
+:root[data-theme="dark"] .ant-input-password-status-error,
+:root[data-theme="dark"] .ant-input-password-status-error:hover {
+    border-color: #ff7875 !important;
+    background-color: #1a1a1a !important;
+}
+
+:root[data-theme="dark"] .ant-input-password-status-error:focus,
+:root[data-theme="dark"] .ant-input-password-status-error.ant-input-password-focused {
+    border-color: #ff7875 !important;
+    box-shadow: 0 0 0 2px rgba(255, 120, 117, 0.2) !important;
+}
+
+:root[data-theme="dark"] .ant-input-password-status-error .ant-input {
+    border-color: transparent !important;
+    background-color: transparent !important;
+}
+
 /* Button Dark Theme */
 :root[data-theme="dark"] .ant-btn-default {
     background: var(--button-default-bg, #1f1f1f) !important;
@@ -505,5 +592,290 @@
 
 :root[data-theme="dark"] .ant-input-affix-wrapper .ant-input-suffix {
     color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* ============================================
+   MODERN INPUT COMPONENT - GLOBAL STYLES
+   ============================================ */
+
+/* Light Mode Variables */
+:root {
+    --modern-input-bg: #ffffff;
+    --modern-input-bg-hover: #fafafa;
+    --modern-input-bg-focus: #ffffff;
+    --modern-input-border: #e0e0e0;
+    --modern-input-border-hover: #1890ff;
+    --modern-input-border-focus: #1890ff;
+    --modern-input-text: #262626;
+    --modern-input-placeholder: #8c8c8c;
+    --modern-input-icon-color: #8c8c8c;
+    --modern-input-icon-focus: #1890ff;
+}
+
+/* Dark Mode Variables */
+:root[data-theme="dark"] {
+    --modern-input-bg: #1a1a1a;
+    --modern-input-bg-hover: #1f1f1f;
+    --modern-input-bg-focus: #1f1f1f;
+    --modern-input-border: #434343;
+    --modern-input-border-hover: #595959;
+    --modern-input-border-focus: #40a9ff;
+    --modern-input-text: rgba(255, 255, 255, 0.85);
+    --modern-input-placeholder: rgba(255, 255, 255, 0.25);
+    --modern-input-icon-color: rgba(255, 255, 255, 0.45);
+    --modern-input-icon-focus: #40a9ff;
+}
+
+/* Modern Input Wrapper - Light Mode */
+.modern-input-wrapper {
+    background: var(--modern-input-bg) !important;
+    border-color: var(--modern-input-border) !important;
+}
+
+.modern-input-wrapper:hover {
+    background: var(--modern-input-bg-hover) !important;
+    border-color: var(--modern-input-border-hover) !important;
+    box-shadow: 0 0 0 1px rgba(24, 144, 255, 0.1) !important;
+}
+
+.modern-input-wrapper:focus-within {
+    background: var(--modern-input-bg-focus) !important;
+    border-color: var(--modern-input-border-focus) !important;
+    box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.1), 0 0 0 1px var(--modern-input-border-focus) !important;
+}
+
+.modern-input-wrapper.has-error {
+    border-color: var(--color-error, #ff4d4f) !important;
+}
+
+.modern-input-wrapper.has-error:focus-within {
+    border-color: var(--color-error, #ff4d4f) !important;
+    box-shadow: 0 0 0 3px rgba(255, 77, 79, 0.1), 0 0 0 1px var(--color-error, #ff4d4f) !important;
+}
+
+/* Modern Input Wrapper - Dark Mode */
+:root[data-theme="dark"] .modern-input-wrapper {
+    background: var(--modern-input-bg) !important;
+    border-color: var(--modern-input-border) !important;
+}
+
+:root[data-theme="dark"] .modern-input-wrapper:hover {
+    background: var(--modern-input-bg-hover) !important;
+    border-color: var(--modern-input-border-hover) !important;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+}
+
+:root[data-theme="dark"] .modern-input-wrapper:focus-within {
+    background: var(--modern-input-bg-focus) !important;
+    border-color: var(--modern-input-border-focus) !important;
+    box-shadow: 0 0 0 3px rgba(64, 169, 255, 0.15), 0 0 0 1px var(--modern-input-border-focus) !important;
+}
+
+:root[data-theme="dark"] .modern-input-wrapper.has-error {
+    border-color: var(--color-error, #ff7875) !important;
+}
+
+:root[data-theme="dark"] .modern-input-wrapper.has-error:focus-within {
+    border-color: var(--color-error, #ff7875) !important;
+    box-shadow: 0 0 0 3px rgba(255, 120, 117, 0.15), 0 0 0 1px var(--color-error, #ff7875) !important;
+}
+
+/* Modern Input Icon - Light Mode */
+.modern-input-wrapper .input-icon {
+    color: var(--modern-input-icon-color) !important;
+}
+
+.modern-input-wrapper:focus-within .input-icon {
+    color: var(--modern-input-icon-focus) !important;
+}
+
+/* Modern Input Icon - Dark Mode */
+:root[data-theme="dark"] .modern-input-wrapper .input-icon {
+    color: var(--modern-input-icon-color) !important;
+}
+
+:root[data-theme="dark"] .modern-input-wrapper:focus-within .input-icon {
+    color: var(--modern-input-icon-focus) !important;
+}
+
+/* Modern Input Text - Light Mode */
+.modern-input :deep(.ant-input),
+.modern-input :deep(.ant-input-password .ant-input) {
+    color: var(--modern-input-text) !important;
+}
+
+.modern-input :deep(.ant-input::placeholder),
+.modern-input :deep(.ant-input-password .ant-input::placeholder) {
+    color: var(--modern-input-placeholder) !important;
+}
+
+/* Modern Input Text - Dark Mode */
+:root[data-theme="dark"] .modern-input :deep(.ant-input),
+:root[data-theme="dark"] .modern-input :deep(.ant-input-password .ant-input) {
+    color: var(--modern-input-text) !important;
+}
+
+:root[data-theme="dark"] .modern-input :deep(.ant-input::placeholder),
+:root[data-theme="dark"] .modern-input :deep(.ant-input-password .ant-input::placeholder) {
+    color: var(--modern-input-placeholder) !important;
+}
+
+/* Modern Input Password Icon - Light Mode */
+.modern-input :deep(.ant-input-password-icon) {
+    color: var(--modern-input-icon-color) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 20px !important;
+    height: 20px !important;
+    line-height: 1 !important;
+}
+
+.modern-input :deep(.ant-input-password-icon:hover) {
+    color: var(--modern-input-icon-focus) !important;
+}
+
+.modern-input :deep(.ant-input-password .ant-input-suffix) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Modern Input Password Icon - Dark Mode */
+:root[data-theme="dark"] .modern-input :deep(.ant-input-password-icon) {
+    color: var(--modern-input-icon-color) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 20px !important;
+    height: 20px !important;
+    line-height: 1 !important;
+}
+
+:root[data-theme="dark"] .modern-input :deep(.ant-input-password-icon:hover) {
+    color: var(--modern-input-icon-focus) !important;
+}
+
+:root[data-theme="dark"] .modern-input :deep(.ant-input-password .ant-input-suffix) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* ============================================
+   STANDARD INPUT VARIANT - GENERAL SETTINGS STYLE
+   ============================================ */
+
+/* Standard Input - Light Mode */
+.standard-input,
+.standard-input :deep(.ant-input),
+.standard-input :deep(.ant-input-password) {
+    width: 100% !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--border-color, #d9d9d9) !important;
+    transition: all 0.2s ease !important;
+}
+
+.standard-input :deep(.ant-input-password) {
+    background: transparent !important;
+}
+
+.standard-input :deep(.ant-input:hover),
+.standard-input :deep(.ant-input-password:hover) {
+    border-color: var(--color-primary, #1890ff) !important;
+}
+
+.standard-input :deep(.ant-input:focus),
+.standard-input :deep(.ant-input-focused),
+.standard-input :deep(.ant-input-password:focus),
+.standard-input :deep(.ant-input-password-focused) {
+    border-color: var(--color-primary, #1890ff) !important;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+}
+
+/* Standard Input - Dark Mode */
+:root[data-theme="dark"] .standard-input,
+:root[data-theme="dark"] .standard-input :deep(.ant-input) {
+    background-color: #1a1a1a !important;
+    border-color: #434343 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .standard-input :deep(.ant-input:hover) {
+    background-color: #1a1a1a !important;
+    border-color: #595959 !important;
+}
+
+:root[data-theme="dark"] .standard-input :deep(.ant-input:focus),
+:root[data-theme="dark"] .standard-input :deep(.ant-input-focused) {
+    background-color: #1a1a1a !important;
+    border-color: #40a9ff !important;
+    box-shadow: 0 0 0 2px rgba(64, 169, 255, 0.2) !important;
+}
+
+:root[data-theme="dark"] .standard-input :deep(.ant-input::placeholder) {
+    color: rgba(255, 255, 255, 0.25) !important;
+}
+
+:root[data-theme="dark"] .standard-input :deep(.ant-input-password) {
+    background-color: #1a1a1a !important;
+    border-color: #434343 !important;
+    background: #1a1a1a !important;
+}
+
+:root[data-theme="dark"] .standard-input :deep(.ant-input-password > .ant-input),
+:root[data-theme="dark"] .standard-input :deep(.ant-input-password .ant-input) {
+    background-color: transparent !important;
+    background: transparent !important;
+    border: none !important;
+    border-color: transparent !important;
+    border-width: 0 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+:root[data-theme="dark"] .standard-input :deep(.ant-input-password .ant-input:hover) {
+    background-color: transparent !important;
+    background: transparent !important;
+    border: none !important;
+    border-color: transparent !important;
+    border-width: 0 !important;
+    box-shadow: none !important;
+}
+
+:root[data-theme="dark"] .standard-input :deep(.ant-input-password .ant-input:focus),
+:root[data-theme="dark"] .standard-input :deep(.ant-input-password .ant-input-focused) {
+    background-color: transparent !important;
+    background: transparent !important;
+    border: none !important;
+    border-color: transparent !important;
+    border-width: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+:root[data-theme="dark"] .standard-input :deep(.ant-input-password:hover) {
+    background-color: #1a1a1a !important;
+    border-color: #595959 !important;
+}
+
+:root[data-theme="dark"] .standard-input :deep(.ant-input-password:focus),
+:root[data-theme="dark"] .standard-input :deep(.ant-input-password-focused) {
+    background-color: #1a1a1a !important;
+    border-color: #40a9ff !important;
+    box-shadow: 0 0 0 2px rgba(64, 169, 255, 0.2) !important;
+}
+
+:root[data-theme="dark"] .standard-input :deep(.ant-input-password-icon) {
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+
+:root[data-theme="dark"] .standard-input :deep(.ant-input-password-icon:hover) {
+    color: rgba(255, 255, 255, 0.85) !important;
 }
 
