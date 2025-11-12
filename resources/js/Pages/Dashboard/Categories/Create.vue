@@ -149,7 +149,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, watch } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layouts/DashboardLayout.vue';
 import Breadcrumb from '../../../Components/Breadcrumb.vue';
@@ -158,6 +158,7 @@ import Input from '../../../Components/Input.vue';
 const page = usePage();
 const formRef = ref(null);
 const saving = ref(false);
+const isSlugManuallyEdited = ref(false);
 
 const parentCategories = computed(() => page.props.parentCategories || []);
 
@@ -176,6 +177,30 @@ const form = reactive({
   icon: '',
   color: '',
   is_active: true,
+});
+
+// Generate slug from name
+const generateSlug = (text) => {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '') // Remove special characters
+    .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
+    .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+};
+
+// Watch name field and auto-generate slug
+watch(() => form.name, (newName) => {
+  if (!isSlugManuallyEdited.value && newName) {
+    form.slug = generateSlug(newName);
+  }
+});
+
+// Track if slug is manually edited
+watch(() => form.slug, () => {
+  if (form.slug && form.slug !== generateSlug(form.name)) {
+    isSlugManuallyEdited.value = true;
+  }
 });
 
 const rules = {
