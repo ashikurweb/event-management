@@ -935,3 +935,21 @@
     background-color: #2E2E2E !important;
 }
 
+/* Tooltip Light Theme - Text Color Fix */
+.ant-tooltip-inner {
+    color: rgba(0, 0, 0, 0.85) !important;
+}
+
+/* Table Empty State Dark Theme */
+:root[data-theme="dark"] .ant-empty {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-empty-description {
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+
+:root[data-theme="dark"] .ant-empty .anticon {
+    color: rgba(255, 255, 255, 0.25) !important;
+}
+
