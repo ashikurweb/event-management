@@ -49,7 +49,7 @@
         </a-form-item>
 
         <a-row :gutter="12">
-          <a-col :xs="24" :md="12">
+          <a-col :xs="24" :md="8">
             <a-form-item label="Parent Category" name="parent_id">
               <a-select
                 v-model:value="form.parent_id"
@@ -67,7 +67,7 @@
             </a-form-item>
           </a-col>
 
-          <a-col :xs="24" :md="12">
+          <a-col :xs="24" :md="8">
             <a-form-item label="Display Order" name="display_order">
               <Input
                 v-model="form.display_order"
@@ -78,42 +78,6 @@
               />
               <template #extra>
                 <span class="form-extra-text">Lower numbers appear first</span>
-              </template>
-            </a-form-item>
-          </a-col>
-        </a-row>
-
-        <a-row :gutter="12">
-          <a-col :xs="24" :md="8">
-            <a-form-item label="Icon" name="icon">
-              <Input
-                v-model="form.icon"
-                placeholder="e.g., 🎉, 📅, or icon class"
-                :maxlength="100"
-              />
-              <template #extra>
-                <span class="form-extra-text">Emoji or icon identifier</span>
-              </template>
-            </a-form-item>
-          </a-col>
-
-          <a-col :xs="24" :md="8">
-            <a-form-item label="Color" name="color">
-              <Input
-                v-model="form.color"
-                placeholder="e.g., #1890ff"
-                :maxlength="20"
-              >
-                <template #prefix>
-                  <div
-                    v-if="form.color"
-                    class="color-preview"
-                    :style="{ backgroundColor: form.color }"
-                  ></div>
-                </template>
-              </Input>
-              <template #extra>
-                <span class="form-extra-text">Hex color code</span>
               </template>
             </a-form-item>
           </a-col>
@@ -176,8 +140,6 @@ const form = reactive({
   description: '',
   parent_id: null,
   display_order: 0,
-  icon: '',
-  color: '',
   is_active: true,
 });
 
@@ -213,13 +175,6 @@ const rules = {
   slug: [
     { max: 100, message: 'Slug cannot exceed 100 characters', trigger: 'blur' },
   ],
-  color: [
-    {
-      pattern: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/,
-      message: 'Please enter a valid hex color code',
-      trigger: 'blur',
-    },
-  ],
 };
 
 onMounted(() => {
@@ -230,8 +185,6 @@ onMounted(() => {
       description: category.value.description || '',
       parent_id: category.value.parent_id || null,
       display_order: category.value.display_order || 0,
-      icon: category.value.icon || '',
-      color: category.value.color || '',
       is_active: category.value.is_active !== undefined ? category.value.is_active : true,
     });
     initialSlug.value = category.value.slug || '';
@@ -291,12 +244,6 @@ const handleCancel = () => {
   color: rgba(255, 255, 255, 0.45);
 }
 
-.color-preview {
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  border: 1px solid var(--border-color, #d9d9d9);
-}
 
 :deep(.ant-form-item) {
   margin-bottom: 12px;

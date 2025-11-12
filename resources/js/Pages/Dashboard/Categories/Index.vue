@@ -87,12 +87,6 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
             <div class="category-name-cell">
-              <span
-                v-if="record.color"
-                class="color-indicator"
-                :style="{ backgroundColor: record.color }"
-              ></span>
-              <span v-if="record.icon" class="category-icon">{{ record.icon }}</span>
               <span class="category-name">{{ record.name }}</span>
             </div>
           </template>
@@ -377,19 +371,6 @@ const handleBulkAction = (action) => {
 .category-name-cell {
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.color-indicator {
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  border: 1px solid var(--border-color, #d9d9d9);
-  flex-shrink: 0;
-}
-
-.category-icon {
-  font-size: 18px;
 }
 
 .category-name {

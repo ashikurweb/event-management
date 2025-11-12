@@ -34,8 +34,6 @@ class CategoryUpdateRequest extends FormRequest
                 Rule::unique('categories', 'slug')->ignore($categoryId),
             ],
             'description' => 'nullable|string',
-            'icon' => 'nullable|string|max:100',
-            'color' => ['nullable', 'string', 'max:20', 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
             'parent_id' => [
                 'nullable',
                 'exists:categories,id',
