@@ -288,61 +288,7 @@ const handleMenuClick = ({ key }) => {
   color: rgba(255, 255, 255, 0.85) !important;
 }
 
-/* Search Bar Dark Mode Styles */
-[data-theme="dark"] .header-left :deep(.ant-input-search .anticon) {
-  color: rgba(255, 255, 255, 0.65) !important;
-}
-
-[data-theme="dark"] .header-search :deep(.ant-input-group-wrapper) {
-  background-color: transparent !important;
-}
-
-[data-theme="dark"] .header-search :deep(.ant-input-group) {
-  background-color: transparent !important;
-}
-
-[data-theme="dark"] .header-search :deep(.ant-input) {
-  background-color: #262626 !important;
-  border-color: #434343 !important;
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-[data-theme="dark"] .header-search :deep(.ant-input::placeholder) {
-  color: rgba(255, 255, 255, 0.25) !important;
-}
-
-[data-theme="dark"] .header-search :deep(.ant-input:hover) {
-  background-color: #262626 !important;
-  border-color: #595959 !important;
-}
-
-[data-theme="dark"] .header-search :deep(.ant-input:focus),
-[data-theme="dark"] .header-search :deep(.ant-input-focused) {
-  background-color: #262626 !important;
-  border-color: #40a9ff !important;
-  box-shadow: 0 0 0 2px rgba(64, 169, 255, 0.2) !important;
-}
-
-[data-theme="dark"] .header-search :deep(.ant-input-search-button) {
-  background-color: #262626 !important;
-  border-color: #434343 !important;
-  border-left-color: #434343 !important;
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-[data-theme="dark"] .header-search :deep(.ant-input-search-button .anticon) {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-[data-theme="dark"] .header-search :deep(.ant-input-search-button:hover) {
-  background-color: #404040 !important;
-  border-color: #595959 !important;
-  border-left-color: #595959 !important;
-}
-
-[data-theme="dark"] .header-search :deep(.ant-input-search-button:hover .anticon) {
-  color: rgba(255, 255, 255, 1) !important;
-}
+/* Search Bar - Using global styles from antd-theme.css */
 
 [data-theme="dark"] .header-right :deep(.anticon) {
   color: rgba(255, 255, 255, 0.85) !important;
