@@ -362,6 +362,53 @@
     color: #fff !important;
 }
 
+/* Checkbox Dark Theme */
+:root[data-theme="dark"] .ant-checkbox-wrapper {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-checkbox-wrapper span {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-checkbox {
+    border-color: #434343 !important;
+}
+
+:root[data-theme="dark"] .ant-checkbox-inner {
+    background-color: #1a1a1a !important;
+    border-color: #434343 !important;
+}
+
+:root[data-theme="dark"] .ant-checkbox:hover .ant-checkbox-inner {
+    border-color: #40a9ff !important;
+}
+
+:root[data-theme="dark"] .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #1890ff !important;
+    border-color: #1890ff !important;
+}
+
+:root[data-theme="dark"] .ant-checkbox-checked .ant-checkbox-inner::after {
+    border-color: #fff !important;
+}
+
+:root[data-theme="dark"] .ant-checkbox-checked:hover .ant-checkbox-inner {
+    background-color: #40a9ff !important;
+    border-color: #40a9ff !important;
+}
+
+:root[data-theme="dark"] .ant-checkbox-disabled .ant-checkbox-inner {
+    background-color: #1a1a1a !important;
+    border-color: #434343 !important;
+    opacity: 0.5 !important;
+}
+
+:root[data-theme="dark"] .ant-checkbox-disabled .ant-checkbox-wrapper {
+    color: rgba(255, 255, 255, 0.25) !important;
+    cursor: not-allowed !important;
+}
+
 /* Menu Dark Theme */
 :root[data-theme="dark"] .ant-menu {
     background: var(--menu-bg, #1f1f1f) !important;

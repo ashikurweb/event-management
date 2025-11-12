@@ -131,7 +131,7 @@ const handleSocialLogin = (provider) => {
                 <a-checkbox v-model:checked="form.remember">
                   Remember me
                 </a-checkbox>
-                <a href="/forgot-password" class="forgot-link">Forgot password?</a>
+                <Link  href="/forgot-password" class="forgot-link">Forgot password?</Link>
               </div>
 
               <a-form-item>

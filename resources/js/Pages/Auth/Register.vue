@@ -4,6 +4,7 @@ import { router } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
 import FrontendLayout from '../../Layouts/FrontendLayout.vue';
 import PrimaryButton from '../../Components/PrimaryButton.vue';
+import Input from '../../Components/Input.vue';
 import {
   MailOutlined,
   LockOutlined,
@@ -71,68 +72,48 @@ const handleRegister = (values) => {
               class="register-form"
             >
               <a-form-item name="first_name">
-                <div class="modern-input-wrapper">
-                  <UserOutlined class="input-icon" />
-                  <a-input
-                    v-model:value="form.first_name"
-                    size="large"
-                    placeholder="First name"
-                    class="modern-input"
-                    :bordered="false"
-                  />
-                </div>
+                <Input
+                  v-model="form.first_name"
+                  type="text"
+                  placeholder="First name"
+                  :icon="UserOutlined"
+                />
               </a-form-item>
 
               <a-form-item name="last_name">
-                <div class="modern-input-wrapper">
-                  <UserOutlined class="input-icon" />
-                  <a-input
-                    v-model:value="form.last_name"
-                    size="large"
-                    placeholder="Last name"
-                    class="modern-input"
-                    :bordered="false"
-                  />
-                </div>
+                <Input
+                  v-model="form.last_name"
+                  type="text"
+                  placeholder="Last name"
+                  :icon="UserOutlined"
+                />
               </a-form-item>
 
               <a-form-item name="email">
-                <div class="modern-input-wrapper">
-                  <MailOutlined class="input-icon" />
-                  <a-input
-                    v-model:value="form.email"
-                    size="large"
-                    placeholder="Email address"
-                    class="modern-input"
-                    :bordered="false"
-                  />
-                </div>
+                <Input
+                  v-model="form.email"
+                  type="email"
+                  placeholder="Email address"
+                  :icon="MailOutlined"
+                />
               </a-form-item>
 
               <a-form-item name="password">
-                <div class="modern-input-wrapper">
-                  <LockOutlined class="input-icon" />
-                  <a-input-password
-                    v-model:value="form.password"
-                    size="large"
-                    placeholder="Password"
-                    class="modern-input"
-                    :bordered="false"
-                  />
-                </div>
+                <Input
+                  v-model="form.password"
+                  type="password"
+                  placeholder="Password"
+                  :icon="LockOutlined"
+                />
               </a-form-item>
 
               <a-form-item name="password_confirmation">
-                <div class="modern-input-wrapper">
-                  <LockOutlined class="input-icon" />
-                  <a-input-password
-                    v-model:value="form.password_confirmation"
-                    size="large"
-                    placeholder="Confirm password"
-                    class="modern-input"
-                    :bordered="false"
-                  />
-                </div>
+                <Input
+                  v-model="form.password_confirmation"
+                  type="password"
+                  placeholder="Confirm password"
+                  :icon="LockOutlined"
+                />
               </a-form-item>
 
               <a-form-item name="terms">
@@ -465,161 +446,6 @@ const handleRegister = (values) => {
   margin-top: 24px;
 }
 
-/* Modern Input Design */
-.modern-input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: var(--input-bg, #ffffff);
-  border: 1.5px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 0 20px;
-  transition: all 0.3s ease;
-  min-height: 56px;
-}
-
-[data-theme="dark"] .modern-input-wrapper {
-  background: #1a1a1a;
-  border-color: #434343;
-}
-
-.modern-input-wrapper:hover {
-  border-color: var(--color-primary, #1890ff);
-  background: var(--input-bg-hover, #fafafa);
-  box-shadow: 0 0 0 1px rgba(24, 144, 255, 0.1);
-}
-
-[data-theme="dark"] .modern-input-wrapper:hover {
-  background: #1f1f1f;
-  border-color: #595959;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
-}
-
-.modern-input-wrapper:focus-within {
-  border-color: var(--color-primary, #1890ff);
-  background: var(--input-bg-focus, #ffffff);
-}
-
-[data-theme="dark"] .modern-input-wrapper:focus-within {
-  background: #1f1f1f;
-  border-color: #40a9ff;
-}
-
-.input-icon {
-  font-size: 18px;
-  color: var(--text-tertiary, #8c8c8c);
-  margin-right: 12px;
-  transition: color 0.3s;
-  flex-shrink: 0;
-}
-
-[data-theme="dark"] .input-icon {
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.modern-input-wrapper:focus-within .input-icon {
-  color: var(--color-primary, #1890ff);
-}
-
-[data-theme="dark"] .modern-input-wrapper:focus-within .input-icon {
-  color: #40a9ff;
-}
-
-.modern-input {
-  flex: 1;
-  border: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  height: auto !important;
-  font-size: 15px;
-}
-
-.modern-input :deep(.ant-input) {
-  border: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  padding: 12px 0 !important;
-  height: auto !important;
-  min-height: 24px !important;
-  font-size: 15px;
-  color: var(--text-primary, #262626);
-  line-height: 1.5;
-}
-
-[data-theme="dark"] .modern-input :deep(.ant-input) {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-.modern-input :deep(.ant-input::placeholder) {
-  color: var(--text-tertiary, #8c8c8c);
-}
-
-[data-theme="dark"] .modern-input :deep(.ant-input::placeholder) {
-  color: rgba(255, 255, 255, 0.25) !important;
-}
-
-.modern-input :deep(.ant-input-password) {
-  border: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-.modern-input :deep(.ant-input-password .ant-input) {
-  border: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  padding: 12px 0 !important;
-  height: auto !important;
-  min-height: 24px !important;
-  font-size: 15px;
-  color: var(--text-primary, #262626);
-  line-height: 1.5;
-}
-
-[data-theme="dark"] .modern-input :deep(.ant-input-password .ant-input) {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-.modern-input :deep(.ant-input-password-icon) {
-  color: var(--text-tertiary, #8c8c8c);
-  font-size: 16px;
-}
-
-[data-theme="dark"] .modern-input :deep(.ant-input-password-icon) {
-  color: rgba(255, 255, 255, 0.45) !important;
-}
-
-.modern-input :deep(.ant-input-password-icon:hover) {
-  color: var(--color-primary, #1890ff);
-}
-
-[data-theme="dark"] .modern-input :deep(.ant-input-password-icon:hover) {
-  color: #40a9ff !important;
-}
-
-.form-options {
-  margin-bottom: 24px;
-}
-
-.form-options :deep(.ant-checkbox-wrapper) {
-  color: var(--text-primary, #262626);
-  transition: color 0.2s;
-}
-
-[data-theme="dark"] .form-options :deep(.ant-checkbox-wrapper) {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-.form-options :deep(.ant-checkbox-wrapper span) {
-  color: var(--text-primary, #262626);
-  transition: color 0.2s;
-}
-
-[data-theme="dark"] .form-options :deep(.ant-checkbox-wrapper span) {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
 
 .link-text {
   color: var(--color-primary, #1890ff);
