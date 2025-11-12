@@ -14,25 +14,23 @@
         ref="formRef"
         @finish="handleSubmit"
       >
-        <a-row :gutter="24">
+        <a-row :gutter="12">
           <a-col :xs="24" :md="12">
             <a-form-item label="Name" name="name" required>
-              <a-input
-                v-model:value="form.name"
+              <Input
+                v-model="form.name"
                 placeholder="Enter category name"
                 :maxlength="100"
-                show-count
               />
             </a-form-item>
           </a-col>
 
           <a-col :xs="24" :md="12">
             <a-form-item label="Slug" name="slug">
-              <a-input
-                v-model:value="form.slug"
+              <Input
+                v-model="form.slug"
                 placeholder="Auto-generated from name"
                 :maxlength="100"
-                show-count
               />
               <template #extra>
                 <span class="form-extra-text">Leave empty to auto-generate</span>
@@ -47,11 +45,10 @@
             placeholder="Enter category description"
             :rows="4"
             :maxlength="500"
-            show-count
           />
         </a-form-item>
 
-        <a-row :gutter="24">
+        <a-row :gutter="12">
           <a-col :xs="24" :md="12">
             <a-form-item label="Parent Category" name="parent_id">
               <a-select
@@ -72,10 +69,11 @@
 
           <a-col :xs="24" :md="12">
             <a-form-item label="Display Order" name="display_order">
-              <a-input-number
-                v-model:value="form.display_order"
-                :min="0"
+              <Input
+                v-model="form.display_order"
+                type="number"
                 placeholder="Display order"
+                :min="0"
                 style="width: 100%"
               />
               <template #extra>
@@ -85,11 +83,11 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="24">
-          <a-col :xs="24" :md="12">
+        <a-row :gutter="12">
+          <a-col :xs="24" :md="8">
             <a-form-item label="Icon" name="icon">
-              <a-input
-                v-model:value="form.icon"
+              <Input
+                v-model="form.icon"
                 placeholder="e.g., 🎉, 📅, or icon class"
                 :maxlength="100"
               />
@@ -99,10 +97,10 @@
             </a-form-item>
           </a-col>
 
-          <a-col :xs="24" :md="12">
+          <a-col :xs="24" :md="8">
             <a-form-item label="Color" name="color">
-              <a-input
-                v-model:value="form.color"
+              <Input
+                v-model="form.color"
                 placeholder="e.g., #1890ff"
                 :maxlength="20"
               >
@@ -113,22 +111,29 @@
                     :style="{ backgroundColor: form.color }"
                   ></div>
                 </template>
-              </a-input>
+              </Input>
               <template #extra>
                 <span class="form-extra-text">Hex color code</span>
               </template>
             </a-form-item>
           </a-col>
-        </a-row>
 
-        <a-form-item name="is_active">
-          <a-checkbox v-model:checked="form.is_active">
-            Active
-          </a-checkbox>
-          <template #extra>
-            <span class="form-extra-text">Inactive categories won't be displayed</span>
-          </template>
-        </a-form-item>
+          <a-col :xs="24" :md="8">
+            <a-form-item label="Status" name="is_active">
+              <a-select
+                v-model:value="form.is_active"
+                placeholder="Select status"
+                style="width: 100%"
+              >
+                <a-select-option :value="true">Active</a-select-option>
+                <a-select-option :value="false">Inactive</a-select-option>
+              </a-select>
+              <template #extra>
+                <span class="form-extra-text">Inactive categories won't be displayed</span>
+              </template>
+            </a-form-item>
+          </a-col>
+        </a-row>
 
         <a-form-item>
           <a-space>
@@ -148,6 +153,7 @@ import { ref, reactive, computed, onMounted } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layouts/DashboardLayout.vue';
 import Breadcrumb from '../../../Components/Breadcrumb.vue';
+import Input from '../../../Components/Input.vue';
 
 const page = usePage();
 const formRef = ref(null);
@@ -263,6 +269,10 @@ const handleCancel = () => {
   height: 16px;
   border-radius: 4px;
   border: 1px solid var(--border-color, #d9d9d9);
+}
+
+:deep(.ant-form-item) {
+  margin-bottom: 12px;
 }
 
 :deep(.ant-form-item-label > label) {
