@@ -89,8 +89,8 @@
                 placeholder="Select status"
                 style="width: 100%"
               >
-                <a-select-option :value="true">Active</a-select-option>
-                <a-select-option :value="false">Inactive</a-select-option>
+                <a-select-option value="1">Active</a-select-option>
+                <a-select-option value="0">Inactive</a-select-option>
               </a-select>
               <template #extra>
                 <span class="form-extra-text">Inactive categories won't be displayed</span>
@@ -138,7 +138,7 @@ const form = reactive({
   description: '',
   parent_id: null,
   display_order: 0,
-  is_active: true,
+  is_active: '1',
 });
 
 // Generate slug from name
@@ -180,7 +180,13 @@ const handleSubmit = async () => {
     await formRef.value.validate();
     saving.value = true;
 
-    router.post('/dashboard/categories', form, {
+    // Convert is_active from string to boolean
+    const submitData = {
+      ...form,
+      is_active: form.is_active === '1' || form.is_active === 1 || form.is_active === true,
+    };
+
+    router.post('/dashboard/categories', submitData, {
       preserveScroll: true,
       onSuccess: () => {
         // Success handled by Inertia

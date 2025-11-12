@@ -89,8 +89,8 @@
                 placeholder="Select status"
                 style="width: 100%"
               >
-                <a-select-option :value="true">Active</a-select-option>
-                <a-select-option :value="false">Inactive</a-select-option>
+                <a-select-option value="1">Active</a-select-option>
+                <a-select-option value="0">Inactive</a-select-option>
               </a-select>
               <template #extra>
                 <span class="form-extra-text">Inactive categories won't be displayed</span>
@@ -140,7 +140,7 @@ const form = reactive({
   description: '',
   parent_id: null,
   display_order: 0,
-  is_active: true,
+  is_active: '1',
 });
 
 // Generate slug from name
@@ -185,7 +185,7 @@ onMounted(() => {
       description: category.value.description || '',
       parent_id: category.value.parent_id || null,
       display_order: category.value.display_order || 0,
-      is_active: category.value.is_active !== undefined ? category.value.is_active : true,
+      is_active: category.value.is_active !== undefined ? (category.value.is_active ? '1' : '0') : '1',
     });
     initialSlug.value = category.value.slug || '';
   }
@@ -196,7 +196,13 @@ const handleSubmit = async () => {
     await formRef.value.validate();
     saving.value = true;
 
-    router.put(`/dashboard/categories/${category.value.id}`, form, {
+    // Convert is_active from string to boolean
+    const submitData = {
+      ...form,
+      is_active: form.is_active === '1' || form.is_active === 1 || form.is_active === true,
+    };
+
+    router.put(`/dashboard/categories/${category.value.id}`, submitData, {
       preserveScroll: true,
       onSuccess: () => {
         // Success handled by Inertia
