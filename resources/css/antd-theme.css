@@ -340,3 +340,170 @@
     background-color: #3a3a3a !important;
 }
 
+/* ============================================
+   SELECT COMPONENT DARK MODE - COMPREHENSIVE
+   ============================================ */
+
+/* Select Input/Selector Dark Mode */
+:root[data-theme="dark"] .ant-select,
+:root[data-theme="dark"] .ant-select-single {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-select-selector {
+    background-color: #262626 !important;
+    background: #262626 !important;
+    border-color: #434343 !important;
+    border: 1px solid #434343 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-select-selection-placeholder {
+    color: rgba(255, 255, 255, 0.25) !important;
+}
+
+:root[data-theme="dark"] .ant-select-selection-item {
+    color: rgba(255, 255, 255, 0.85) !important;
+    background-color: transparent !important;
+    background: transparent !important;
+}
+
+:root[data-theme="dark"] .ant-select-selection-item-content {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-select-arrow {
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+
+:root[data-theme="dark"] .ant-select-suffix {
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Select Hover State */
+:root[data-theme="dark"] .ant-select:hover .ant-select-selector,
+:root[data-theme="dark"] .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+    border-color: #595959 !important;
+    background-color: #262626 !important;
+    background: #262626 !important;
+}
+
+/* Select Focus State */
+:root[data-theme="dark"] .ant-select-focused .ant-select-selector,
+:root[data-theme="dark"] .ant-select.ant-select-focused .ant-select-selector {
+    border-color: #40a9ff !important;
+    box-shadow: 0 0 0 2px rgba(64, 169, 255, 0.2) !important;
+    background-color: #262626 !important;
+    background: #262626 !important;
+}
+
+/* Select Clear Button */
+:root[data-theme="dark"] .ant-select-clear {
+    color: rgba(255, 255, 255, 0.45) !important;
+    background-color: transparent !important;
+}
+
+:root[data-theme="dark"] .ant-select-clear:hover {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Select Search Input (inside dropdown) */
+:root[data-theme="dark"] .ant-select-selection-search-input {
+    color: rgba(255, 255, 255, 0.85) !important;
+    background-color: transparent !important;
+}
+
+:root[data-theme="dark"] .ant-select-selection-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Select Dropdown Menu - CRITICAL FOR "NO PARENT" OPTION */
+:root[data-theme="dark"] .ant-select-dropdown,
+:root[data-theme="dark"] .ant-select-dropdown.ant-select-dropdown-placement-bottomLeft,
+:root[data-theme="dark"] .ant-select-dropdown.ant-select-dropdown-placement-topLeft,
+:root[data-theme="dark"] .ant-select-dropdown.ant-select-dropdown-placement-bottomRight,
+:root[data-theme="dark"] .ant-select-dropdown.ant-select-dropdown-placement-topRight {
+    background-color: #1f1f1f !important;
+    background: #1f1f1f !important;
+    border-color: #434343 !important;
+    border: 1px solid #434343 !important;
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.48), 0 3px 6px -4px rgba(0, 0, 0, 0.36), 0 9px 28px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Select Dropdown Options - ALL OPTIONS INCLUDING "NO PARENT" */
+:root[data-theme="dark"] .ant-select-item,
+:root[data-theme="dark"] .ant-select-item-option {
+    color: rgba(255, 255, 255, 0.85) !important;
+    background-color: transparent !important;
+    background: transparent !important;
+}
+
+:root[data-theme="dark"] .ant-select-item-option-content {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Select Option Hover */
+:root[data-theme="dark"] .ant-select-item:hover,
+:root[data-theme="dark"] .ant-select-item-option:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Select Option Active (keyboard navigation) */
+:root[data-theme="dark"] .ant-select-item-option-active:not(.ant-select-item-option-disabled),
+:root[data-theme="dark"] .ant-select-item-option-active {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Select Option Selected */
+:root[data-theme="dark"] .ant-select-item-option-selected:not(.ant-select-item-option-disabled),
+:root[data-theme="dark"] .ant-select-item-option-selected {
+    background-color: rgba(24, 144, 255, 0.2) !important;
+    background: rgba(24, 144, 255, 0.2) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 600 !important;
+}
+
+/* Select Empty State */
+:root[data-theme="dark"] .ant-select-item-empty {
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Select Group Title */
+:root[data-theme="dark"] .ant-select-item-group {
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Input Affix Wrapper (for search input with prefix) */
+:root[data-theme="dark"] .ant-input-affix-wrapper {
+    background-color: #262626 !important;
+    border-color: #434343 !important;
+}
+
+:root[data-theme="dark"] .ant-input-affix-wrapper:hover {
+    border-color: #595959 !important;
+}
+
+:root[data-theme="dark"] .ant-input-affix-wrapper-focused {
+    border-color: #40a9ff !important;
+    box-shadow: 0 0 0 2px rgba(64, 169, 255, 0.2) !important;
+}
+
+:root[data-theme="dark"] .ant-input-affix-wrapper .ant-input {
+    background-color: transparent !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-input-affix-wrapper .ant-input::placeholder {
+    color: rgba(255, 255, 255, 0.25) !important;
+}
+
+:root[data-theme="dark"] .ant-input-affix-wrapper .ant-input-prefix {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+:root[data-theme="dark"] .ant-input-affix-wrapper .ant-input-suffix {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
