@@ -76,7 +76,7 @@
         :columns="columns"
         :data-source="categories.data"
         :row-key="(record) => record.id"
-        :pagination="pagination"
+        :pagination="false"
         :loading="loading"
         :row-selection="{
           selectedRowKeys: selectedRowKeys,
@@ -134,6 +134,16 @@
           </template>
         </template>
       </a-table>
+
+      <!-- Modern Pagination -->
+      <Pagination
+        :current="pagination.current"
+        :page-size="pagination.pageSize"
+        :total="pagination.total"
+        :page-size-options="[10, 15, 20, 50, 100]"
+        @change="handlePaginationChange"
+        @page-size-change="handlePageSizeChange"
+      />
     </a-card>
   </DashboardLayout>
 </template>
@@ -143,6 +153,7 @@ import { ref, computed, onMounted } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layouts/DashboardLayout.vue';
 import Breadcrumb from '../../../Components/Breadcrumb.vue';
+import Pagination from '../../../Components/Pagination.vue';
 import {
   PlusOutlined,
   SearchOutlined,
@@ -232,6 +243,30 @@ const handleTableChange = (pag, filters, sorter) => {
     params.sort_by = sorter.field;
     params.sort_order = sorter.order === 'ascend' ? 'asc' : 'desc';
   }
+
+  router.get('/dashboard/categories/search', { ...filters.value, ...params }, {
+    preserveState: true,
+    preserveScroll: true,
+  });
+};
+
+const handlePaginationChange = ({ current, pageSize }) => {
+  const params = {
+    page: current,
+    per_page: pageSize,
+  };
+
+  router.get('/dashboard/categories/search', { ...filters.value, ...params }, {
+    preserveState: true,
+    preserveScroll: true,
+  });
+};
+
+const handlePageSizeChange = ({ current, pageSize }) => {
+  const params = {
+    page: current,
+    per_page: pageSize,
+  };
 
   router.get('/dashboard/categories/search', { ...filters.value, ...params }, {
     preserveState: true,
