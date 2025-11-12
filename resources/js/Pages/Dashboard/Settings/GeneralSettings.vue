@@ -10,6 +10,7 @@ import {
 import { router, usePage } from '@inertiajs/vue3';
 import { mailRules } from '../../../utils/validationRules';
 import { useNotifications } from '../../../Composables/useNotifications';
+import Input from '../../../Components/Input.vue';
 
 const props = defineProps({
   mailConfig: {
@@ -161,56 +162,57 @@ onMounted(() => {
             class="mail-config-form"
           >
             <a-form-item label="MAIL MAILER" name="mail_mailer" required>
-              <a-input
-                v-model:value="mailForm.mail_mailer"
+              <Input
+                v-model="mailForm.mail_mailer"
                 placeholder="MAIL MAILER"
                 size="large"
               />
             </a-form-item>
 
             <a-form-item label="MAIL HOST" name="mail_host" required>
-              <a-input
-                v-model:value="mailForm.mail_host"
+              <Input
+                v-model="mailForm.mail_host"
                 placeholder="MAIL HOST"
                 size="large"
               />
             </a-form-item>
 
             <a-form-item label="MAIL PORT" name="mail_port" required>
-              <a-input
-                v-model:value="mailForm.mail_port"
+              <Input
+                v-model="mailForm.mail_port"
                 placeholder="MAIL PORT"
                 size="large"
               />
             </a-form-item>
 
             <a-form-item label="MAIL USERNAME" name="mail_username" required>
-              <a-input
-                v-model:value="mailForm.mail_username"
+              <Input
+                v-model="mailForm.mail_username"
                 placeholder="MAIL USERNAME"
                 size="large"
               />
             </a-form-item>
 
             <a-form-item label="MAIL PASSWORD" name="mail_password" required>
-              <a-input-password
-                v-model:value="mailForm.mail_password"
+              <Input
+                v-model="mailForm.mail_password"
+                type="text"
                 placeholder="MAIL PASSWORD"
                 size="large"
               />
             </a-form-item>
 
             <a-form-item label="MAIL ENCRYPTION" name="mail_encryption" required>
-              <a-input
-                v-model:value="mailForm.mail_encryption"
+              <Input
+                v-model="mailForm.mail_encryption"
                 placeholder="MAIL ENCRYPTION"
                 size="large"
               />
             </a-form-item>
 
             <a-form-item label="MAIL FROM ADDRESS" name="mail_from_address" required>
-              <a-input
-                v-model:value="mailForm.mail_from_address"
+              <Input
+                v-model="mailForm.mail_from_address"
                 placeholder="MAIL FROM ADDRESS"
                 size="large"
               />
@@ -407,14 +409,7 @@ onMounted(() => {
   color: var(--color-error, #ff4d4f);
 }
 
-/* Input styles - Using global styles from antd-theme.css */
-:deep(.ant-input),
-:deep(.ant-input-password) {
-  width: 100%;
-  border-radius: var(--radius-base, 8px);
-  transition: all 0.2s ease;
-}
-
+/* Form item styles */
 :deep(.ant-form-item-control-input) {
   width: 100%;
 }

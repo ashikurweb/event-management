@@ -115,13 +115,5 @@ const handleFocus = (e) => {
 </script>
 
 <style scoped>
-/* Input padding */
-:deep(.ant-input),
-:deep(.ant-input-password .ant-input) {
-  padding: 8px 12px !important;
-}
 
-:deep(.ant-input-password) {
-  padding: 0 !important;
-}
 </style>
