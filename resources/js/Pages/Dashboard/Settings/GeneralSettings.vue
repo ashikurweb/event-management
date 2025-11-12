@@ -407,97 +407,12 @@ onMounted(() => {
   color: var(--color-error, #ff4d4f);
 }
 
+/* Input styles - Using global styles from antd-theme.css */
 :deep(.ant-input),
 :deep(.ant-input-password) {
   width: 100%;
   border-radius: var(--radius-base, 8px);
-  border: 1px solid var(--border-color, #d9d9d9);
   transition: all 0.2s ease;
-}
-
-:deep(.ant-input-password) {
-  width: 100%;
-  background: transparent;
-}
-
-[data-theme="dark"] :deep(.ant-input-password) {
-  background-color: #1a1a1a !important;
-  border-color: #434343 !important;
-  background: #1a1a1a !important;
-}
-
-[data-theme="dark"] :deep(.ant-input-password > .ant-input),
-[data-theme="dark"] :deep(.ant-input-password .ant-input) {
-  background-color: transparent !important;
-  background: transparent !important;
-  border: none !important;
-  border-color: transparent !important;
-  border-width: 0 !important;
-  color: rgba(255, 255, 255, 0.85) !important;
-  box-shadow: none !important;
-  outline: none !important;
-}
-
-[data-theme="dark"] :deep(.ant-input-password .ant-input:hover) {
-  background-color: transparent !important;
-  background: transparent !important;
-  border: none !important;
-  border-color: transparent !important;
-  border-width: 0 !important;
-  box-shadow: none !important;
-}
-
-[data-theme="dark"] :deep(.ant-input-password .ant-input:focus),
-[data-theme="dark"] :deep(.ant-input-password .ant-input-focused) {
-  background-color: transparent !important;
-  background: transparent !important;
-  border: none !important;
-  border-color: transparent !important;
-  border-width: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
-}
-
-[data-theme="dark"] :deep(.ant-input-password:hover) {
-  background-color: #1a1a1a !important;
-  border-color: #595959 !important;
-}
-
-[data-theme="dark"] :deep(.ant-input-password:focus),
-[data-theme="dark"] :deep(.ant-input-password-focused) {
-  background-color: #1a1a1a !important;
-  border-color: #40a9ff !important;
-  box-shadow: 0 0 0 2px rgba(64, 169, 255, 0.2) !important;
-}
-
-[data-theme="dark"] :deep(.ant-input-password-icon) {
-  color: rgba(255, 255, 255, 0.45) !important;
-}
-
-[data-theme="dark"] :deep(.ant-input-password-icon:hover) {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-[data-theme="dark"] :deep(.ant-input) {
-  background-color: #1a1a1a !important;
-  border-color: #434343 !important;
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-[data-theme="dark"] :deep(.ant-input:hover) {
-  background-color: #1a1a1a !important;
-  border-color: #595959 !important;
-}
-
-[data-theme="dark"] :deep(.ant-input:focus),
-[data-theme="dark"] :deep(.ant-input-focused) {
-  background-color: #1a1a1a !important;
-  border-color: #40a9ff !important;
-  box-shadow: 0 0 0 2px rgba(64, 169, 255, 0.2) !important;
-}
-
-[data-theme="dark"] :deep(.ant-input::placeholder) {
-  color: rgba(255, 255, 255, 0.25) !important;
 }
 
 :deep(.ant-form-item-control-input) {
@@ -506,19 +421,6 @@ onMounted(() => {
 
 :deep(.ant-form-item-control-input-content) {
   width: 100%;
-}
-
-:deep(.ant-input:hover),
-:deep(.ant-input-password:hover) {
-  border-color: var(--color-primary, #1890ff);
-}
-
-:deep(.ant-input:focus),
-:deep(.ant-input-password:focus),
-:deep(.ant-input-focused),
-:deep(.ant-input-password-focused) {
-  border-color: var(--color-primary, #1890ff);
-  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
 }
 
 .form-actions {

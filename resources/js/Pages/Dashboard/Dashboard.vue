@@ -341,19 +341,7 @@ const getStatusColor = (status) => {
   transition: background-color 0.1s ease-out, border-color 0.1s ease-out, box-shadow 0.1s ease-out;
 }
 
-:deep(.chart-card .ant-card-head) {
-  background: var(--card-bg, #fff) !important;
-  border-bottom: 1px solid var(--card-border, #f0f0f0) !important;
-}
-
-:deep(.chart-card .ant-card-head-title) {
-  color: var(--text-primary, #262626) !important;
-}
-
-:deep(.chart-card .ant-card-body) {
-  background: var(--card-bg, #fff) !important;
-  color: var(--text-primary, #262626) !important;
-}
+/* Card styles - Using global styles from antd-theme.css */
 
 .chart-placeholder {
   height: 300px;
@@ -411,75 +399,7 @@ const getStatusColor = (status) => {
   transition: background-color 0.1s ease-out, border-color 0.1s ease-out, box-shadow 0.1s ease-out;
 }
 
-:deep(.content-card .ant-card-body) {
-  background: var(--card-bg, #fff) !important;
-  color: var(--text-primary, #262626) !important;
-}
-
-:deep(.content-card .ant-card-head) {
-  background: var(--card-bg, #fff) !important;
-  border-bottom: 1px solid var(--card-border, #f0f0f0) !important;
-}
-
-:deep(.content-card .ant-card-head-title) {
-  color: var(--text-primary, #262626) !important;
-}
-
-:deep(.content-card .ant-table) {
-  background: var(--card-bg, #fff) !important;
-  color: var(--text-primary, #262626) !important;
-}
-
-:deep(.content-card .ant-table-thead > tr > th) {
-  background: var(--bg-elevated, #fafafa) !important;
-  color: var(--text-primary, #262626) !important;
-  border-bottom: 1px solid var(--border-color-light, #f0f0f0) !important;
-}
-
-:deep(.content-card .ant-table-tbody > tr > td) {
-  border-bottom: 1px solid var(--border-color-light, #f0f0f0) !important;
-  color: var(--text-primary, #262626) !important;
-}
-
-:deep(.content-card .ant-table-tbody > tr:hover > td) {
-  background: var(--bg-hover, #fafafa) !important;
-}
-
-:deep(.content-card .ant-list-item) {
-  border-bottom: 1px solid var(--border-color-light, #f0f0f0) !important;
-}
-
-:deep(.content-card .ant-list-item-meta-title) {
-  color: var(--text-primary, #262626) !important;
-}
-
-:deep(.content-card .ant-list-item-meta-title > a) {
-  color: var(--text-link, #1890ff) !important;
-}
-
-:deep(.content-card .ant-list-item-meta-description) {
-  color: var(--text-secondary, #595959) !important;
-}
-
-:deep(.content-card .ant-list-item) {
-  border-bottom: 1px solid var(--border-color-light, #f0f0f0) !important;
-}
-
-:deep(.content-card .ant-list-item-meta-title) {
-  color: var(--text-primary, #262626);
-}
-
-:deep(.content-card .ant-list-item-meta-title > a) {
-  color: var(--text-primary, #262626);
-}
-
-:deep(.content-card .ant-list-item-meta-title > a:hover) {
-  color: var(--color-primary, #1890ff);
-}
-
-:deep(.content-card .ant-list-item-meta-description) {
-  color: var(--text-secondary, #8c8c8c);
-}
+/* Card, Table, List styles - Using global styles from antd-theme.css */
 
 .amount {
   font-weight: 600;
@@ -687,6 +607,7 @@ const getStatusColor = (status) => {
     font-size: 13px;
   }
 
+  /* Responsive card/table/list styles - minimal overrides only */
   :deep(.content-card .ant-card-head) {
     padding: 12px 16px !important;
   }
