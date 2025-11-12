@@ -606,52 +606,22 @@ const handleMenuClick = ({ key }) => {
   line-height: 40px;
 }
 
-/* Light theme active state */
+/* Menu styles - Using global styles from antd-theme.css */
+/* Component-specific overrides only */
+:deep(.ant-menu-item-selected::after) {
+  display: none !important;
+}
+
+/* Light theme active state - sidebar specific */
 :deep(.ant-menu-item-selected) {
   background-color: #e6f7ff !important;
   color: #1890ff !important;
 }
 
-:deep(.ant-menu-item-selected::after) {
-  display: none !important;
-}
-
-/* Dark theme active state */
-[data-theme="dark"] :deep(.ant-menu-item-selected) {
-  background-color: #111b26 !important;
-  color: #40a9ff !important;
-}
-
-/* Light theme hover state */
+/* Light theme hover state - sidebar specific */
 :deep(.ant-menu-item:hover),
 :deep(.ant-menu-submenu-title:hover) {
   background-color: var(--bg-hover, #f5f5f5);
-}
-
-/* Dark theme hover state */
-[data-theme="dark"] :deep(.ant-menu-item:hover),
-[data-theme="dark"] :deep(.ant-menu-submenu-title:hover) {
-  background-color: #262626 !important;
-}
-
-/* Light theme menu item */
-:deep(.ant-menu-item) {
-  color: var(--text-primary, #262626);
-}
-
-/* Dark theme menu item */
-[data-theme="dark"] :deep(.ant-menu-item) {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-/* Light theme submenu title */
-:deep(.ant-menu-submenu-title) {
-  color: var(--text-primary, #262626);
-}
-
-/* Dark theme submenu title */
-[data-theme="dark"] :deep(.ant-menu-submenu-title) {
-  color: rgba(255, 255, 255, 0.85);
 }
 
 :deep(.ant-menu-submenu-title) {
