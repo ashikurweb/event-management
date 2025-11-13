@@ -52,8 +52,8 @@
               style="width: 100%"
               @change="handleSearch"
             >
-              <a-select-option :value="true">Active</a-select-option>
-              <a-select-option :value="false">Inactive</a-select-option>
+              <a-select-option value="1">Active</a-select-option>
+              <a-select-option value="0">Inactive</a-select-option>
             </a-select>
           </a-col>
         </a-row>
@@ -160,7 +160,12 @@ const page = usePage();
 
 const categories = computed(() => page.props.categories || { data: [] });
 const allCategories = computed(() => page.props.allCategories || []);
-const filters = ref(page.props.filters || {});
+const initialFilters = page.props.filters || {};
+// Convert boolean is_active to string for select component
+if (initialFilters.is_active !== undefined && initialFilters.is_active !== null && initialFilters.is_active !== '') {
+  initialFilters.is_active = initialFilters.is_active ? '1' : '0';
+}
+const filters = ref(initialFilters);
 const selectedRowKeys = ref([]);
 const loading = ref(false);
 

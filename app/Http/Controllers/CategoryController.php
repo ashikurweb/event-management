@@ -61,8 +61,9 @@ class CategoryController extends Controller
         }
 
         // Filter by status
-        if ($request->has('is_active')) {
-            $query->where('is_active', $request->is_active);
+        if ($request->has('is_active') && $request->is_active !== null && $request->is_active !== '') {
+            $isActive = $request->is_active === '1' || $request->is_active === 1 || $request->is_active === true;
+            $query->where('is_active', $isActive);
         }
 
         // Sorting
