@@ -76,6 +76,9 @@ return new class extends Migration
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
+            
+            $table->index('deleted_at');
 
             $table->index('slug');
             $table->index('status');

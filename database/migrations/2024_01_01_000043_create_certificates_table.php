@@ -22,8 +22,11 @@ return new class extends Migration
             $table->timestamp('downloaded_at')->nullable();
             $table->string('verification_code', 100)->unique();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->index('event_id');
+            $table->index('deleted_at');
             $table->index('user_id');
             $table->index('verification_code');
         });

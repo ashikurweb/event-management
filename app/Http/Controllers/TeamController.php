@@ -268,6 +268,9 @@ class TeamController extends Controller
         $teamId = $team->id;
         $teamSlug = $team->slug;
 
+        // Set deleted_by before soft delete
+        $team->deleted_by = Auth::id();
+        $team->save();
         $team->delete();
 
         // Log activity

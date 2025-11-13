@@ -17,6 +17,10 @@ return new class extends Migration
             $table->foreignId('question_id')->constrained('survey_questions')->onDelete('cascade');
             $table->text('answer')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
+
+            $table->index('deleted_at');
         });
     }
 

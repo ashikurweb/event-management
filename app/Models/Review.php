@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Review extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +25,7 @@ class Review extends Model
         'is_verified_attendee',
         'helpful_count',
         'reported_count',
+        'deleted_by',
     ];
 
     /**
@@ -68,6 +70,14 @@ class Review extends Model
     public function isApproved(): bool
     {
         return $this->status === 'approved';
+    }
+
+    /**
+     * Get the user who deleted this review.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

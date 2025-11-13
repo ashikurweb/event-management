@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -18,6 +19,7 @@ class Role extends Model
         'name',
         'display_name',
         'description',
+        'deleted_by',
     ];
 
     /**
@@ -93,6 +95,14 @@ class Role extends Model
         })->toArray();
 
         $this->permissions()->sync($permissionIds);
+    }
+
+    /**
+     * Get the user who deleted this role.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

@@ -260,6 +260,9 @@ class CategoryController extends Controller
         $categoryId = $category->id;
         $categorySlug = $category->slug;
 
+        // Set deleted_by before soft delete
+        $category->deleted_by = Auth::id();
+        $category->save();
         $category->delete();
 
         // Log activity

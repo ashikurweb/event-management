@@ -43,8 +43,11 @@ return new class extends Migration
             $table->timestamp('cancelled_at')->nullable();
             $table->timestamp('refunded_at')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->index('user_id');
+            $table->index('deleted_at');
             $table->index('event_id');
             $table->index('order_number');
             $table->index('status');

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PromoCode extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -28,6 +29,7 @@ class PromoCode extends Model
         'valid_until',
         'is_active',
         'created_by',
+        'deleted_by',
     ];
 
     /**
@@ -120,6 +122,14 @@ class PromoCode extends Model
         } else { // free_ticket
             return $orderAmount; // Full discount
         }
+    }
+
+    /**
+     * Get the user who deleted this promo code.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

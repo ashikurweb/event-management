@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sponsor extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +23,7 @@ class Sponsor extends Model
         'tier',
         'display_order',
         'is_active',
+        'deleted_by',
     ];
 
     /**
@@ -44,6 +46,14 @@ class Sponsor extends Model
         return $this->belongsToMany(Event::class, 'event_sponsors')
             ->withPivot('tier', 'contribution_amount', 'display_order')
             ->withTimestamps();
+    }
+
+    /**
+     * Get the user who deleted this sponsor.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

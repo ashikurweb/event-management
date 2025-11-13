@@ -23,8 +23,11 @@ return new class extends Migration
             $table->integer('helpful_count')->default(0);
             $table->integer('reported_count')->default(0);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->index('event_id');
+            $table->index('deleted_at');
             $table->index('user_id');
             $table->index('status');
         });

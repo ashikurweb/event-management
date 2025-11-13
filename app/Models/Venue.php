@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Venue extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -35,6 +36,7 @@ class Venue extends Model
         'website',
         'is_verified',
         'rating',
+        'deleted_by',
     ];
 
     /**
@@ -66,6 +68,14 @@ class Venue extends Model
                 $venue->slug = Str::slug($venue->name);
             }
         });
+    }
+
+    /**
+     * Get the user who deleted this venue.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Page extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +23,7 @@ class Page extends Model
         'meta_title',
         'meta_description',
         'is_active',
+        'deleted_by',
     ];
 
     /**
@@ -48,6 +50,14 @@ class Page extends Model
                 $page->slug = Str::slug($page->title);
             }
         });
+    }
+
+    /**
+     * Get the user who deleted this page.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

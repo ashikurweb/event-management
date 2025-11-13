@@ -18,6 +18,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('module', 50)->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
+
+            $table->index('deleted_at');
         });
     }
 

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Report extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +24,7 @@ class Report extends Model
         'status',
         'reviewed_by',
         'reviewed_at',
+        'deleted_by',
     ];
 
     /**
@@ -59,6 +61,14 @@ class Report extends Model
     public function reportable()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Get the user who deleted this report.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

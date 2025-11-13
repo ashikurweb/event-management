@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SurveyQuestion extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +22,7 @@ class SurveyQuestion extends Model
         'options',
         'is_required',
         'display_order',
+        'deleted_by',
     ];
 
     /**
@@ -50,6 +52,14 @@ class SurveyQuestion extends Model
     public function answers()
     {
         return $this->hasMany(SurveyAnswer::class);
+    }
+
+    /**
+     * Get the user who deleted this question.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

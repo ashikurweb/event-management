@@ -18,8 +18,11 @@ return new class extends Migration
             $table->string('type', 100);
             $table->boolean('is_enabled')->default(true);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->unique(['user_id', 'channel', 'type']);
+            $table->index('deleted_at');
         });
     }
 

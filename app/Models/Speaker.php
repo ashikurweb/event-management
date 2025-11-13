@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Speaker extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -27,6 +28,7 @@ class Speaker extends Model
         'social_links',
         'specialties',
         'is_featured',
+        'deleted_by',
     ];
 
     /**
@@ -59,6 +61,14 @@ class Speaker extends Model
         return $this->belongsToMany(Event::class, 'event_speakers')
             ->withPivot('role', 'display_order')
             ->withTimestamps();
+    }
+
+    /**
+     * Get the user who deleted this speaker.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

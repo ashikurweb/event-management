@@ -23,8 +23,11 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('display_order')->default(0);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->index('event_id');
+            $table->index('deleted_at');
             $table->index('type');
         });
     }

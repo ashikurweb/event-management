@@ -21,6 +21,10 @@ return new class extends Migration
             $table->timestamp('closes_at')->nullable();
             $table->enum('status', ['draft', 'active', 'closed'])->default('draft');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
+
+            $table->index('deleted_at');
         });
     }
 

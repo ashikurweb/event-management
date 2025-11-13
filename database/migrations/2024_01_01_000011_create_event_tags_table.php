@@ -17,8 +17,11 @@ return new class extends Migration
             $table->string('slug', 50)->unique();
             $table->integer('usage_count')->default(0);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->index('slug');
+            $table->index('deleted_at');
         });
     }
 

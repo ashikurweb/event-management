@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vendor extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +26,7 @@ class Vendor extends Model
         'category',
         'rating',
         'is_verified',
+        'deleted_by',
     ];
 
     /**
@@ -48,6 +50,14 @@ class Vendor extends Model
         return $this->belongsToMany(Event::class, 'event_vendors')
             ->withPivot('booth_number', 'booth_size', 'package_type', 'cost', 'status', 'notes')
             ->withTimestamps();
+    }
+
+    /**
+     * Get the user who deleted this vendor.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

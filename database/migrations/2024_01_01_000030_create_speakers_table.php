@@ -26,6 +26,10 @@ return new class extends Migration
             $table->json('specialties')->nullable();
             $table->boolean('is_featured')->default(false);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
+
+            $table->index('deleted_at');
         });
     }
 

@@ -21,8 +21,11 @@ return new class extends Migration
             $table->decimal('revenue', 10, 2)->default(0.00);
             $table->integer('registrations')->default(0);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->unique(['event_id', 'date']);
+            $table->index('deleted_at');
         });
     }
 

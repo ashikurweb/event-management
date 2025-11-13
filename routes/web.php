@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TrashController;
 
 Route::get('/', function () {
     return Inertia::render('Home');
@@ -26,6 +27,16 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/settings')->name('set
     Route::get('/general', [App\Http\Controllers\Settings\MailConfigurationController::class, 'index'])->name('general');
     Route::post('/mail-config', [App\Http\Controllers\Settings\MailConfigurationController::class, 'store'])->name('mail-config.store');
     Route::post('/mail-config/test', [App\Http\Controllers\Settings\MailConfigurationController::class, 'testConnection'])->name('mail-config.test');
+    Route::get('/system', function () {
+        return Inertia::render('Dashboard/Settings/SystemSettings');
+    })->name('system');
+    
+    // Recycle Bin Routes
+    Route::get('/recycle-bin', [TrashController::class, 'index'])->name('recycle-bin');
+    Route::post('/recycle-bin/{type}/{id}/restore', [TrashController::class, 'restore'])->name('recycle-bin.restore');
+    Route::delete('/recycle-bin/{type}/{id}', [TrashController::class, 'forceDelete'])->name('recycle-bin.force-delete');
+    Route::post('/recycle-bin/bulk-restore', [TrashController::class, 'bulkRestore'])->name('recycle-bin.bulk-restore');
+    Route::post('/recycle-bin/bulk-delete', [TrashController::class, 'bulkForceDelete'])->name('recycle-bin.bulk-delete');
 });
 
 // Category Routes

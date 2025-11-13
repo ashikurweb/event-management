@@ -22,8 +22,11 @@ return new class extends Migration
             $table->timestamp('opened_at')->nullable();
             $table->timestamp('clicked_at')->nullable();
             $table->timestamp('sent_at')->useCurrent();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->index('user_id');
+            $table->index('deleted_at');
             $table->index('status');
             $table->index('sent_at');
         });

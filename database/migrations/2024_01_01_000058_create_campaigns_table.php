@@ -25,6 +25,10 @@ return new class extends Migration
             $table->integer('clicked_count')->default(0);
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
+
+            $table->index('deleted_at');
         });
     }
 

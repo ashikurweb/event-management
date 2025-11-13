@@ -20,8 +20,11 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->json('metadata')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->index('user_id');
+            $table->index('deleted_at');
             $table->index('action');
             $table->index('created_at');
         });

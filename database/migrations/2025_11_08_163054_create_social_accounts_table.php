@@ -23,8 +23,11 @@ return new class extends Migration
             $table->timestamp('expires_at')->nullable();
             $table->json('provider_data')->nullable(); // Store additional provider data
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             // Unique constraint: one provider account per user
+            $table->index('deleted_at');
             $table->unique(['user_id', 'provider']);
             // Index for quick lookups
             $table->index(['provider', 'provider_id']);

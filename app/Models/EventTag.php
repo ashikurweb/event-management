@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class EventTag extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +20,7 @@ class EventTag extends Model
         'name',
         'slug',
         'usage_count',
+        'deleted_by',
     ];
 
     /**
@@ -42,6 +44,14 @@ class EventTag extends Model
     {
         return $this->belongsToMany(Event::class, 'event_tag_pivot')
             ->withTimestamps();
+    }
+
+    /**
+     * Get the user who deleted this tag.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

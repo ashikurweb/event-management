@@ -33,8 +33,11 @@ return new class extends Migration
             $table->boolean('is_verified')->default(false);
             $table->decimal('rating', 3, 2)->default(0.00);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->index('slug');
+            $table->index('deleted_at');
             $table->index('city');
             $table->index('country');
         });

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CustomNotification extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -30,6 +31,7 @@ class CustomNotification extends Model
         'action_url',
         'is_read',
         'read_at',
+        'deleted_by',
     ];
 
     /**
@@ -63,6 +65,14 @@ class CustomNotification extends Model
             'is_read' => true,
             'read_at' => now(),
         ]);
+    }
+
+    /**
+     * Get the user who deleted this notification.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

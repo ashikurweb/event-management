@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Waitlist extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +25,7 @@ class Waitlist extends Model
         'notified_at',
         'converted_at',
         'expires_at',
+        'deleted_by',
     ];
 
     /**
@@ -71,6 +73,14 @@ class Waitlist extends Model
     {
         return $this->status === 'waiting' && 
                ($this->expires_at === null || now() < $this->expires_at);
+    }
+
+    /**
+     * Get the user who deleted this waitlist entry.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

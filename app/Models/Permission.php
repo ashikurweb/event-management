@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Permission extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +20,7 @@ class Permission extends Model
         'display_name',
         'description',
         'module',
+        'deleted_by',
     ];
 
     /**
@@ -28,6 +30,14 @@ class Permission extends Model
     {
         return $this->belongsToMany(Role::class, 'permission_role')
             ->withTimestamps();
+    }
+
+    /**
+     * Get the user who deleted this permission.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

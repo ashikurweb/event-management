@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Team extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +26,7 @@ class Team extends Model
         'email',
         'phone',
         'is_verified',
+        'deleted_by',
     ];
 
     /**
@@ -75,6 +77,14 @@ class Team extends Model
     public function invitations()
     {
         return $this->hasMany(TeamInvitation::class);
+    }
+
+    /**
+     * Get the user who deleted this team.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

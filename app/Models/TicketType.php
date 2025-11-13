@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TicketType extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -32,6 +33,7 @@ class TicketType extends Model
         'requires_approval',
         'absorb_fees',
         'display_order',
+        'deleted_by',
     ];
 
     /**
@@ -110,6 +112,14 @@ class TicketType extends Model
         }
 
         return max(0, $this->quantity_total - $this->quantity_sold - $this->quantity_reserved);
+    }
+
+    /**
+     * Get the user who deleted this ticket type.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

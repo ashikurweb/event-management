@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Campaign extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -26,6 +27,7 @@ class Campaign extends Model
         'opened_count',
         'clicked_count',
         'created_by',
+        'deleted_by',
     ];
 
     /**
@@ -56,6 +58,14 @@ class Campaign extends Model
     public function isSent(): bool
     {
         return $this->status === 'sent' && $this->sent_at !== null;
+    }
+
+    /**
+     * Get the user who deleted this campaign.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

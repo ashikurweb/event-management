@@ -19,8 +19,12 @@ return new class extends Migration
             $table->json('preferences')->nullable();
             $table->timestamp('subscribed_at')->useCurrent();
             $table->timestamp('unsubscribed_at')->nullable();
+            $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->index('email');
+            $table->index('deleted_at');
             $table->index('status');
         });
     }

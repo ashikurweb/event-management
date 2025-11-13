@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class TeamInvitation extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +24,7 @@ class TeamInvitation extends Model
         'invited_by',
         'status',
         'expires_at',
+        'deleted_by',
     ];
 
     /**
@@ -73,6 +75,14 @@ class TeamInvitation extends Model
     public function isExpired(): bool
     {
         return $this->expires_at && now() > $this->expires_at;
+    }
+
+    /**
+     * Get the user who deleted this invitation.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

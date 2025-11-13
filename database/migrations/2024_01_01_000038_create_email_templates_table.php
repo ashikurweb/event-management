@@ -20,6 +20,10 @@ return new class extends Migration
             $table->enum('type', ['system', 'custom'])->default('custom');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
+
+            $table->index('deleted_at');
         });
     }
 

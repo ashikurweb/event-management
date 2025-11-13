@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EmailTemplate extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +22,7 @@ class EmailTemplate extends Model
         'variables',
         'type',
         'is_active',
+        'deleted_by',
     ];
 
     /**
@@ -42,6 +44,14 @@ class EmailTemplate extends Model
     public function emailLogs()
     {
         return $this->hasMany(EmailLog::class, 'template_id');
+    }
+
+    /**
+     * Get the user who deleted this template.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

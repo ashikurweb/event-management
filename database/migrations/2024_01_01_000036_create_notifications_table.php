@@ -22,8 +22,11 @@ return new class extends Migration
             $table->boolean('is_read')->default(false);
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->index('user_id');
+            $table->index('deleted_at');
             $table->index('is_read');
             $table->index('type');
         });

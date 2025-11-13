@@ -26,6 +26,10 @@ return new class extends Migration
             $table->string('language', 10)->default('en');
             $table->json('preferences')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
+
+            $table->index('deleted_at');
         });
     }
 

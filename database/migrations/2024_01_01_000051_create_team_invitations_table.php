@@ -21,8 +21,11 @@ return new class extends Migration
             $table->enum('status', ['pending', 'accepted', 'rejected', 'expired'])->default('pending');
             $table->timestamp('expires_at');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->index('token');
+            $table->index('deleted_at');
             $table->index('status');
         });
     }

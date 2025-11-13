@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('display_name', 100);
             $table->text('description')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
+
+            $table->index('deleted_at');
         });
     }
 

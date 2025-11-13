@@ -20,6 +20,10 @@ return new class extends Migration
             $table->boolean('is_required')->default(false);
             $table->integer('display_order')->default(0);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
+
+            $table->index('deleted_at');
         });
     }
 

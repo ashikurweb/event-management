@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class NewsletterSubscriber extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +22,7 @@ class NewsletterSubscriber extends Model
         'preferences',
         'subscribed_at',
         'unsubscribed_at',
+        'deleted_by',
     ];
 
     /**
@@ -43,6 +45,14 @@ class NewsletterSubscriber extends Model
     public function isSubscribed(): bool
     {
         return $this->status === 'subscribed';
+    }
+
+    /**
+     * Get the user who deleted this subscriber.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

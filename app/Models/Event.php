@@ -61,6 +61,7 @@ class Event extends Model
         'view_count',
         'share_count',
         'published_at',
+        'deleted_by',
     ];
 
     /**
@@ -195,6 +196,14 @@ class Event extends Model
         $end = $this->registration_end ?? $this->end_date;
 
         return $now >= $start && $now <= $end;
+    }
+
+    /**
+     * Get the user who deleted this event.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

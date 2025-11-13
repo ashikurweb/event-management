@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Ticket extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -34,6 +35,7 @@ class Ticket extends Model
         'checked_in_by',
         'transferred_to',
         'transferred_at',
+        'deleted_by',
     ];
 
     /**
@@ -140,6 +142,14 @@ class Ticket extends Model
     public function isActive(): bool
     {
         return $this->status === 'active' && !$this->checked_in;
+    }
+
+    /**
+     * Get the user who deleted this ticket.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

@@ -19,8 +19,12 @@ return new class extends Migration
             $table->json('permissions')->nullable();
             $table->foreignId('invited_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamp('joined_at')->useCurrent();
+            $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->unique(['team_id', 'user_id']);
+            $table->index('deleted_at');
         });
     }
 

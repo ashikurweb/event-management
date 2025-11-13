@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -35,6 +36,7 @@ class Order extends Model
         'completed_at',
         'cancelled_at',
         'refunded_at',
+        'deleted_by',
     ];
 
     /**
@@ -124,6 +126,14 @@ class Order extends Model
     public function isCompleted(): bool
     {
         return $this->status === 'completed' && $this->payment_status === 'paid';
+    }
+
+    /**
+     * Get the user who deleted this order.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 

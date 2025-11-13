@@ -23,8 +23,11 @@ return new class extends Migration
             $table->string('phone', 20)->nullable();
             $table->boolean('is_verified')->default(false);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->index('slug');
+            $table->index('deleted_at');
         });
     }
 

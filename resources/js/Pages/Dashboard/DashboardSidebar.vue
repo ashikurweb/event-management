@@ -316,6 +316,7 @@ const getMenuKeyFromUrl = (url) => {
     '/dashboard/settings/payment': 'settings-payment',
     '/dashboard/settings/email': 'settings-email',
     '/dashboard/settings/system': 'settings-system',
+    '/dashboard/settings/recycle-bin': 'settings-recycle-bin',
     '/dashboard/settings/profile': 'settings-profile',
   };
 
@@ -382,6 +383,7 @@ const getParentKey = (key) => {
     'settings-payment': 'settings',
     'settings-email': 'settings',
     'settings-system': 'settings',
+    'settings-recycle-bin': 'settings',
     'settings-profile': 'settings',
     'roles-all': 'roles-permissions',
     'roles-create': 'roles-permissions',
@@ -425,6 +427,8 @@ const handleMenuClick = ({ key }) => {
     'permissions-assign': '/dashboard/permissions/assign',
     'role-user-assign': '/dashboard/roles/assign-users',
     'settings-general': '/dashboard/settings/general',
+    'settings-system': '/dashboard/settings/system',
+    'settings-recycle-bin': '/dashboard/settings/recycle-bin',
     // Add more route mappings as needed
   };
 

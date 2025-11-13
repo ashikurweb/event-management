@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SocialAccount extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +26,7 @@ class SocialAccount extends Model
         'refresh_token',
         'expires_at',
         'provider_data',
+        'deleted_by',
     ];
 
     /**
@@ -62,5 +64,13 @@ class SocialAccount extends Model
         }
 
         return $this->expires_at->isPast();
+    }
+
+    /**
+     * Get the user who deleted this social account.
+     */
+    public function deletedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }

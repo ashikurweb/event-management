@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EventSchedule extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +24,7 @@ class EventSchedule extends Model
         'location',
         'speaker_id',
         'display_order',
+        'deleted_by',
     ];
 
     /**
@@ -52,6 +54,14 @@ class EventSchedule extends Model
     public function speaker()
     {
         return $this->belongsTo(User::class, 'speaker_id');
+    }
+
+    /**
+     * Get the user who deleted this schedule.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
 
