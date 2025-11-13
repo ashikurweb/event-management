@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TeamController;
 
 Route::get('/', function () {
     return Inertia::render('Home');
@@ -39,6 +40,20 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/categories')->name('c
     Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
     Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
     Route::post('/bulk-action', [CategoryController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Team Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/teams')->name('teams.')->group(function () {
+    Route::get('/', [TeamController::class, 'index'])->name('index');
+    Route::get('/search', [TeamController::class, 'search'])->name('search');
+    Route::get('/create', [TeamController::class, 'create'])->name('create');
+    Route::post('/', [TeamController::class, 'store'])->name('store');
+    Route::get('/{team}/activities', [TeamController::class, 'activities'])->name('activities');
+    Route::get('/{team:slug}', [TeamController::class, 'show'])->name('show');
+    Route::get('/{team}/edit', [TeamController::class, 'edit'])->name('edit');
+    Route::put('/{team}', [TeamController::class, 'update'])->name('update');
+    Route::delete('/{team}', [TeamController::class, 'destroy'])->name('destroy');
+    Route::post('/bulk-action', [TeamController::class, 'bulkAction'])->name('bulk-action');
 });
 
 // Authentication Routes

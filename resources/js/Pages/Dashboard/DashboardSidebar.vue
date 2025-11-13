@@ -90,15 +90,6 @@
         <a-menu-item key="speakers-create">Add Speaker</a-menu-item>
       </a-sub-menu>
 
-      <a-sub-menu key="teams">
-        <template #icon><UserAddOutlined /></template>
-        <template #title>Teams</template>
-        <a-menu-item key="teams-all">My Teams</a-menu-item>
-        <a-menu-item key="teams-members">Team Members</a-menu-item>
-        <a-menu-item key="teams-invitations">Team Invitations</a-menu-item>
-        <a-menu-item key="teams-create">Create Team</a-menu-item>
-      </a-sub-menu>
-
       <!-- Divider -->
       <a-menu-divider />
 
@@ -107,6 +98,15 @@
         <template #icon><FolderOutlined /></template>
         <span>Categories</span>
       </a-menu-item>
+
+      <a-sub-menu key="teams">
+        <template #icon><TeamOutlined /></template>
+        <template #title>Teams</template>
+        <a-menu-item key="teams-all">My Teams</a-menu-item>
+        <a-menu-item key="teams-members">Team Members</a-menu-item>
+        <a-menu-item key="teams-invitations">Team Invitations</a-menu-item>
+        <a-menu-item key="teams-create">Create Team</a-menu-item>
+      </a-sub-menu>
 
       <a-sub-menu key="venues">
         <template #icon><EnvironmentOutlined /></template>
@@ -304,6 +304,9 @@ const getMenuKeyFromUrl = (url) => {
     '/dashboard/events': 'events-all',
     '/dashboard/events/create': 'events-create',
     '/dashboard/events/tags': 'events-tags',
+    '/dashboard/categories': 'categories',
+    '/dashboard/teams': 'teams-all',
+    '/dashboard/teams/create': 'teams-create',
     '/dashboard/roles': 'roles-all',
     '/dashboard/roles/create': 'roles-create',
     '/dashboard/permissions': 'permissions-all',
@@ -331,6 +334,28 @@ const getMenuKeyFromUrl = (url) => {
     return 'events-all';
   }
 
+  // Check for teams routes
+  if (path.startsWith('/dashboard/teams')) {
+    if (path === '/dashboard/teams' || path === '/dashboard/teams/search') {
+      return 'teams-all';
+    }
+    if (path === '/dashboard/teams/create') {
+      return 'teams-create';
+    }
+    if (path.includes('/members')) {
+      return 'teams-members';
+    }
+    if (path.includes('/invitations')) {
+      return 'teams-invitations';
+    }
+    return 'teams-all';
+  }
+
+  // Check for categories routes
+  if (path.startsWith('/dashboard/categories')) {
+    return 'categories';
+  }
+
   // Fallback: try to extract from path
   const parts = path.split('/').filter(p => p && p !== 'dashboard');
   if (parts.length > 0) {
@@ -349,6 +374,10 @@ const getParentKey = (key) => {
     'events-published': 'events',
     'events-cancelled': 'events',
     'events-tags': 'events',
+    'teams-all': 'teams',
+    'teams-members': 'teams',
+    'teams-invitations': 'teams',
+    'teams-create': 'teams',
     'settings-general': 'settings',
     'settings-payment': 'settings',
     'settings-email': 'settings',
@@ -385,6 +414,11 @@ const handleMenuClick = ({ key }) => {
     'events-published': '/dashboard/events?status=published',
     'events-cancelled': '/dashboard/events?status=cancelled',
     'events-tags': '/dashboard/events/tags',
+    'categories': '/dashboard/categories',
+    'teams-all': '/dashboard/teams',
+    'teams-members': '/dashboard/teams/members',
+    'teams-invitations': '/dashboard/teams/invitations',
+    'teams-create': '/dashboard/teams/create',
     'roles-all': '/dashboard/roles',
     'roles-create': '/dashboard/roles/create',
     'permissions-all': '/dashboard/permissions',
