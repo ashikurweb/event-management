@@ -953,5 +953,333 @@
     color: rgba(255, 255, 255, 0.25) !important;
 }
 
+/* ============================================
+   DATE PICKER / RANGE PICKER DARK MODE
+   ============================================ */
+
+/* Date Picker Input */
+:root[data-theme="dark"] .ant-picker,
+:root[data-theme="dark"] .ant-picker-input > input {
+    background-color: #262626 !important;
+    border-color: #434343 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker:hover,
+:root[data-theme="dark"] .ant-picker:not(.ant-picker-disabled):hover {
+    border-color: #595959 !important;
+    background-color: #262626 !important;
+}
+
+:root[data-theme="dark"] .ant-picker-focused,
+:root[data-theme="dark"] .ant-picker.ant-picker-focused {
+    border-color: #40a9ff !important;
+    box-shadow: 0 0 0 2px rgba(64, 169, 255, 0.2) !important;
+    background-color: #262626 !important;
+}
+
+:root[data-theme="dark"] .ant-picker-input > input::placeholder {
+    color: rgba(255, 255, 255, 0.25) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-input > input {
+    color: rgba(255, 255, 255, 0.85) !important;
+    background-color: transparent !important;
+}
+
+/* Date Picker Suffix Icon */
+:root[data-theme="dark"] .ant-picker-suffix {
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-suffix:hover {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Date Picker Clear Button */
+:root[data-theme="dark"] .ant-picker-clear {
+    color: rgba(255, 255, 255, 0.45) !important;
+    background-color: transparent !important;
+}
+
+:root[data-theme="dark"] .ant-picker-clear:hover {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Date Picker Separator (Range Picker) */
+:root[data-theme="dark"] .ant-picker-separator {
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Date Picker Range Input */
+:root[data-theme="dark"] .ant-picker-range .ant-picker-input > input {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-range .ant-picker-input > input::placeholder {
+    color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Date Picker Dropdown Panel */
+:root[data-theme="dark"] .ant-picker-dropdown,
+:root[data-theme="dark"] .ant-picker-dropdown.ant-picker-dropdown-placement-bottomLeft,
+:root[data-theme="dark"] .ant-picker-dropdown.ant-picker-dropdown-placement-topLeft,
+:root[data-theme="dark"] .ant-picker-dropdown.ant-picker-dropdown-placement-bottomRight,
+:root[data-theme="dark"] .ant-picker-dropdown.ant-picker-dropdown-placement-topRight {
+    background-color: #1f1f1f !important;
+    border-color: #434343 !important;
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.48), 0 3px 6px -4px rgba(0, 0, 0, 0.36), 0 9px 28px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Date Picker Panel */
+:root[data-theme="dark"] .ant-picker-panel {
+    background-color: #1f1f1f !important;
+    border-color: #434343 !important;
+}
+
+/* Date Picker Panel Header */
+:root[data-theme="dark"] .ant-picker-panel-container {
+    background-color: #1f1f1f !important;
+}
+
+:root[data-theme="dark"] .ant-picker-header {
+    border-bottom-color: #434343 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-header-view {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-header-view button {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-header-view button:hover {
+    color: #40a9ff !important;
+}
+
+/* Date Picker Prev/Next Buttons */
+:root[data-theme="dark"] .ant-picker-prev-icon,
+:root[data-theme="dark"] .ant-picker-next-icon,
+:root[data-theme="dark"] .ant-picker-super-prev-icon,
+:root[data-theme="dark"] .ant-picker-super-next-icon {
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-prev-icon:hover,
+:root[data-theme="dark"] .ant-picker-next-icon:hover,
+:root[data-theme="dark"] .ant-picker-super-prev-icon:hover,
+:root[data-theme="dark"] .ant-picker-super-next-icon:hover {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Date Picker Body */
+:root[data-theme="dark"] .ant-picker-body {
+    background-color: #1f1f1f !important;
+}
+
+/* Date Picker Weekday Names */
+:root[data-theme="dark"] .ant-picker-week-panel-row > th {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-panel th {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-header th {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-body th {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-content th {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-cell th {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Weekday Headers - More Specific */
+:root[data-theme="dark"] .ant-picker-panel table th {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-body table th {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-content table th {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-date-panel table th,
+:root[data-theme="dark"] .ant-picker-month-panel table th,
+:root[data-theme="dark"] .ant-picker-year-panel table th,
+:root[data-theme="dark"] .ant-picker-decade-panel table th {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* All table headers in date picker - comprehensive */
+:root[data-theme="dark"] .ant-picker-dropdown table th,
+:root[data-theme="dark"] .ant-picker-panel table thead th,
+:root[data-theme="dark"] .ant-picker-content thead th {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 500 !important;
+}
+
+/* Weekday names specifically */
+:root[data-theme="dark"] .ant-picker-panel .ant-picker-week-panel-row th,
+:root[data-theme="dark"] .ant-picker-body thead th,
+:root[data-theme="dark"] .ant-picker-content thead th {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Date Picker Cell (Day/Month/Year) */
+:root[data-theme="dark"] .ant-picker-cell {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-cell-in-view {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-cell:hover:not(.ant-picker-cell-disabled) .ant-picker-cell-inner {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Date Picker Cell Today */
+:root[data-theme="dark"] .ant-picker-cell-today .ant-picker-cell-inner {
+    border-color: #40a9ff !important;
+    color: #40a9ff !important;
+}
+
+/* Date Picker Cell Selected */
+:root[data-theme="dark"] .ant-picker-cell-selected .ant-picker-cell-inner,
+:root[data-theme="dark"] .ant-picker-cell-range-start .ant-picker-cell-inner,
+:root[data-theme="dark"] .ant-picker-cell-range-end .ant-picker-cell-inner {
+    background-color: #1890ff !important;
+    color: #fff !important;
+}
+
+:root[data-theme="dark"] .ant-picker-cell-selected:hover:not(.ant-picker-cell-disabled) .ant-picker-cell-inner {
+    background-color: #40a9ff !important;
+}
+
+/* Date Picker Cell In Range */
+:root[data-theme="dark"] .ant-picker-cell-in-range::before {
+    background-color: rgba(24, 144, 255, 0.1) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-cell-range-hover-start::before,
+:root[data-theme="dark"] .ant-picker-cell-range-hover-end::before,
+:root[data-theme="dark"] .ant-picker-cell-range-hover::before {
+    background-color: rgba(64, 169, 255, 0.15) !important;
+}
+
+/* Date Picker Cell Disabled */
+:root[data-theme="dark"] .ant-picker-cell-disabled {
+    color: rgba(255, 255, 255, 0.25) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-cell-disabled .ant-picker-cell-inner {
+    background-color: transparent !important;
+    color: rgba(255, 255, 255, 0.25) !important;
+    cursor: not-allowed !important;
+}
+
+/* Date Picker Footer */
+:root[data-theme="dark"] .ant-picker-footer {
+    border-top-color: #434343 !important;
+}
+
+:root[data-theme="dark"] .ant-picker-footer-extra {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Date Picker Today Button */
+:root[data-theme="dark"] .ant-picker-today-btn {
+    color: #40a9ff !important;
+}
+
+:root[data-theme="dark"] .ant-picker-today-btn:hover {
+    color: #69c0ff !important;
+}
+
+/* Date Picker OK Button */
+:root[data-theme="dark"] .ant-picker-ok {
+    color: #40a9ff !important;
+}
+
+:root[data-theme="dark"] .ant-picker-ok:hover {
+    color: #69c0ff !important;
+}
+
+/* Date Picker Time Panel */
+:root[data-theme="dark"] .ant-picker-time-panel {
+    background-color: #1f1f1f !important;
+    border-left-color: #434343 !important;
+}
+
+:root[data-theme="dark"] .ant-picker-time-panel-column {
+    border-right-color: #434343 !important;
+}
+
+:root[data-theme="dark"] .ant-picker-time-panel-column > li {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-time-panel-column > li:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-time-panel-column > li.ant-picker-time-panel-cell-selected {
+    background-color: rgba(24, 144, 255, 0.2) !important;
+    color: #40a9ff !important;
+}
+
+/* Date Picker Disabled State */
+:root[data-theme="dark"] .ant-picker-disabled {
+    background-color: #1a1a1a !important;
+    border-color: #2d2d2d !important;
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+}
+
+:root[data-theme="dark"] .ant-picker-disabled .ant-picker-input > input {
+    color: rgba(255, 255, 255, 0.25) !important;
+    cursor: not-allowed !important;
+}
+
+:root[data-theme="dark"] .ant-picker-disabled .ant-picker-suffix {
+    color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Date Picker Status Error */
+:root[data-theme="dark"] .ant-picker-status-error,
+:root[data-theme="dark"] .ant-picker-status-error:hover {
+    border-color: #ff7875 !important;
+    background-color: #262626 !important;
+}
+
+:root[data-theme="dark"] .ant-picker-status-error.ant-picker-focused {
+    border-color: #ff7875 !important;
+    box-shadow: 0 0 0 2px rgba(255, 120, 117, 0.2) !important;
+}
+
+/* Date Picker Range Separator */
+:root[data-theme="dark"] .ant-picker-range-separator {
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Date Picker Active Bar (Range Picker) */
+:root[data-theme="dark"] .ant-picker-range .ant-picker-active-bar {
+    background-color: rgba(24, 144, 255, 0.1) !important;
+}
+
 
 
