@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\UserActivityLog;
 use App\Http\Requests\Category\CategoryStoreRequest;
 use App\Http\Requests\Category\CategoryUpdateRequest;
 use App\Http\Requests\Category\CategorySearchRequest;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -122,6 +124,20 @@ class CategoryController extends Controller
 
         $category = Category::create($validated);
 
+        // Log activity
+        UserActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'category.created',
+            'description' => "Category '{$category->name}' was created",
+            'metadata' => [
+                'category_id' => $category->id,
+                'category_name' => $category->name,
+                'category_slug' => $category->slug,
+            ],
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+
         return redirect()
             ->route('categories.index')
             ->with('success', 'Category created successfully.');
@@ -130,12 +146,41 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show(Category $category, Request $request)
     {
         $category->load('parent', 'children', 'events');
 
+        // Get activity logs for this category
+        $activities = UserActivityLog::where(function ($query) use ($category) {
+                $query->where('action', 'like', 'category.%')
+                    ->whereJsonContains('metadata->category_id', $category->id);
+            })
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate($request->get('per_page', 15));
+
         return Inertia::render('Dashboard/Categories/Show', [
             'category' => $category,
+            'activities' => $activities,
+        ]);
+    }
+
+    /**
+     * Get activity logs for a category.
+     */
+    public function activities(Category $category, Request $request)
+    {
+        $activities = UserActivityLog::where(function ($query) use ($category) {
+                $query->where('action', 'like', 'category.%')
+                    ->whereJsonContains('metadata->category_id', $category->id);
+            })
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate($request->get('per_page', 15));
+
+        return Inertia::render('Dashboard/Categories/Show', [
+            'category' => $category->load('parent', 'children', 'events'),
+            'activities' => $activities,
         ]);
     }
 
@@ -177,6 +222,20 @@ class CategoryController extends Controller
 
         $category->update($validated);
 
+        // Log activity
+        UserActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'category.updated',
+            'description' => "Category '{$category->name}' was updated",
+            'metadata' => [
+                'category_id' => $category->id,
+                'category_name' => $category->name,
+                'category_slug' => $category->slug,
+            ],
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+
         return redirect()
             ->route('categories.index')
             ->with('success', 'Category updated successfully.');
@@ -197,7 +256,25 @@ class CategoryController extends Controller
             return back()->withErrors(['error' => 'Cannot delete category with associated events.']);
         }
 
+        $categoryName = $category->name;
+        $categoryId = $category->id;
+        $categorySlug = $category->slug;
+
         $category->delete();
+
+        // Log activity
+        UserActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'category.deleted',
+            'description' => "Category '{$categoryName}' was deleted",
+            'metadata' => [
+                'category_id' => $categoryId,
+                'category_name' => $categoryName,
+                'category_slug' => $categorySlug,
+            ],
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
 
         return redirect()
             ->route('categories.index')

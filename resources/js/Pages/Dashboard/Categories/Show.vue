@@ -136,6 +136,19 @@
         <h3 class="section-title">Events</h3>
         <a-empty description="No events in this category" />
       </div>
+
+    </a-card>
+
+    <!-- Activity Log Card -->
+    <a-card class="activity-log-card" v-if="category">
+      <template #title>
+        <h2 class="card-title">Activity Log</h2>
+      </template>
+      <ActivityLog
+        :activities="activities"
+        :loading="false"
+        :category-id="category.id"
+      />
     </a-card>
   </DashboardLayout>
 </template>
@@ -145,6 +158,7 @@ import { ref, computed } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layouts/DashboardLayout.vue';
 import Breadcrumb from '../../../Components/Breadcrumb.vue';
+import ActivityLog from '../../../Components/ActivityLog.vue';
 import {
   EditOutlined,
   ArrowLeftOutlined,
@@ -154,6 +168,7 @@ import {
 const page = usePage();
 
 const category = computed(() => page.props.category || null);
+const activities = computed(() => page.props.activities || { data: [], current_page: 1, per_page: 15, total: 0 });
 
 const breadcrumbItems = ref([
   { label: 'Dashboard', href: '/dashboard' },
@@ -262,9 +277,11 @@ const handleViewEvent = (id) => {
 </script>
 
 <style scoped>
-.category-show-card {
+.category-show-card,
+.activity-log-card {
   border-radius: 8px;
   box-shadow: var(--card-shadow, 0 2px 8px rgba(0, 0, 0, 0.06));
+  margin-bottom: 24px;
 }
 
 .card-header {
