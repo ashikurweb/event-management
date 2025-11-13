@@ -1,13 +1,29 @@
 <template>
   <div class="activity-log-section">
+    <!-- Search and Actions Bar -->
+    <div class="activity-actions-bar">
+      <a-input
+        v-model:value="searchQuery"
+        placeholder="Search activities..."
+        allow-clear
+        class="activity-search"
+      >
+        <template #prefix><SearchOutlined /></template>
+      </a-input>
+      <a-button @click="handlePrint" type="default">
+        <template #icon><PrinterOutlined /></template>
+        Print
+      </a-button>
+    </div>
+
     <div v-if="loading" class="loading-container">
       <a-spin />
     </div>
     
-    <div v-else-if="activities && activities.data && activities.data.length > 0">
-      <div class="activity-list">
+    <div v-else-if="filteredActivities && filteredActivities.length > 0">
+      <div class="activity-list" id="activity-print-content">
         <div
-          v-for="activity in activities.data"
+          v-for="activity in filteredActivities"
           :key="activity.id"
           class="activity-item"
         >
@@ -35,6 +51,7 @@
       </div>
       
       <Pagination
+        v-if="!searchQuery"
         :current="pagination.current"
         :page-size="pagination.pageSize"
         :total="pagination.total"
@@ -42,6 +59,9 @@
         @change="handlePageChange"
         @page-size-change="handlePageSizeChange"
       />
+      <div v-else class="search-results-info">
+        Showing {{ filteredActivities.length }} result(s) for "{{ searchQuery }}"
+      </div>
     </div>
     
     <a-empty v-else description="No activity logs found" />
@@ -49,7 +69,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import Pagination from './Pagination.vue';
 import {
@@ -60,6 +80,8 @@ import {
   CloseCircleOutlined,
   UserOutlined,
   GlobalOutlined,
+  SearchOutlined,
+  PrinterOutlined,
 } from '@ant-design/icons-vue';
 
 const props = defineProps({
@@ -77,11 +99,36 @@ const props = defineProps({
   },
 });
 
+const searchQuery = ref('');
+
 const pagination = computed(() => ({
   current: props.activities.current_page || 1,
   pageSize: props.activities.per_page || 15,
   total: props.activities.total || 0,
 }));
+
+const filteredActivities = computed(() => {
+  if (!searchQuery.value.trim()) {
+    return props.activities.data || [];
+  }
+  
+  const query = searchQuery.value.toLowerCase().trim();
+  return (props.activities.data || []).filter(activity => {
+    const description = (activity.description || '').toLowerCase();
+    const action = getActivityLabel(activity.action).toLowerCase();
+    const userName = activity.user 
+      ? `${activity.user.first_name} ${activity.user.last_name}`.toLowerCase()
+      : '';
+    const ip = formatIpAddress(activity.ip_address || '').toLowerCase();
+    const time = formatTime(activity.created_at).toLowerCase();
+    
+    return description.includes(query) ||
+           action.includes(query) ||
+           userName.includes(query) ||
+           ip.includes(query) ||
+           time.includes(query);
+  });
+});
 
 const getActivityIcon = (action) => {
   const iconMap = {
@@ -190,11 +237,127 @@ const handlePageSizeChange = ({ current, pageSize }) => {
     }
   );
 };
+
+// Search is handled automatically by computed filteredActivities
+// No need for handleSearch function as it's reactive
+
+const handlePrint = () => {
+  const printContent = document.getElementById('activity-print-content');
+  if (!printContent) return;
+
+  const printWindow = window.open('', '_blank');
+  // Try to get category name from the page
+  const categoryNameElement = document.querySelector('.activity-log-card .card-title') || 
+                               document.querySelector('.category-show-card .card-title');
+  const categoryName = categoryNameElement?.textContent?.replace('Activity Log', '').trim() || 
+                       document.querySelector('h2.card-title')?.textContent || 
+                       'Category';
+  const currentDate = new Date().toLocaleString();
+  
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Activity Log - ${categoryName}</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          padding: 20px;
+          color: #000;
+        }
+        .print-header {
+          margin-bottom: 20px;
+          border-bottom: 2px solid #000;
+          padding-bottom: 10px;
+        }
+        .print-title {
+          font-size: 24px;
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+        .print-date {
+          font-size: 12px;
+          color: #666;
+        }
+        .activity-item {
+          margin-bottom: 15px;
+          padding: 10px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+        }
+        .activity-header {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 8px;
+        }
+        .activity-action {
+          font-weight: bold;
+          font-size: 16px;
+        }
+        .activity-time {
+          font-size: 12px;
+          color: #666;
+        }
+        .activity-description {
+          margin: 8px 0;
+          font-size: 14px;
+        }
+        .activity-meta {
+          font-size: 12px;
+          color: #666;
+          margin-top: 8px;
+        }
+        @media print {
+          body { margin: 0; padding: 15px; }
+          .activity-item { page-break-inside: avoid; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="print-header">
+        <div class="print-title">Activity Log - ${categoryName}</div>
+        <div class="print-date">Generated on: ${currentDate}</div>
+      </div>
+      ${printContent.innerHTML}
+    </body>
+    </html>
+  `);
+  
+  printWindow.document.close();
+  setTimeout(() => {
+    printWindow.print();
+  }, 250);
+};
 </script>
 
 <style scoped>
-.activity-log-section {
-  /* Removed margin-top as it's now in a separate card */
+
+.activity-actions-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.activity-search {
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-results-info {
+  padding: 12px;
+  background: var(--bg-secondary, #f5f5f5);
+  border-radius: 6px;
+  text-align: center;
+  color: var(--text-secondary, #595959);
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+[data-theme="dark"] .search-results-info {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .loading-container {
