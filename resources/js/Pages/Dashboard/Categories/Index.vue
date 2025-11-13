@@ -1,6 +1,19 @@
 <template>
   <DashboardLayout>
-    <Breadcrumb :items="breadcrumbItems" />
+    <div class="breadcrumb-wrapper">
+      <Breadcrumb :items="breadcrumbItems" />
+      <div class="breadcrumb-actions">
+        <a-button @click="handleRefresh" title="Refresh">
+          <template #icon><ReloadOutlined /></template>
+        </a-button>
+        <a-button @click="handleExportPDF" title="Export PDF">
+          <template #icon><FilePdfOutlined /></template>
+        </a-button>
+        <a-button @click="handleExportExcel" title="Export Excel">
+          <template #icon><FileExcelOutlined /></template>
+        </a-button>
+      </div>
+    </div>
 
     <a-card class="categories-card">
       <template #title>
@@ -27,22 +40,12 @@
             </a-input>
           </a-col>
           <a-col :xs="24" :sm="12" :md="8">
-            <a-select
-              v-model:value="filters.parent_id"
-              placeholder="Filter by parent"
-              allow-clear
-              style="width: 100%;"
-              @change="handleSearch"
-            >
-              <a-select-option value="null">No Parent</a-select-option>
-              <a-select-option
-                v-for="cat in allCategories"
-                :key="cat.id"
-                :value="cat.id"
-              >
-                {{ cat.name }}
-              </a-select-option>
-            </a-select>
+            <a-range-picker
+              v-model:value="dateRange"
+              :placeholder="['Start Date', 'End Date']"
+              style="width: 100%"
+              @change="handleDateChange"
+            />
           </a-col>
           <a-col :xs="24" :sm="12" :md="8">
             <a-select
@@ -154,7 +157,11 @@ import {
   EyeOutlined,
   EditOutlined,
   DeleteOutlined,
+  ReloadOutlined,
+  FilePdfOutlined,
+  FileExcelOutlined,
 } from '@ant-design/icons-vue';
+import dayjs from 'dayjs';
 
 const page = usePage();
 
@@ -166,6 +173,12 @@ if (initialFilters.is_active !== undefined && initialFilters.is_active !== null 
   initialFilters.is_active = initialFilters.is_active ? '1' : '0';
 }
 const filters = ref(initialFilters);
+// Initialize date range if filters have date values
+const dateRange = ref(
+  initialFilters.date_from && initialFilters.date_to
+    ? [dayjs(initialFilters.date_from), dayjs(initialFilters.date_to)]
+    : null
+);
 const selectedRowKeys = ref([]);
 const loading = ref(false);
 
@@ -315,9 +328,145 @@ const handleBulkAction = (action) => {
     }
   );
 };
+
+const handleDateChange = (dates) => {
+  if (dates && dates.length === 2) {
+    filters.value.date_from = dates[0].format('YYYY-MM-DD');
+    filters.value.date_to = dates[1].format('YYYY-MM-DD');
+  } else {
+    delete filters.value.date_from;
+    delete filters.value.date_to;
+  }
+  handleSearch();
+};
+
+const handleRefresh = () => {
+  // Reset all filters
+  filters.value = {
+    search: '',
+    is_active: '',
+  };
+  dateRange.value = null;
+  selectedRowKeys.value = [];
+  
+  // Reload page without filters
+  router.visit('/dashboard/categories', {
+    preserveState: false,
+    preserveScroll: false,
+  });
+};
+
+const handleExportPDF = () => {
+  const tableData = categories.value.data || [];
+  const columns = ['Name', 'Slug', 'Parent', 'Children', 'Order', 'Status'];
+  
+  let content = `
+    <html>
+    <head>
+      <title>Categories Export</title>
+      <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; font-weight: bold; }
+        h1 { color: #333; }
+      </style>
+    </head>
+    <body>
+      <h1>Categories List</h1>
+      <p>Generated on: ${new Date().toLocaleString()}</p>
+      <table>
+        <thead>
+          <tr>
+            ${columns.map(col => `<th>${col}</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>
+          ${tableData.map(row => `
+            <tr>
+              <td>${row.name || ''}</td>
+              <td>${row.slug || ''}</td>
+              <td>${row.parent?.name || '—'}</td>
+              <td>${row.children?.length || 0}</td>
+              <td>${row.display_order || 0}</td>
+              <td>${row.is_active ? 'Active' : 'Inactive'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </body>
+    </html>
+  `;
+  
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(content);
+  printWindow.document.close();
+  setTimeout(() => {
+    printWindow.print();
+  }, 250);
+};
+
+const handleExportExcel = () => {
+  const tableData = categories.value.data || [];
+  
+  // Create CSV content
+  const headers = ['Name', 'Slug', 'Parent', 'Children', 'Order', 'Status', 'Created At'];
+  const rows = tableData.map(row => [
+    row.name || '',
+    row.slug || '',
+    row.parent?.name || '',
+    row.children?.length || 0,
+    row.display_order || 0,
+    row.is_active ? 'Active' : 'Inactive',
+    row.created_at ? dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss') : '',
+  ]);
+  
+  const csvContent = [
+    headers.join(','),
+    ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+  ].join('\n');
+  
+  // Create blob and download
+  const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.setAttribute('href', url);
+  link.setAttribute('download', `categories_${dayjs().format('YYYY-MM-DD')}.csv`);
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
 </script>
 
 <style scoped>
+.breadcrumb-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.breadcrumb-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .breadcrumb-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .breadcrumb-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
 .categories-card {
   border-radius: 8px;
   box-shadow: var(--card-shadow, 0 2px 8px rgba(0, 0, 0, 0.06));

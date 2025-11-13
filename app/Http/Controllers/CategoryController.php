@@ -51,13 +51,12 @@ class CategoryController extends Controller
             });
         }
 
-        // Filter by parent
-        if ($request->has('parent_id')) {
-            if ($request->parent_id === 'null' || $request->parent_id === null) {
-                $query->whereNull('parent_id');
-            } else {
-                $query->where('parent_id', $request->parent_id);
-            }
+        // Filter by date range
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
         }
 
         // Filter by status
