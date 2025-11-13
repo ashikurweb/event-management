@@ -277,7 +277,7 @@ const handleCreate = () => {
 };
 
 const handleView = (record) => {
-  router.visit(`/dashboard/categories/${record.id}`);
+  router.visit(`/dashboard/categories/${record.slug}`);
 };
 
 const handleEdit = (record) => {
