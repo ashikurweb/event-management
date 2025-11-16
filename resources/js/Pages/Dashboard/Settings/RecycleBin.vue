@@ -153,15 +153,13 @@
 
         <!-- Pagination -->
         <div class="pagination-wrapper">
-          <a-pagination
-            v-model:current="pagination.current_page"
-            :total="pagination.total"
+          <Pagination
+            :current="pagination.current_page"
             :page-size="pagination.per_page"
-            :page-size-options="['10', '15', '20', '50', '100']"
-            show-size-changer
-            show-total
+            :total="pagination.total"
+            :page-size-options="[10, 15, 20, 50, 100]"
             @change="handlePaginationChange"
-            @showSizeChange="handlePageSizeChange"
+            @pageSizeChange="handlePageSizeChange"
           />
         </div>
       </a-card>
@@ -173,6 +171,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layouts/DashboardLayout.vue';
+import Pagination from '../../../Components/Pagination.vue';
 import {
   DeleteOutlined,
   SearchOutlined,
@@ -287,11 +286,11 @@ const handleReset = () => {
   handleSearch();
 };
 
-const handlePaginationChange = (page, pageSize) => {
+const handlePaginationChange = ({ current, pageSize }) => {
   loading.value = true;
   router.get('/dashboard/settings/recycle-bin', {
     ...filters.value,
-    page,
+    page: current,
     per_page: pageSize,
   }, {
     preserveState: true,
@@ -302,12 +301,12 @@ const handlePaginationChange = (page, pageSize) => {
   });
 };
 
-const handlePageSizeChange = (current, size) => {
+const handlePageSizeChange = ({ current, pageSize }) => {
   loading.value = true;
   router.get('/dashboard/settings/recycle-bin', {
     ...filters.value,
     page: current,
-    per_page: size,
+    per_page: pageSize,
   }, {
     preserveState: true,
     preserveScroll: true,
@@ -538,8 +537,6 @@ onMounted(() => {
 
 .pagination-wrapper {
   margin-top: 24px;
-  display: flex;
-  justify-content: center;
 }
 
 @media (max-width: 768px) {
