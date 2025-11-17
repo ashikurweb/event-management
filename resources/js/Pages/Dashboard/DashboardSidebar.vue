@@ -307,6 +307,7 @@ const getMenuKeyFromUrl = (url) => {
     '/dashboard/teams': 'teams-all',
     '/dashboard/teams/create': 'teams-create',
     '/dashboard/team-members': 'teams-members',
+    '/dashboard/team-invitations': 'teams-invitations',
     '/dashboard/roles': 'roles-all',
     '/dashboard/roles/create': 'roles-create',
     '/dashboard/permissions': 'permissions-all',
@@ -335,6 +336,11 @@ const getMenuKeyFromUrl = (url) => {
     return 'events-all';
   }
 
+  // Check for team invitations routes
+  if (path.startsWith('/dashboard/team-invitations')) {
+    return 'teams-invitations';
+  }
+
   // Check for team members routes
   if (path.startsWith('/dashboard/team-members')) {
     return 'teams-members';
@@ -347,9 +353,6 @@ const getMenuKeyFromUrl = (url) => {
     }
     if (path === '/dashboard/teams/create') {
       return 'teams-create';
-    }
-    if (path.includes('/invitations')) {
-      return 'teams-invitations';
     }
     return 'teams-all';
   }
@@ -421,7 +424,7 @@ const handleMenuClick = ({ key }) => {
     'categories': '/dashboard/categories',
     'teams-all': '/dashboard/teams',
     'teams-members': '/dashboard/team-members',
-    'teams-invitations': '/dashboard/teams/invitations',
+    'teams-invitations': '/dashboard/team-invitations',
     'teams-create': '/dashboard/teams/create',
     'roles-all': '/dashboard/roles',
     'roles-create': '/dashboard/roles/create',

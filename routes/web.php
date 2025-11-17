@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamMemberController;
+use App\Http\Controllers\TeamInvitationController;
 use App\Http\Controllers\TrashController;
 
 Route::get('/', function () {
@@ -52,6 +53,21 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/categories')->name('c
     Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
     Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
     Route::post('/bulk-action', [CategoryController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Team Invitation Routes (must come before teams routes to avoid route conflict)
+Route::middleware(['auth', 'verified'])->prefix('dashboard/team-invitations')->name('team-invitations.')->group(function () {
+    Route::get('/', [TeamInvitationController::class, 'index'])->name('index');
+    Route::get('/search', [TeamInvitationController::class, 'search'])->name('search');
+    Route::get('/create', [TeamInvitationController::class, 'create'])->name('create');
+    Route::post('/', [TeamInvitationController::class, 'store'])->name('store');
+    Route::get('/{teamInvitation}/activities', [TeamInvitationController::class, 'activities'])->name('activities');
+    Route::get('/{teamInvitation}', [TeamInvitationController::class, 'show'])->name('show');
+    Route::get('/{teamInvitation}/edit', [TeamInvitationController::class, 'edit'])->name('edit');
+    Route::put('/{teamInvitation}', [TeamInvitationController::class, 'update'])->name('update');
+    Route::delete('/{teamInvitation}', [TeamInvitationController::class, 'destroy'])->name('destroy');
+    Route::post('/{teamInvitation}/resend', [TeamInvitationController::class, 'resend'])->name('resend');
+    Route::post('/bulk-action', [TeamInvitationController::class, 'bulkAction'])->name('bulk-action');
 });
 
 // Team Member Routes (must come before teams routes to avoid route conflict)
