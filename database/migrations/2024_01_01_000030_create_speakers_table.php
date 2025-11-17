@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('email', 255)->nullable();
             $table->string('phone', 20)->nullable();
             $table->text('bio')->nullable();
-            $table->string('photo', 255)->nullable();
             $table->string('title', 255)->nullable();
             $table->string('company', 255)->nullable();
             $table->string('website', 255)->nullable();

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Speaker extends Model
 {
@@ -21,7 +22,6 @@ class Speaker extends Model
         'email',
         'phone',
         'bio',
-        'photo',
         'title',
         'company',
         'website',
@@ -43,6 +43,46 @@ class Speaker extends Model
             'specialties' => 'array',
             'is_featured' => 'boolean',
         ];
+    }
+    
+    /**
+     * Get photo URLs from folder
+     * Files are stored in storage/app/public/speakers/ folder
+     */
+    public function getPhotoUrls(): array
+    {
+        $folder = 'speakers';
+        $speakerId = $this->id;
+        $folderPath = "{$folder}/{$speakerId}";
+        
+        if (!Storage::disk('public')->exists($folderPath)) {
+            return [];
+        }
+        
+        $files = Storage::disk('public')->files($folderPath);
+        $urls = [];
+        
+        foreach ($files as $file) {
+            $urls[] = Storage::disk('public')->url($file);
+        }
+        
+        return $urls;
+    }
+    
+    /**
+     * Get photo file paths (relative to storage)
+     */
+    public function getPhotoPaths(): array
+    {
+        $folder = 'speakers';
+        $speakerId = $this->id;
+        $folderPath = "{$folder}/{$speakerId}";
+        
+        if (!Storage::disk('public')->exists($folderPath)) {
+            return [];
+        }
+        
+        return Storage::disk('public')->files($folderPath);
     }
 
     /**

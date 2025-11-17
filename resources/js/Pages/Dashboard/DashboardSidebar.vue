@@ -82,13 +82,10 @@
         <a-menu-item key="role-user-assign">Assign Roles to Users</a-menu-item>
       </a-sub-menu>
 
-      <a-sub-menu key="speakers">
+      <a-menu-item key="speakers">
         <template #icon><UserOutlined /></template>
-        <template #title>Speakers</template>
-        <a-menu-item key="speakers-all">All Speakers</a-menu-item>
-        <a-menu-item key="speakers-featured">Featured Speakers</a-menu-item>
-        <a-menu-item key="speakers-create">Add Speaker</a-menu-item>
-      </a-sub-menu>
+        <span>Speakers</span>
+      </a-menu-item>
 
       <!-- Divider -->
       <a-menu-divider />
@@ -319,6 +316,7 @@ const getMenuKeyFromUrl = (url) => {
     '/dashboard/settings/system': 'settings-system',
     '/dashboard/settings/recycle-bin': 'settings-recycle-bin',
     '/dashboard/settings/profile': 'settings-profile',
+    '/dashboard/speakers': 'speakers',
   };
 
   // Check exact match first
@@ -360,6 +358,11 @@ const getMenuKeyFromUrl = (url) => {
   // Check for categories routes
   if (path.startsWith('/dashboard/categories')) {
     return 'categories';
+  }
+
+  // Check for speakers routes
+  if (path.startsWith('/dashboard/speakers')) {
+    return 'speakers';
   }
 
   // Fallback: try to extract from path
@@ -434,6 +437,7 @@ const handleMenuClick = ({ key }) => {
     'settings-general': '/dashboard/settings/general',
     'settings-system': '/dashboard/settings/system',
     'settings-recycle-bin': '/dashboard/settings/recycle-bin',
+    'speakers': '/dashboard/speakers',
     // Add more route mappings as needed
   };
 

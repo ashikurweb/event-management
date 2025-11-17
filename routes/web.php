@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamMemberController;
 use App\Http\Controllers\TeamInvitationController;
+use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\TrashController;
 
 Route::get('/', function () {
@@ -96,6 +97,20 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/teams')->name('teams.
     Route::put('/{team}', [TeamController::class, 'update'])->name('update');
     Route::delete('/{team}', [TeamController::class, 'destroy'])->name('destroy');
     Route::post('/bulk-action', [TeamController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Speaker Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/speakers')->name('speakers.')->group(function () {
+    Route::get('/', [SpeakerController::class, 'index'])->name('index');
+    Route::get('/search', [SpeakerController::class, 'search'])->name('search');
+    Route::get('/create', [SpeakerController::class, 'create'])->name('create');
+    Route::post('/', [SpeakerController::class, 'store'])->name('store');
+    Route::get('/{speaker}/activities', [SpeakerController::class, 'activities'])->name('activities');
+    Route::get('/{speaker}', [SpeakerController::class, 'show'])->name('show');
+    Route::get('/{speaker}/edit', [SpeakerController::class, 'edit'])->name('edit');
+    Route::put('/{speaker}', [SpeakerController::class, 'update'])->name('update');
+    Route::delete('/{speaker}', [SpeakerController::class, 'destroy'])->name('destroy');
+    Route::post('/bulk-action', [SpeakerController::class, 'bulkAction'])->name('bulk-action');
 });
 
 // Authentication Routes
