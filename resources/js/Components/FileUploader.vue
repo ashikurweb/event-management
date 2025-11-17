@@ -13,6 +13,8 @@
       @dragleave.prevent="handleDragLeave"
       @drop.prevent="handleDrop"
       @click="triggerFileInput"
+      @paste.prevent="handlePaste"
+      tabindex="0"
     >
       <input
         ref="fileInputRef"
@@ -51,11 +53,15 @@
           <div class="file-preview">
             <!-- Image Preview -->
             <img
-              v-if="isImage(file.type)"
+              v-if="isImage(file.type) && file.preview"
               :src="file.preview"
               :alt="file.name"
               class="file-preview-image"
             />
+            <!-- Loading placeholder for images -->
+            <div v-else-if="isImage(file.type) && !file.preview" class="file-preview-loading">
+              <div class="loading-spinner"></div>
+            </div>
             <!-- Video Preview -->
             <div v-else-if="isVideo(file.type)" class="file-preview-video">
               <PlayCircleOutlined />
@@ -176,7 +182,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, h } from 'vue';
+import { ref, computed, watch, h, onMounted, onUnmounted } from 'vue';
 import {
   CloudUploadOutlined,
   DeleteOutlined,
@@ -381,17 +387,25 @@ const createFileObject = (file) => {
     type: file.type,
     file: file, // Original file object
     progress: 0,
+    preview: null,
   };
 
   // Create preview for images
   if (isImage(file.type)) {
     const reader = new FileReader();
     reader.onload = (e) => {
-      fileObj.preview = e.target.result;
+      // Update preview reactively
+      const index = files.value.findIndex(f => f.id === fileObj.id);
+      if (index !== -1) {
+        files.value[index].preview = e.target.result;
+      }
     };
     reader.readAsDataURL(file);
   } else if (isVideo(file.type) || isAudio(file.type)) {
     fileObj.preview = URL.createObjectURL(file);
+  } else {
+    // For other files, set a placeholder
+    fileObj.preview = null;
   }
 
   return fileObj;
@@ -459,6 +473,39 @@ const triggerFileInput = () => {
   }
 };
 
+// Handle paste event for clipboard images
+const handlePaste = (event) => {
+  if (props.disabled) return;
+  
+  const items = event.clipboardData?.items;
+  if (!items) return;
+
+  const fileList = [];
+  
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    
+    // Check if the item is a file (image from clipboard)
+    if (item.kind === 'file' && item.type.startsWith('image/')) {
+      const file = item.getAsFile();
+      if (file) {
+        // Generate a name if not available
+        if (!file.name) {
+          const timestamp = Date.now();
+          const extension = file.type.split('/')[1] || 'png';
+          file.name = `pasted-image-${timestamp}.${extension}`;
+        }
+        fileList.push(file);
+      }
+    }
+  }
+
+  if (fileList.length > 0) {
+    event.preventDefault();
+    addFiles(fileList);
+  }
+};
+
 const removeFile = (index) => {
   const file = files.value[index];
   if (file.preview && (file.preview.startsWith('blob:') || file.preview.startsWith('data:'))) {
@@ -475,9 +522,21 @@ const previewFile = (file) => {
   previewVisible.value = true;
 };
 
+// Setup paste event listener
+onMounted(() => {
+  window.addEventListener('paste', handlePaste);
+  // Also add to drop zone for better UX
+  if (dropZoneRef.value) {
+    dropZoneRef.value.addEventListener('paste', handlePaste);
+  }
+});
+
 // Cleanup on unmount
-import { onUnmounted } from 'vue';
 onUnmounted(() => {
+  window.removeEventListener('paste', handlePaste);
+  if (dropZoneRef.value) {
+    dropZoneRef.value.removeEventListener('paste', handlePaste);
+  }
   files.value.forEach((file) => {
     if (file.preview && file.preview.startsWith('blob:')) {
       URL.revokeObjectURL(file.preview);
@@ -494,27 +553,35 @@ onUnmounted(() => {
 .file-drop-zone {
   position: relative;
   border: 2px dashed var(--border-color, #d9d9d9);
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 32px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background: var(--bg-secondary, #fafafa);
   min-height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  outline: none;
+}
+
+.file-drop-zone:focus-visible {
+  outline: 2px solid var(--color-primary, #1890ff);
+  outline-offset: 2px;
 }
 
 .file-drop-zone:hover:not(.is-disabled) {
   border-color: var(--color-primary, #1890ff);
   background: var(--bg-hover, #f0f7ff);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.1);
 }
 
 .file-drop-zone.is-dragging {
   border-color: var(--color-primary, #1890ff);
   background: var(--bg-hover, #e6f7ff);
-  transform: scale(1.02);
+  transform: scale(1.01);
+  box-shadow: 0 8px 24px rgba(24, 144, 255, 0.2);
 }
 
 .file-drop-zone.is-disabled {
@@ -529,13 +596,15 @@ onUnmounted(() => {
 }
 
 [data-theme="dark"] .file-drop-zone:hover:not(.is-disabled) {
-  background: rgba(24, 144, 255, 0.1);
+  background: rgba(24, 144, 255, 0.12);
   border-color: var(--color-primary, #40a9ff);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.15);
 }
 
 [data-theme="dark"] .file-drop-zone.is-dragging {
-  background: rgba(24, 144, 255, 0.15);
+  background: rgba(24, 144, 255, 0.18);
   border-color: var(--color-primary, #40a9ff);
+  box-shadow: 0 8px 24px rgba(24, 144, 255, 0.25);
 }
 
 .file-input-hidden {
@@ -556,15 +625,20 @@ onUnmounted(() => {
 .drop-zone-icon {
   font-size: 64px;
   color: var(--text-tertiary, #8c8c8c);
-  transition: color 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .file-drop-zone:hover:not(.is-disabled) .drop-zone-icon {
   color: var(--color-primary, #1890ff);
+  transform: translateY(-4px);
 }
 
 [data-theme="dark"] .drop-zone-icon {
   color: rgba(255, 255, 255, 0.45);
+}
+
+[data-theme="dark"] .file-drop-zone:hover:not(.is-disabled) .drop-zone-icon {
+  color: var(--color-primary, #40a9ff);
 }
 
 .drop-zone-text {
@@ -614,23 +688,37 @@ onUnmounted(() => {
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 16px;
   width: 100%;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .file-item {
   position: relative;
   border: 1px solid var(--border-color, #d9d9d9);
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 12px;
   background: var(--bg-primary, #fff);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow: hidden;
 }
 
 .file-item:hover {
   border-color: var(--color-primary, #1890ff);
-  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 [data-theme="dark"] .file-item {
@@ -638,15 +726,27 @@ onUnmounted(() => {
   border-color: var(--border-color, #434343);
 }
 
+[data-theme="dark"] .file-item:hover {
+  border-color: var(--color-primary, #40a9ff);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.2);
+  background: var(--bg-primary, #262626);
+}
+
 .file-preview {
   width: 100%;
   height: 120px;
-  border-radius: 6px;
+  border-radius: 8px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg-secondary, #f5f5f5);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.file-item:hover .file-preview {
+  transform: scale(1.02);
 }
 
 [data-theme="dark"] .file-preview {
@@ -657,6 +757,39 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.file-preview-loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary, #f5f5f5);
+}
+
+[data-theme="dark"] .file-preview-loading {
+  background: var(--bg-secondary, #262626);
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border-color, #d9d9d9);
+  border-top-color: var(--color-primary, #1890ff);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+[data-theme="dark"] .loading-spinner {
+  border-color: rgba(255, 255, 255, 0.2);
+  border-top-color: var(--color-primary, #40a9ff);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .file-preview-video,
@@ -730,13 +863,26 @@ onUnmounted(() => {
   gap: 12px;
   padding: 12px;
   border: 1px solid var(--border-color, #d9d9d9);
-  border-radius: 6px;
+  border-radius: 8px;
   background: var(--bg-primary, #fff);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.file-list-item:hover {
+  border-color: var(--color-primary, #1890ff);
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.1);
+  transform: translateX(4px);
 }
 
 [data-theme="dark"] .file-list-item {
   background: var(--bg-primary, #1f1f1f);
   border-color: var(--border-color, #434343);
+}
+
+[data-theme="dark"] .file-list-item:hover {
+  border-color: var(--color-primary, #40a9ff);
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.15);
+  background: var(--bg-primary, #262626);
 }
 
 .file-list-icon {
