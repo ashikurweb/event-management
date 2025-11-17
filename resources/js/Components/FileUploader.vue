@@ -715,11 +715,6 @@ onUnmounted(() => {
   overflow: hidden;
 }
 
-.file-item:hover {
-  border-color: var(--color-primary, #1890ff);
-  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.15);
-  transform: translateY(-2px);
-}
 
 [data-theme="dark"] .file-item {
   background: var(--bg-primary, #1f1f1f);
@@ -849,6 +844,12 @@ onUnmounted(() => {
   gap: 4px;
   justify-content: flex-end;
 }
+
+
+[data-theme="dark"] .file-actions :deep(.ant-btn) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
 
 .file-list {
   margin-top: 16px;
