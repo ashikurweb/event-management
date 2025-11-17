@@ -17,7 +17,13 @@
 
     <a-card class="speakers-card">
       <template #title>
-        <h2 class="card-title">All Speakers</h2>
+        <div class="card-title-wrapper">
+          <h2 class="card-title">All Speakers</h2>
+          <a-button type="primary" @click="handleCreate">
+            <template #icon><PlusOutlined /></template>
+            Add Speaker
+          </a-button>
+        </div>
       </template>
 
       <!-- Filters -->
@@ -308,7 +314,9 @@ const onSelectChange = (keys) => {
   selectedRowKeys.value = keys;
 };
 
-// Create button removed as per requirements
+const handleCreate = () => {
+  router.visit('/dashboard/speakers/create');
+};
 
 const handleView = (record) => {
   router.visit(`/dashboard/speakers/${record.id}`);
@@ -487,6 +495,13 @@ const handleExportExcel = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.card-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .card-title {
