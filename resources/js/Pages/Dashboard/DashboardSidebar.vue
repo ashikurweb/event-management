@@ -105,7 +105,6 @@
         <a-menu-item key="teams-all">My Teams</a-menu-item>
         <a-menu-item key="teams-members">Team Members</a-menu-item>
         <a-menu-item key="teams-invitations">Team Invitations</a-menu-item>
-        <a-menu-item key="teams-create">Create Team</a-menu-item>
       </a-sub-menu>
 
       <a-sub-menu key="venues">
