@@ -17,7 +17,13 @@
 
     <a-card class="speakers-card">
       <template #title>
-        <h2 class="card-title">All Speakers</h2>
+        <div class="card-title-wrapper">
+          <h2 class="card-title">All Speakers</h2>
+          <a-button type="primary" @click="handleCreate">
+            <template #icon><PlusOutlined /></template>
+            Add Speaker
+          </a-button>
+        </div>
       </template>
 
       <!-- Filters -->
@@ -256,6 +262,10 @@ const openImageGallery = (images, index = 0) => {
   }
 };
 
+const handleCreate = () => {
+  router.visit('/dashboard/speakers/create');
+};
+
 const handleSearch = () => {
   router.get('/dashboard/speakers/search', filters.value, {
     preserveState: true,
@@ -487,6 +497,13 @@ const handleExportExcel = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.card-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .card-title {
