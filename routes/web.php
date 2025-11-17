@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TeamMemberController;
 use App\Http\Controllers\TrashController;
 
 Route::get('/', function () {
@@ -51,6 +52,20 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/categories')->name('c
     Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
     Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
     Route::post('/bulk-action', [CategoryController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Team Member Routes (must come before teams routes to avoid route conflict)
+Route::middleware(['auth', 'verified'])->prefix('dashboard/team-members')->name('team-members.')->group(function () {
+    Route::get('/', [TeamMemberController::class, 'index'])->name('index');
+    Route::get('/search', [TeamMemberController::class, 'search'])->name('search');
+    Route::get('/create', [TeamMemberController::class, 'create'])->name('create');
+    Route::post('/', [TeamMemberController::class, 'store'])->name('store');
+    Route::get('/{teamMember}/activities', [TeamMemberController::class, 'activities'])->name('activities');
+    Route::get('/{teamMember}', [TeamMemberController::class, 'show'])->name('show');
+    Route::get('/{teamMember}/edit', [TeamMemberController::class, 'edit'])->name('edit');
+    Route::put('/{teamMember}', [TeamMemberController::class, 'update'])->name('update');
+    Route::delete('/{teamMember}', [TeamMemberController::class, 'destroy'])->name('destroy');
+    Route::post('/bulk-action', [TeamMemberController::class, 'bulkAction'])->name('bulk-action');
 });
 
 // Team Routes
