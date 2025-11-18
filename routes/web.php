@@ -8,6 +8,7 @@ use App\Http\Controllers\TeamMemberController;
 use App\Http\Controllers\TeamInvitationController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\TrashController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return Inertia::render('Home');
@@ -16,6 +17,13 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard/Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Profile Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/profile')->name('profile.')->group(function () {
+    Route::get('/', [ProfileController::class, 'index'])->name('index');
+    Route::put('/', [ProfileController::class, 'update'])->name('update');
+    Route::post('/avatar', [ProfileController::class, 'updateAvatar'])->name('avatar');
+});
 
 Route::get('/events', function () {
     return Inertia::render('Events/Events');
