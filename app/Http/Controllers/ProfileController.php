@@ -132,32 +132,72 @@ class ProfileController extends Controller
      */
     public function updateAvatar(Request $request)
     {
-        $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,jpg,png,gif,webp|max:2048',
-        ]);
+        try {
+            $validated = $request->validate([
+                'avatar' => 'required|image|mimes:jpeg,jpg,png,gif,webp|max:2048',
+            ]);
 
-        /** @var User|null $user */
-        $user = Auth::user();
-        
-        if (!$user) {
-            abort(401);
+            /** @var User|null $user */
+            $user = Auth::user();
+            
+            if (!$user) {
+                // For Inertia requests, redirect with error
+                if ($request->header('X-Inertia')) {
+                    return redirect()->route('profile.index')
+                        ->with('error', 'Unauthorized');
+                }
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized',
+                ], 401);
+            }
+
+            // Delete old avatar if exists
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+
+            // Store new avatar
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar = $avatarPath;
+            $user->save();
+
+            // For Inertia requests, redirect back with success
+            if ($request->header('X-Inertia')) {
+                return redirect()->route('profile.index')
+                    ->with('success', 'Avatar updated successfully!');
+            }
+
+            // For API/JSON requests (fallback)
+            return response()->json([
+                'success' => true,
+                'avatar' => Storage::url($avatarPath),
+                'message' => 'Avatar updated successfully!',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // For Inertia requests, let validation exception bubble up
+            if ($request->header('X-Inertia')) {
+                throw $e;
+            }
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            // For Inertia requests, redirect with error
+            if ($request->header('X-Inertia')) {
+                return redirect()->route('profile.index')
+                    ->with('error', $e->getMessage() ?: 'Failed to upload avatar');
+            }
+            
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage() ?: 'Failed to upload avatar',
+            ], 500);
         }
-
-        // Delete old avatar if exists
-        if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
-            Storage::disk('public')->delete($user->avatar);
-        }
-
-        // Store new avatar
-        $avatarPath = $request->file('avatar')->store('avatars', 'public');
-        $user->avatar = $avatarPath;
-        $user->save();
-
-        return response()->json([
-            'success' => true,
-            'avatar' => Storage::url($avatarPath),
-            'message' => 'Avatar updated successfully!',
-        ]);
     }
 }
 

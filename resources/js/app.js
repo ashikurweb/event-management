@@ -12,6 +12,7 @@ import { useThemeStore } from './Stores/theme';
 import 'ant-design-vue/dist/reset.css';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
+import * as dateHelpers from './utils/dateHelpers';
 
 // Initialize Pinia
 const pinia = createPinia();
@@ -51,6 +52,15 @@ createInertiaApp({
     app.use(plugin);
     app.use(pinia);
     app.use(Antd);
+    
+    // Register global date helper functions
+    // Now you can use $formatDate(), $formatDateTime(), etc. in any component
+    app.config.globalProperties.$formatDate = dateHelpers.formatDate;
+    app.config.globalProperties.$formatDateTime = dateHelpers.formatDateTime;
+    app.config.globalProperties.$formatDateShort = dateHelpers.formatDateShort;
+    app.config.globalProperties.$formatDateISO = dateHelpers.formatDateISO;
+    app.config.globalProperties.$formatTime = dateHelpers.formatTime;
+    app.config.globalProperties.$formatRelativeTime = dateHelpers.formatRelativeTime;
     
     // Initialize theme store after Pinia is set up
     const themeStore = useThemeStore();

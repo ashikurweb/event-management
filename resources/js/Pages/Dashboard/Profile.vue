@@ -43,21 +43,9 @@
           </div>
           
           <div class="profile-info-header">
-            <h1 class="profile-name" v-if="!isEditing">
+            <h1 class="profile-name">
               {{ fullName }}
             </h1>
-            <div v-else class="name-edit-row">
-              <a-input
-                v-model:value="formData.first_name"
-                placeholder="First Name"
-                class="name-input"
-              />
-              <a-input
-                v-model:value="formData.last_name"
-                placeholder="Last Name"
-                class="name-input"
-              />
-            </div>
             <p class="profile-email">
               <MailOutlined /> {{ user?.email }}
             </p>
@@ -71,7 +59,7 @@
               </span>
               <span class="meta-item" v-if="user?.last_login_at">
                 <ClockCircleOutlined style="margin-right: 4px;" />
-                Last login: {{ formatDate(user.last_login_at) }}
+                Last login: {{ $formatDateTime(user.last_login_at) }}
               </span>
             </div>
           </div>
@@ -154,7 +142,7 @@
                     <span class="info-value text-muted">{{ user?.uuid }}</span>
                   </a-descriptions-item>
                   <a-descriptions-item label="Member Since" :span="1">
-                    <span class="info-value">{{ formatDate(user?.created_at) }}</span>
+                    <span class="info-value">{{ $formatDate(user?.created_at) }}</span>
                   </a-descriptions-item>
                 </a-descriptions>
               </a-form>
@@ -183,7 +171,7 @@
                 
                 <a-descriptions-item label="Date of Birth" :span="1">
                   <span class="info-value" v-if="user?.date_of_birth">
-                    {{ formatDate(user.date_of_birth) }}
+                    {{ $formatDate(user.date_of_birth) }}
                   </span>
                   <span class="text-muted" v-else>—</span>
                 </a-descriptions-item>
@@ -207,7 +195,7 @@
                 </a-descriptions-item>
                 
                 <a-descriptions-item label="Member Since" :span="1">
-                  <span class="info-value">{{ formatDate(user?.created_at) }}</span>
+                  <span class="info-value">{{ $formatDate(user?.created_at) }}</span>
                 </a-descriptions-item>
               </a-descriptions>
             </div>
@@ -399,7 +387,7 @@
                               {{ item.provider }}
                             </a-tag>
                             <span class="connected-date">
-                              Connected {{ formatDate(item.created_at) }}
+                              Connected {{ $formatDate(item.created_at) }}
                             </span>
                           </div>
                         </div>
@@ -551,30 +539,33 @@ const handleAvatarUpload = async ({ file, onSuccess, onError }) => {
   const formData = new FormData();
   formData.append('avatar', file);
 
-  try {
-    const response = await fetch('/dashboard/profile/avatar', {
-      method: 'POST',
-      headers: {
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
-      },
-      body: formData,
-    });
-
-    const result = await response.json();
-
-    if (result.success) {
-      message.success('Avatar updated successfully!');
-      onSuccess(result, file);
-      // Reload the page to get updated avatar
+  // Use Inertia.js router for file upload - automatically handles CSRF token
+  router.post('/dashboard/profile/avatar', formData, {
+    forceFormData: true,
+    preserveScroll: true,
+    onSuccess: (page) => {
+      // Flash message will be shown automatically by NotificationContainer
+      onSuccess({ success: true, file }, file);
+      // Reload user data to get updated avatar
       router.reload({ only: ['user'] });
-    } else {
-      message.error(result.message || 'Failed to upload avatar');
-      onError(new Error(result.message || 'Upload failed'));
-    }
-  } catch (error) {
-    message.error('Failed to upload avatar');
-    onError(error);
-  }
+    },
+    onError: (errors) => {
+      let errorMessage = 'Failed to upload avatar';
+      
+      if (errors.message) {
+        errorMessage = errors.message;
+      } else if (errors.errors && errors.errors.avatar) {
+        errorMessage = Array.isArray(errors.errors.avatar) 
+          ? errors.errors.avatar[0] 
+          : errors.errors.avatar;
+      } else if (typeof errors === 'string') {
+        errorMessage = errors;
+      }
+      
+      message.error(errorMessage);
+      onError(new Error(errorMessage));
+    },
+  });
 };
 
 const beforeUpload = (file) => {
@@ -597,16 +588,6 @@ const getStatusColor = (status) => {
     deleted: 'red',
   };
   return colors[status] || 'default';
-};
-
-const formatDate = (dateString) => {
-  if (!dateString) return '—';
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
 };
 
 const formatGender = (gender) => {
@@ -718,16 +699,6 @@ const getProviderColor = (provider) => {
   font-weight: 600;
   margin: 0 0 8px 0;
   color: var(--text-primary, #262626);
-}
-
-.name-edit-row {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-
-.name-input {
-  flex: 1;
 }
 
 .profile-email {
@@ -1012,10 +983,6 @@ const getProviderColor = (provider) => {
 
   .profile-name {
     font-size: 24px;
-  }
-
-  .name-edit-row {
-    flex-direction: column;
   }
 
   .profile-meta {
