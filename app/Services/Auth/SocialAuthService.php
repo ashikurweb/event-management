@@ -51,6 +51,13 @@ class SocialAuthService
                 // Update social account data
                 $this->updateSocialAccount($socialAccount, $socialiteUser);
                 $user = $socialAccount->user;
+                
+                // Update user avatar from social account if user doesn't have one or if social avatar is newer
+                $socialAvatar = $socialiteUser->getAvatar();
+                if ($socialAvatar && (empty($user->avatar) || $socialAccount->avatar !== $user->avatar)) {
+                    $user->update(['avatar' => $socialAvatar]);
+                    $user->refresh();
+                }
             } else {
                 // Check if user exists by email (email is required)
                 $email = $socialiteUser->getEmail();
@@ -64,6 +71,13 @@ class SocialAuthService
                 if ($user) {
                     // Link social account to existing user
                     $socialAccount = $this->createSocialAccount($user, $provider, $socialiteUser);
+                    
+                    // Update user avatar from social account if user doesn't have one
+                    $socialAvatar = $socialiteUser->getAvatar();
+                    if ($socialAvatar && empty($user->avatar)) {
+                        $user->update(['avatar' => $socialAvatar]);
+                        $user->refresh();
+                    }
                     
                     // Verify email if not already verified (social providers verify emails)
                     if (!$user->hasVerifiedEmail()) {

@@ -47,7 +47,7 @@ class HandleInertiaRequests extends Middleware
                     'first_name' => $user->first_name,
                     'last_name' => $user->last_name,
                     'email' => $user->email,
-                    'avatar' => $user->avatar ? Storage::disk('public')->url($user->avatar) : null,
+                    'avatar' => $this->getAvatarUrl($user->avatar),
                     'roles' => $user->roles->pluck('name')->toArray(),
                     'permissions' => $user->getPermissionNames(),
                 ] : null,
@@ -59,5 +59,26 @@ class HandleInertiaRequests extends Middleware
                 'warning' => $request->session()->get('warning'),
             ],
         ];
+    }
+
+    /**
+     * Get avatar URL - handles both external URLs (from social login) and local storage paths.
+     *
+     * @param string|null $avatar
+     * @return string|null
+     */
+    protected function getAvatarUrl(?string $avatar): ?string
+    {
+        if (empty($avatar)) {
+            return null;
+        }
+
+        // If avatar is already a full URL (http/https), return as is (social login avatars)
+        if (filter_var($avatar, FILTER_VALIDATE_URL)) {
+            return $avatar;
+        }
+
+        // Otherwise, treat it as a storage path and generate URL
+        return Storage::disk('public')->url($avatar);
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\TeamInvitationController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\TrashController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AIAssistantController;
 
 Route::get('/', function () {
     return Inertia::render('Home');
@@ -127,6 +128,12 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/speakers')->name('spe
     Route::put('/{speaker}', [SpeakerController::class, 'update'])->name('update');
     Route::delete('/{speaker}', [SpeakerController::class, 'destroy'])->name('destroy');
     Route::post('/bulk-action', [SpeakerController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// AI Assistant Routes
+Route::middleware(['auth', 'verified'])->prefix('api/ai')->name('ai.')->group(function () {
+    Route::post('/chat', [AIAssistantController::class, 'chat'])->name('chat');
+    Route::get('/context', [AIAssistantController::class, 'getContext'])->name('context');
 });
 
 // Authentication Routes

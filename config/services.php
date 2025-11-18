@@ -62,4 +62,32 @@ return [
         'redirect' => env('GITHUB_REDIRECT_URI', env('APP_URL') . '/auth/github/callback'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | OpenAI Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for OpenAI API used by AI Assistant
+    |
+    */
+
+    'openai' => [
+        'api_key' => env('OPENAI_API_KEY'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Groq AI Configuration (FREE TIER AVAILABLE)
+    |--------------------------------------------------------------------------
+    |
+    | Groq provides fast AI inference with a generous free tier.
+    | Get your free API key: https://console.groq.com/keys
+    |
+    */
+
+    'groq' => [
+        'api_key' => env('GROQ_API_KEY'),
+        'enabled' => env('GROQ_ENABLED', false),
+    ],
+
 ];

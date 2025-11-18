@@ -1,5 +1,7 @@
 <template>
   <DashboardLayout>
+    <!-- Sticky AI Assistant Button -->
+    <AIAssistantButton />
     <!-- Stats Cards -->
     <div class="stats-grid">
       <a-card class="stat-card">
@@ -134,6 +136,7 @@
 <script setup>
 import { ref } from 'vue';
 import DashboardLayout from '../../Layouts/DashboardLayout.vue';
+import AIAssistantButton from '../../Components/AIAssistantButton.vue';
 import {
   CalendarOutlined,
   IdcardOutlined,
@@ -339,6 +342,8 @@ const getStatusColor = (status) => {
   background: var(--card-bg, #fff);
   border: 1px solid var(--card-border, #f0f0f0);
   transition: background-color 0.1s ease-out, border-color 0.1s ease-out, box-shadow 0.1s ease-out;
+  position: relative;
+  overflow: hidden;
 }
 
 /* Card styles - Using global styles from antd-theme.css */
