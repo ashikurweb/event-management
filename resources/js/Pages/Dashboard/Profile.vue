@@ -523,6 +523,8 @@ const handleSave = () => {
       message.success('Profile updated successfully!');
       isEditing.value = false;
       saving.value = false;
+      // Reload auth and user data to update header with new profile info
+      router.reload({ only: ['auth', 'user'] });
     },
     onError: (errors) => {
       saving.value = false;
@@ -546,8 +548,8 @@ const handleAvatarUpload = async ({ file, onSuccess, onError }) => {
     onSuccess: (page) => {
       // Flash message will be shown automatically by NotificationContainer
       onSuccess({ success: true, file }, file);
-      // Reload user data to get updated avatar
-      router.reload({ only: ['user'] });
+      // Reload auth and user data to update avatar in header
+      router.reload({ only: ['auth', 'user'] });
     },
     onError: (errors) => {
       let errorMessage = 'Failed to upload avatar';
