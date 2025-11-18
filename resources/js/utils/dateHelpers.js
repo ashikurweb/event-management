@@ -27,16 +27,33 @@ export const formatDate = (dateString) => {
  */
 export const formatDateTime = (dateString) => {
   if (!dateString) return '—';
-  const date = new Date(dateString);
+  
+  // Parse the date string - handle UTC time from backend
+  let date;
+  if (typeof dateString === 'string') {
+    // If the string doesn't have timezone info, assume it's UTC
+    // Backend returns format: "2025-11-18 12:27:00" (UTC)
+    if (dateString.match(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/)) {
+      // Convert to ISO format with UTC timezone indicator
+      // Replace space with 'T' and add 'Z' for UTC
+      const isoString = dateString.replace(' ', 'T') + 'Z';
+      date = new Date(isoString);
+    } else {
+      date = new Date(dateString);
+    }
+  } else {
+    date = dateString;
+  }
+  
   if (isNaN(date.getTime())) return '—';
   
-  // Get day, month, year
+  // Get day, month, year (in local timezone)
   const day = String(date.getDate()).padStart(2, '0');
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const month = monthNames[date.getMonth()];
   const year = date.getFullYear();
   
-  // Get hours and minutes in 12-hour format
+  // Get hours and minutes in 12-hour format (in local timezone)
   let hours = date.getHours();
   const minutes = String(date.getMinutes()).padStart(2, '0');
   const ampm = hours >= 12 ? 'PM' : 'AM';

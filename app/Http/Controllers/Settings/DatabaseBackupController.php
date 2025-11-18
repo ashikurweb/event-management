@@ -40,18 +40,16 @@ class DatabaseBackupController extends Controller
         try {
             $result = $this->backupService->createBackup();
             
-            // Get all backups to find the newly created one
-            $backups = $this->backupService->getBackups();
-            $newBackup = collect($backups)->firstWhere('filename', $result['filename']);
-            
+            // Use the created_at from the result (actual backup creation time)
+            // Don't rely on getBackups() as file timestamp might not be immediately updated
             return response()->json([
                 'success' => true,
                 'message' => 'Database backup created successfully!',
-                'backup' => $newBackup ?: [
+                'backup' => [
                     'filename' => $result['filename'],
                     'path' => $result['path'] ?? null,
-                    'size' => isset($result['size']) ? $result['size'] : '0 B',
-                    'created_at' => now()->toDateTimeString(),
+                    'size' => $result['size'] ?? '0 B',
+                    'created_at' => $result['created_at'], // Use the actual creation time from backup service
                 ],
             ]);
         } catch (\Exception $e) {
