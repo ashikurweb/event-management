@@ -38,6 +38,14 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/settings')->name('set
     Route::get('/general', [App\Http\Controllers\Settings\MailConfigurationController::class, 'index'])->name('general');
     Route::post('/mail-config', [App\Http\Controllers\Settings\MailConfigurationController::class, 'store'])->name('mail-config.store');
     Route::post('/mail-config/test', [App\Http\Controllers\Settings\MailConfigurationController::class, 'testConnection'])->name('mail-config.test');
+    
+    // Database Backup Routes
+    Route::get('/database-backup', [App\Http\Controllers\Settings\DatabaseBackupController::class, 'index'])->name('database-backup');
+    Route::post('/database-backup/create', [App\Http\Controllers\Settings\DatabaseBackupController::class, 'create'])->name('database-backup.create');
+    Route::get('/database-backup/download/{filename}', [App\Http\Controllers\Settings\DatabaseBackupController::class, 'download'])->name('database-backup.download');
+    Route::delete('/database-backup/delete/{filename}', [App\Http\Controllers\Settings\DatabaseBackupController::class, 'delete'])->name('database-backup.delete');
+    Route::post('/database-backup/config', [App\Http\Controllers\Settings\DatabaseBackupController::class, 'saveConfig'])->name('database-backup.config');
+    
     Route::get('/system', function () {
         return Inertia::render('Dashboard/Settings/SystemSettings');
     })->name('system');

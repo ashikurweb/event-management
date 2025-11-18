@@ -1,16 +1,21 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, h } from 'vue';
 import DashboardLayout from '../../../Layouts/DashboardLayout.vue';
 import {
   RightOutlined,
   SaveOutlined,
   WifiOutlined,
   MailOutlined,
+  DatabaseOutlined,
+  DownloadOutlined,
+  DeleteOutlined,
+  ClockCircleOutlined,
 } from '@ant-design/icons-vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { mailRules } from '../../../utils/validationRules';
 import { useNotifications } from '../../../Composables/useNotifications';
 import Input from '../../../Components/Input.vue';
+import { Modal } from 'ant-design-vue';
 
 const props = defineProps({
   mailConfig: {
@@ -25,13 +30,27 @@ const props = defineProps({
       mail_from_address: '',
     }),
   },
+  activeTab: {
+    type: String,
+    default: 'mail-config',
+  },
+  backups: {
+    type: Array,
+    default: () => [],
+  },
+  // backupConfig prop removed - scheduled backup not needed
 });
 
 const page = usePage();
 const { notifySuccess, notifyError } = useNotifications();
-const activeTab = ref('mail-config');
+const activeTab = ref(props.activeTab || 'mail-config');
 const saving = ref(false);
 const testing = ref(false);
+const creatingBackup = ref(false);
+const downloadingBackup = ref(false);
+const downloadProgress = ref(0);
+const showDownloadModal = ref(false);
+const currentDownloadFile = ref(null);
 
 const mailForm = ref({
   mail_mailer: props.mailConfig.mail_mailer || '',
@@ -45,7 +64,12 @@ const mailForm = ref({
 
 const settingsMenu = [
   { key: 'mail-config', label: 'Mail Configurations', icon: MailOutlined },
+  { key: 'database-backup', label: 'Database Backup', icon: DatabaseOutlined },
 ];
+
+// No backup form needed - only manual backup
+
+const backups = ref(props.backups || []);
 
 const getActiveTabLabel = () => {
   const item = settingsMenu.find(item => item.key === activeTab.value);
@@ -112,6 +136,130 @@ const handleTestConnection = async () => {
   });
 };
 
+const handleCreateBackup = async () => {
+  creatingBackup.value = true;
+  
+  try {
+    const response = await fetch('/dashboard/settings/database-backup/create', {
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
+        'X-Requested-With': 'XMLHttpRequest',
+        'Accept': 'application/json',
+      },
+      credentials: 'same-origin',
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      notifySuccess('Success', 'Database backup created successfully!');
+      // Add new backup to the list instantly
+      if (result.backup) {
+        backups.value.unshift({
+          filename: result.backup.filename,
+          path: result.backup.path,
+          size: result.backup.size,
+          created_at: result.backup.created_at,
+        });
+      } else {
+        // Reload backups list
+        router.reload({ only: ['backups'] });
+      }
+    } else {
+      notifyError('Error', result.message || 'Failed to create backup');
+    }
+  } catch (error) {
+    notifyError('Error', 'Failed to create backup. Please try again.');
+  } finally {
+    creatingBackup.value = false;
+  }
+};
+
+const handleDownloadBackup = async (filename) => {
+  currentDownloadFile.value = filename;
+  downloadingBackup.value = true;
+  downloadProgress.value = 0;
+  showDownloadModal.value = true;
+  
+  try {
+    // Simulate progress
+    const progressInterval = setInterval(() => {
+      if (downloadProgress.value < 90) {
+        downloadProgress.value += 10;
+      }
+    }, 200);
+    
+    // Create a link and trigger download
+    const link = document.createElement('a');
+    link.href = `/dashboard/settings/database-backup/download/${filename}`;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Wait a bit for download to start
+    setTimeout(() => {
+      clearInterval(progressInterval);
+      downloadProgress.value = 100;
+      
+      setTimeout(() => {
+        showDownloadModal.value = false;
+        downloadingBackup.value = false;
+        downloadProgress.value = 0;
+        currentDownloadFile.value = null;
+        notifySuccess('Success', 'Backup download started!');
+      }, 500);
+    }, 1000);
+  } catch (error) {
+    showDownloadModal.value = false;
+    downloadingBackup.value = false;
+    downloadProgress.value = 0;
+    currentDownloadFile.value = null;
+    notifyError('Error', 'Failed to download backup. Please try again.');
+  }
+};
+
+const handleDeleteBackup = (filename) => {
+  Modal.confirm({
+    title: 'Delete Backup',
+    content: 'Are you sure you want to delete this backup? This action cannot be undone.',
+    okText: 'Yes, Delete',
+    okType: 'danger',
+    cancelText: 'Cancel',
+    onOk: async () => {
+      try {
+        const response = await fetch(`/dashboard/settings/database-backup/delete/${filename}`, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json',
+          },
+          credentials: 'same-origin',
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          notifySuccess('Success', 'Backup deleted successfully!');
+          // Remove from list instantly
+          const index = backups.value.findIndex(b => b.filename === filename);
+          if (index > -1) {
+            backups.value.splice(index, 1);
+          }
+        } else {
+          notifyError('Error', result.message || 'Failed to delete backup');
+        }
+      } catch (error) {
+        notifyError('Error', 'Failed to delete backup. Please try again.');
+      }
+    },
+  });
+};
+
+// Removed handleSaveBackupConfig - scheduled backup not needed
+
 onMounted(() => {
   if (!mailForm.value.mail_mailer) {
     mailForm.value.mail_mailer = 'smtp';
@@ -121,6 +269,11 @@ onMounted(() => {
   }
   if (!mailForm.value.mail_port) {
     mailForm.value.mail_port = '2525';
+  }
+  
+  // Update backups list if props changed
+  if (props.backups) {
+    backups.value = props.backups;
   }
 });
 </script>
@@ -245,11 +398,100 @@ onMounted(() => {
           </a-form>
         </div>
 
-        <!-- Placeholder for other settings tabs -->
-        <div v-else class="config-panel">
-          <h2 class="config-title">{{ getActiveTabLabel() }}</h2>
-          <p class="coming-soon">This configuration will be available soon.</p>
+        <!-- Database Backup -->
+        <div v-if="activeTab === 'database-backup'" class="config-panel">
+          <h2 class="config-title">Database Backup</h2>
+          
+          <!-- Manual Backup and History in One Card -->
+          <a-card class="backup-card" :bordered="false">
+            <template #title>
+              <span>Database Backup</span>
+            </template>
+            <template #extra>
+              <a-button
+                type="primary"
+                :loading="creatingBackup"
+                @click="handleCreateBackup"
+                :icon="h(DownloadOutlined)"
+              >
+                Create Backup Now
+              </a-button>
+            </template>
+            
+            <p class="backup-description" style="margin-bottom: 24px;">
+              Create a manual database backup. The backup will be saved as a SQL file that you can download.
+            </p>
+
+            <!-- Backup History -->
+            <div class="backup-history-section">
+              <h3 class="backup-history-title">Backup History</h3>
+              <a-empty v-if="backups.length === 0" description="No backups created yet" />
+              <a-list
+                v-else
+                :data-source="backups"
+                item-layout="horizontal"
+              >
+                <template #renderItem="{ item }">
+                  <a-list-item>
+                    <a-list-item-meta>
+                      <template #title>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                          <DatabaseOutlined />
+                          <span>{{ item.filename }}</span>
+                        </div>
+                      </template>
+                      <template #description>
+                        <div style="display: flex; gap: 16px; align-items: center; margin-top: 8px;">
+                          <span>
+                            <ClockCircleOutlined style="margin-right: 4px;" />
+                            {{ $formatDateTime(item.created_at) }}
+                          </span>
+                          <span>{{ item.size }}</span>
+                        </div>
+                      </template>
+                    </a-list-item-meta>
+                    <template #actions>
+                      <a-button
+                        type="link"
+                        :icon="h(DownloadOutlined)"
+                        @click="handleDownloadBackup(item.filename)"
+                      >
+                        Download
+                      </a-button>
+                      <a-button
+                        type="link"
+                        danger
+                        :icon="h(DeleteOutlined)"
+                        @click="handleDeleteBackup(item.filename)"
+                      >
+                        Delete
+                      </a-button>
+                    </template>
+                  </a-list-item>
+                </template>
+              </a-list>
+            </div>
+          </a-card>
         </div>
+
+        <!-- Download Progress Modal -->
+        <a-modal
+          v-model:open="showDownloadModal"
+          title="Downloading Backup"
+          :footer="null"
+          :closable="false"
+          :maskClosable="false"
+        >
+          <div class="download-progress-content">
+            <p style="margin-bottom: 16px;">
+              Downloading: <strong>{{ currentDownloadFile }}</strong>
+            </p>
+            <a-progress :percent="downloadProgress" :status="downloadProgress === 100 ? 'success' : 'active'" />
+            <p v-if="downloadProgress === 100" style="margin-top: 16px; color: #52c41a; text-align: center;">
+              Download completed!
+            </p>
+          </div>
+        </a-modal>
       </div>
     </div>
   </DashboardLayout>
@@ -448,6 +690,61 @@ onMounted(() => {
 }
 
 [data-theme="dark"] .coming-soon {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* Backup Card Styles */
+.backup-card {
+  margin-bottom: 0;
+}
+
+/* Backup History Section */
+.backup-history-section {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color-light, #f0f0f0);
+}
+
+[data-theme="dark"] .backup-history-section {
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+
+.backup-history-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary, #262626);
+  margin: 0 0 16px 0;
+}
+
+[data-theme="dark"] .backup-history-title {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Download Progress Modal */
+.download-progress-content {
+  padding: 8px 0;
+}
+
+.backup-description {
+  color: var(--text-secondary, #8c8c8c);
+  margin: 0;
+  line-height: 1.6;
+}
+
+[data-theme="dark"] .backup-description {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.backup-config-form {
+  margin-top: 16px;
+}
+
+.form-help-text {
+  color: var(--text-tertiary, #8c8c8c);
+  font-size: 13px;
+}
+
+[data-theme="dark"] .form-help-text {
   color: rgba(255, 255, 255, 0.45);
 }
 

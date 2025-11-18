@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\MailConfigurationRequest;
 use App\Services\MailConfigurationService;
+use App\Services\DatabaseBackupService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
@@ -15,7 +16,8 @@ use Inertia\Response;
 class MailConfigurationController extends Controller
 {
     public function __construct(
-        protected MailConfigurationService $mailConfigService
+        protected MailConfigurationService $mailConfigService,
+        protected DatabaseBackupService $backupService
     ) {}
 
     /**
@@ -24,9 +26,12 @@ class MailConfigurationController extends Controller
     public function index(): Response
     {
         $mailConfig = $this->mailConfigService->getMailConfiguration();
+        $backups = $this->backupService->getBackups();
 
         return Inertia::render('Dashboard/Settings/GeneralSettings', [
             'mailConfig' => $mailConfig,
+            'activeTab' => 'mail-config',
+            'backups' => $backups,
         ]);
     }
 

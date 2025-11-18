@@ -43,7 +43,7 @@
           </div>
         </a-card>
 
-        <a-card class="settings-card coming-soon-card">
+        <a-card class="settings-card database-backup-card" @click="handleDatabaseBackup">
           <div class="card-content">
             <div class="card-icon-wrapper">
               <DatabaseOutlined class="card-icon" />
@@ -54,7 +54,7 @@
                 Backup and restore database
               </p>
             </div>
-            <span class="coming-soon-badge">Coming Soon</span>
+            <RightOutlined class="card-arrow" />
           </div>
         </a-card>
 
@@ -90,6 +90,10 @@ import {
 
 const handleRecycleBin = () => {
   router.visit('/dashboard/settings/recycle-bin');
+};
+
+const handleDatabaseBackup = () => {
+  router.visit('/dashboard/settings/database-backup');
 };
 </script>
 
@@ -181,6 +185,25 @@ const handleRecycleBin = () => {
 
 .recycle-bin-card .card-icon-wrapper {
   background: linear-gradient(135deg, #ff4d4f 0%, #ff7875 100%);
+}
+
+.database-backup-card {
+  cursor: pointer;
+}
+
+.database-backup-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.12));
+  border-color: var(--primary-color, #1890ff);
+}
+
+.database-backup-card .card-icon-wrapper {
+  background: linear-gradient(135deg, #52c41a 0%, #73d13d 100%);
+}
+
+[data-theme="dark"] .database-backup-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  border-color: var(--primary-color, #1890ff);
 }
 
 .card-icon {
