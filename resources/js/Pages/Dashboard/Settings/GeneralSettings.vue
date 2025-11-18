@@ -208,7 +208,7 @@ const handleDownloadBackup = async (filename) => {
         downloadingBackup.value = false;
         downloadProgress.value = 0;
         currentDownloadFile.value = null;
-        notifySuccess('Success', 'Backup download started!');
+        notifySuccess('Success', 'Backup download completed!');
       }, 500);
     }, 1000);
   } catch (error) {
@@ -216,7 +216,7 @@ const handleDownloadBackup = async (filename) => {
     downloadingBackup.value = false;
     downloadProgress.value = 0;
     currentDownloadFile.value = null;
-    notifyError('Error', 'Failed to download backup. Please try again.');
+    notifyError('Error', 'Failed to download backup. Please try again or contact support.');
   }
 };
 
@@ -295,7 +295,10 @@ onMounted(() => {
             :class="{ active: activeTab === item.key }"
             @click="activeTab = item.key"
           >
-            <span class="submenu-label">{{ item.label }}</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <component :is="h(item.icon)" style="font-size: 16px;" />
+              <span class="submenu-label">{{ item.label }}</span>
+            </div>
             <RightOutlined v-if="activeTab === item.key" class="submenu-icon" />
           </div>
         </div>
@@ -452,14 +455,16 @@ onMounted(() => {
                     </a-list-item-meta>
                     <template #actions>
                       <a-button
-                        type="link"
+                        type="default"
+                        class="backup-action-btn download-btn"
                         :icon="h(DownloadOutlined)"
                         @click="handleDownloadBackup(item.filename)"
                       >
                         Download
                       </a-button>
                       <a-button
-                        type="link"
+                        type="default"
+                        class="backup-action-btn delete-btn"
                         danger
                         :icon="h(DeleteOutlined)"
                         @click="handleDeleteBackup(item.filename)"
@@ -723,6 +728,83 @@ onMounted(() => {
 /* Download Progress Modal */
 .download-progress-content {
   padding: 8px 0;
+}
+
+/* Progress Bar Number Dark Mode */
+[data-theme="dark"] .download-progress-content :deep(.ant-progress-text) {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .download-progress-content :deep(.ant-progress-success-bg) {
+  background-color: #52c41a !important;
+}
+
+/* Backup Action Buttons */
+.backup-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  height: auto;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.backup-action-btn :deep(.anticon) {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+/* Download Button */
+.download-btn {
+  background: #e6f7ff !important;
+  border-color: #91d5ff !important;
+  color: #1890ff !important;
+}
+
+.download-btn:hover {
+  background: #bae7ff !important;
+  border-color: #69c0ff !important;
+  color: #096dd9 !important;
+}
+
+[data-theme="dark"] .download-btn {
+  background: rgba(24, 144, 255, 0.25) !important;
+  border-color: rgba(24, 144, 255, 0.5) !important;
+  color: #69c0ff !important;
+}
+
+[data-theme="dark"] .download-btn:hover {
+  background: rgba(24, 144, 255, 0.35) !important;
+  border-color: rgba(24, 144, 255, 0.6) !important;
+  color: #91d5ff !important;
+}
+
+/* Delete Button */
+.delete-btn {
+  background: #fff1f0 !important;
+  border-color: #ffccc7 !important;
+  color: #ff4d4f !important;
+}
+
+.delete-btn:hover {
+  background: #ffccc7 !important;
+  border-color: #ff7875 !important;
+  color: #cf1322 !important;
+}
+
+[data-theme="dark"] .delete-btn {
+  background: rgba(255, 77, 79, 0.25) !important;
+  border-color: rgba(255, 77, 79, 0.5) !important;
+  color: #ff7875 !important;
+}
+
+[data-theme="dark"] .delete-btn:hover {
+  background: rgba(255, 77, 79, 0.35) !important;
+  border-color: rgba(255, 77, 79, 0.6) !important;
+  color: #ff9c9e !important;
 }
 
 .backup-description {

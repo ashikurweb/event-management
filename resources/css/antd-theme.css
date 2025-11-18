@@ -49,6 +49,16 @@
 
 /* Dark Theme Support for Ant Design */
 :root[data-theme="dark"] {
+    /* Modal Dark Mode Styles */
+    --ant-modal-bg: #1f1f1f !important;
+    --ant-modal-content-bg: #1f1f1f !important;
+    --ant-modal-header-bg: #1f1f1f !important;
+    --ant-modal-footer-bg: #1f1f1f !important;
+    --ant-modal-close-color: rgba(255, 255, 255, 0.85) !important;
+    --ant-modal-close-color-hover: rgba(255, 255, 255, 1) !important;
+    --ant-modal-title-color: rgba(255, 255, 255, 0.85) !important;
+    --ant-modal-content-color: rgba(255, 255, 255, 0.85) !important;
+    --ant-modal-mask-bg: rgba(0, 0, 0, 0.65) !important;
     /* Primary Color - Lighter for Dark Theme */
     --ant-primary-color: #40a9ff;
     --ant-primary-color-hover: #69c0ff;
@@ -1279,6 +1289,117 @@
 /* Date Picker Active Bar (Range Picker) */
 :root[data-theme="dark"] .ant-picker-range .ant-picker-active-bar {
     background-color: rgba(24, 144, 255, 0.1) !important;
+}
+
+/* ============================================
+   MODAL DARK MODE - GLOBAL STYLES
+   ============================================ */
+
+/* Regular Modal Dark Mode */
+[data-theme="dark"] .ant-modal-content {
+    background: #1f1f1f !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+[data-theme="dark"] .ant-modal-header {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+[data-theme="dark"] .ant-modal-title {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .ant-modal-close {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .ant-modal-close:hover {
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+[data-theme="dark"] .ant-modal-body {
+    color: rgba(255, 255, 255, 0.85) !important;
+    background: transparent !important;
+}
+
+[data-theme="dark"] .ant-modal-footer {
+    background: transparent !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+[data-theme="dark"] .ant-modal-mask {
+    background: rgba(0, 0, 0, 0.65) !important;
+}
+
+/* Modal.confirm (Ant Design Confirm Dialog) Dark Mode */
+[data-theme="dark"] .ant-modal-confirm {
+    background: transparent !important;
+}
+
+[data-theme="dark"] .ant-modal-confirm .ant-modal-content {
+    background: #1f1f1f !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+[data-theme="dark"] .ant-modal-confirm .ant-modal-header {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+[data-theme="dark"] .ant-modal-confirm .ant-modal-title {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .ant-modal-confirm .ant-modal-body {
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .ant-modal-confirm .ant-modal-confirm-title {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .ant-modal-confirm .ant-modal-confirm-content {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .ant-modal-confirm .ant-modal-footer {
+    background: transparent !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+[data-theme="dark"] .ant-modal-confirm-body-wrapper {
+    background: transparent !important;
+}
+
+[data-theme="dark"] .ant-modal-confirm-body {
+    background: transparent !important;
+}
+
+[data-theme="dark"] .ant-modal-confirm-body .ant-modal-confirm-title {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .ant-modal-confirm-body .ant-modal-confirm-content {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Progress Bar Dark Mode */
+[data-theme="dark"] .ant-progress-text {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .ant-progress-inner {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+[data-theme="dark"] .ant-progress-bg {
+    background-color: #1890ff !important;
+}
+
+[data-theme="dark"] .ant-progress-success-bg {
+    background-color: #52c41a !important;
 }
 
 
