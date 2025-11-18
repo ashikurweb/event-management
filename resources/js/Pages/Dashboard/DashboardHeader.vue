@@ -35,8 +35,9 @@
         <span class="create-event-text">Create Event</span>
       </a-button>
 
-      <a-button type="text" class="calendar-btn" @click="handleViewCalendar">
-        <template #icon><CalendarOutlined /></template>
+      <!-- Recycle Bin -->
+      <a-button type="text" class="recycle-btn header-action" @click="handleRecycleBin" title="Recycle Bin">
+        <template #icon><DeleteOutlined /></template>
       </a-button>
 
       <!-- Notifications -->
@@ -113,12 +114,12 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   PlusOutlined,
-  CalendarOutlined,
   BellOutlined,
   UserOutlined,
   SettingOutlined,
   LogoutOutlined,
   DownOutlined,
+  DeleteOutlined,
 } from '@ant-design/icons-vue';
 
 const props = defineProps({
@@ -204,8 +205,8 @@ const handleCreateEvent = () => {
   router.visit('/dashboard/events/create');
 };
 
-const handleViewCalendar = () => {
-  router.visit('/dashboard/calendar');
+const handleRecycleBin = () => {
+  router.visit('/dashboard/settings/recycle-bin');
 };
 
 const handleMenuClick = ({ key }) => {
@@ -302,6 +303,51 @@ const handleMenuClick = ({ key }) => {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+.recycle-btn {
+  margin-right: -8px;
+  background: rgba(255, 77, 79, 0.1) !important;
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+
+.recycle-btn:hover {
+  background: rgba(255, 77, 79, 0.2) !important;
+}
+
+.recycle-btn :deep(.anticon) {
+  color: #ff4d4f !important;
+}
+
+.recycle-btn:hover :deep(.anticon) {
+  color: #ff7875 !important;
+}
+
+[data-theme="dark"] .recycle-btn {
+  background: rgba(255, 77, 79, 0.15) !important;
+}
+
+[data-theme="dark"] .recycle-btn:hover {
+  background: rgba(255, 77, 79, 0.25) !important;
+}
+
+[data-theme="dark"] .recycle-btn :deep(.anticon) {
+  color: #ff7875 !important;
+}
+
+[data-theme="dark"] .recycle-btn:hover :deep(.anticon) {
+  color: #ff9c9e !important;
+}
+
+.notification-badge {
+  margin-left: -8px;
 }
 
 .user-profile {
@@ -415,9 +461,9 @@ const handleMenuClick = ({ key }) => {
     margin-left: auto;
   }
 
-  /* Hide Create Event button and Calendar on mobile */
+  /* Hide Create Event button and Recycle Bin on mobile */
   .create-event-btn,
-  .calendar-btn {
+  .recycle-btn {
     display: none !important;
   }
 
