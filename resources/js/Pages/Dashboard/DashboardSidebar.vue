@@ -31,7 +31,7 @@
         <a-menu-item key="events-draft">Draft Events</a-menu-item>
         <a-menu-item key="events-published">Published Events</a-menu-item>
         <a-menu-item key="events-cancelled">Cancelled Events</a-menu-item>
-        <a-menu-item key="events-tags">Event Tags</a-menu-item>
+        <a-menu-item key="event-tags-all">Event Tags</a-menu-item>
       </a-sub-menu>
 
       <a-sub-menu key="tickets">
@@ -139,10 +139,9 @@
       <a-sub-menu key="promo-codes">
         <template #icon><TagOutlined /></template>
         <template #title>Promo Codes</template>
-        <a-menu-item key="promo-all">All Promo Codes</a-menu-item>
-        <a-menu-item key="promo-active">Active Promo Codes</a-menu-item>
-        <a-menu-item key="promo-create">Create Promo Code</a-menu-item>
-        <a-menu-item key="promo-usage">Usage History</a-menu-item>
+        <a-menu-item key="promo-codes-all">All Promo Codes</a-menu-item>
+        <a-menu-item key="promo-codes-create">Create Promo Code</a-menu-item>
+        <a-menu-item key="promo-codes-active">Active Promo Codes</a-menu-item>
       </a-sub-menu>
 
       <a-sub-menu key="email">
@@ -299,7 +298,9 @@ const getMenuKeyFromUrl = (url) => {
     '/dashboard': 'dashboard',
     '/dashboard/events': 'events-all',
     '/dashboard/events/create': 'events-create',
-    '/dashboard/events/tags': 'events-tags',
+    '/dashboard/event-tags': 'event-tags-all',
+    '/dashboard/promo-codes': 'promo-codes-all',
+    '/dashboard/promo-codes/create': 'promo-codes-create',
     '/dashboard/categories': 'categories',
     '/dashboard/teams': 'teams-all',
     '/dashboard/teams/create': 'teams-create',
@@ -332,13 +333,20 @@ const getMenuKeyFromUrl = (url) => {
     return urlToKeyMap[path];
   }
 
-  // Check for status query parameters (events)
-  if (path === '/dashboard/events') {
-    const urlParams = new URLSearchParams(url.split('?')[1] || '');
-    const status = urlParams.get('status');
-    if (status) {
-      return `events-${status}`;
+  // Check for events routes
+  if (path.startsWith('/dashboard/events')) {
+    if (path === '/dashboard/events' || path === '/dashboard/events/search') {
+      const urlParams = new URLSearchParams(url.split('?')[1] || '');
+      const status = urlParams.get('status');
+      if (status) {
+        return `events-${status}`;
+      }
+      return 'events-all';
     }
+    if (path === '/dashboard/events/create') {
+      return 'events-create';
+    }
+    // For edit/show pages, still show as events-all
     return 'events-all';
   }
 
@@ -366,6 +374,27 @@ const getMenuKeyFromUrl = (url) => {
   // Check for categories routes
   if (path.startsWith('/dashboard/categories')) {
     return 'categories';
+  }
+
+  // Check for event tags routes
+  if (path.startsWith('/dashboard/event-tags')) {
+    return 'event-tags-all';
+  }
+
+  // Check for promo codes routes
+  if (path.startsWith('/dashboard/promo-codes')) {
+    if (path === '/dashboard/promo-codes' || path === '/dashboard/promo-codes/search') {
+      const urlParams = new URLSearchParams(url.split('?')[1] || '');
+      const isActive = urlParams.get('is_active');
+      if (isActive === '1') {
+        return 'promo-codes-active';
+      }
+      return 'promo-codes-all';
+    }
+    if (path === '/dashboard/promo-codes/create') {
+      return 'promo-codes-create';
+    }
+    return 'promo-codes-all';
   }
 
   // Check for speakers routes
@@ -434,7 +463,10 @@ const getParentKey = (key) => {
     'events-draft': 'events',
     'events-published': 'events',
     'events-cancelled': 'events',
-    'events-tags': 'events',
+    'event-tags-all': 'events',
+    'promo-codes-all': 'promo-codes',
+    'promo-codes-create': 'promo-codes',
+    'promo-codes-active': 'promo-codes',
     'teams-all': 'teams',
     'teams-members': 'teams',
     'teams-invitations': 'teams',
@@ -491,7 +523,10 @@ const handleMenuClick = ({ key }) => {
     'events-draft': '/dashboard/events?status=draft',
     'events-published': '/dashboard/events?status=published',
     'events-cancelled': '/dashboard/events?status=cancelled',
-    'events-tags': '/dashboard/events/tags',
+    'event-tags-all': '/dashboard/event-tags',
+    'promo-codes-all': '/dashboard/promo-codes',
+    'promo-codes-create': '/dashboard/promo-codes/create',
+    'promo-codes-active': '/dashboard/promo-codes?is_active=1',
     'categories': '/dashboard/categories',
     'teams-all': '/dashboard/teams',
     'teams-members': '/dashboard/team-members',

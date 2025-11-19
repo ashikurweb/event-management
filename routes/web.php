@@ -14,6 +14,7 @@ use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventTagController;
+use App\Http\Controllers\PromoCodeController;
 use App\Http\Controllers\TrashController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AIAssistantController;
@@ -234,6 +235,19 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/event-tags')->name('e
     Route::put('/{eventTag}', [EventTagController::class, 'update'])->name('update');
     Route::delete('/{eventTag}', [EventTagController::class, 'destroy'])->name('destroy');
     Route::post('/bulk-action', [EventTagController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Promo Code Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/promo-codes')->name('promo-codes.')->group(function () {
+    Route::get('/', [PromoCodeController::class, 'index'])->name('index');
+    Route::get('/search', [PromoCodeController::class, 'search'])->name('search');
+    Route::get('/create', [PromoCodeController::class, 'create'])->name('create');
+    Route::post('/', [PromoCodeController::class, 'store'])->name('store');
+    Route::get('/{promoCode}', [PromoCodeController::class, 'show'])->name('show');
+    Route::get('/{promoCode}/edit', [PromoCodeController::class, 'edit'])->name('edit');
+    Route::put('/{promoCode}', [PromoCodeController::class, 'update'])->name('update');
+    Route::delete('/{promoCode}', [PromoCodeController::class, 'destroy'])->name('destroy');
+    Route::post('/bulk-action', [PromoCodeController::class, 'bulkAction'])->name('bulk-action');
 });
 
 // AI Assistant Routes
