@@ -12,6 +12,8 @@ use App\Http\Controllers\VenueController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventTagController;
 use App\Http\Controllers\TrashController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AIAssistantController;
@@ -204,6 +206,34 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/certificates')->name(
     Route::delete('/{certificate}', [CertificateController::class, 'destroy'])->name('destroy');
     Route::post('/{certificate}/download', [CertificateController::class, 'download'])->name('download');
     Route::post('/bulk-action', [CertificateController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Event Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/events')->name('events.')->group(function () {
+    Route::get('/', [EventController::class, 'index'])->name('index');
+    Route::get('/search', [EventController::class, 'search'])->name('search');
+    Route::get('/create', [EventController::class, 'create'])->name('create');
+    Route::post('/', [EventController::class, 'store'])->name('store');
+    Route::get('/{event}/activities', [EventController::class, 'activities'])->name('activities');
+    Route::get('/{event}', [EventController::class, 'show'])->name('show');
+    Route::get('/{event}/edit', [EventController::class, 'edit'])->name('edit');
+    Route::put('/{event}', [EventController::class, 'update'])->name('update');
+    Route::delete('/{event}', [EventController::class, 'destroy'])->name('destroy');
+    Route::post('/bulk-action', [EventController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Event Tag Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/event-tags')->name('event-tags.')->group(function () {
+    Route::get('/', [EventTagController::class, 'index'])->name('index');
+    Route::get('/search', [EventTagController::class, 'search'])->name('search');
+    Route::get('/create', [EventTagController::class, 'create'])->name('create');
+    Route::post('/', [EventTagController::class, 'store'])->name('store');
+    Route::get('/{eventTag}/activities', [EventTagController::class, 'activities'])->name('activities');
+    Route::get('/{eventTag}', [EventTagController::class, 'show'])->name('show');
+    Route::get('/{eventTag}/edit', [EventTagController::class, 'edit'])->name('edit');
+    Route::put('/{eventTag}', [EventTagController::class, 'update'])->name('update');
+    Route::delete('/{eventTag}', [EventTagController::class, 'destroy'])->name('destroy');
+    Route::post('/bulk-action', [EventTagController::class, 'bulkAction'])->name('bulk-action');
 });
 
 // AI Assistant Routes
