@@ -323,6 +323,8 @@ const getMenuKeyFromUrl = (url) => {
     '/dashboard/venues/create': 'venues-create',
     '/dashboard/sponsors': 'sponsors-all',
     '/dashboard/sponsors/create': 'sponsors-create',
+    '/dashboard/surveys': 'surveys-all',
+    '/dashboard/surveys/create': 'surveys-create',
   };
 
   // Check exact match first
@@ -404,6 +406,17 @@ const getMenuKeyFromUrl = (url) => {
     return 'sponsors-all';
   }
 
+  // Check for surveys routes
+  if (path.startsWith('/dashboard/surveys')) {
+    if (path === '/dashboard/surveys' || path === '/dashboard/surveys/search') {
+      return 'surveys-all';
+    }
+    if (path === '/dashboard/surveys/create') {
+      return 'surveys-create';
+    }
+    return 'surveys-all';
+  }
+
   // Fallback: try to extract from path
   const parts = path.split('/').filter(p => p && p !== 'dashboard');
   if (parts.length > 0) {
@@ -450,6 +463,9 @@ const getParentKey = (key) => {
     'sponsors-gold': 'sponsors',
     'sponsors-silver': 'sponsors',
     'sponsors-bronze': 'sponsors',
+    'surveys-all': 'surveys',
+    'surveys-create': 'surveys',
+    'surveys-responses': 'surveys',
   };
   return parentMap[key] || null;
 };
@@ -503,6 +519,9 @@ const handleMenuClick = ({ key }) => {
     'sponsors-gold': '/dashboard/sponsors?tier=gold',
     'sponsors-silver': '/dashboard/sponsors?tier=silver',
     'sponsors-bronze': '/dashboard/sponsors?tier=bronze',
+    'surveys-all': '/dashboard/surveys',
+    'surveys-create': '/dashboard/surveys/create',
+    'surveys-responses': '/dashboard/surveys?filter=responses',
     // Add more route mappings as needed
   };
 

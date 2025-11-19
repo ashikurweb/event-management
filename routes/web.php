@@ -10,6 +10,7 @@ use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VenueController;
 use App\Http\Controllers\SponsorController;
+use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\TrashController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AIAssistantController;
@@ -173,6 +174,20 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/sponsors')->name('spo
     Route::put('/{sponsor}', [SponsorController::class, 'update'])->name('update');
     Route::delete('/{sponsor}', [SponsorController::class, 'destroy'])->name('destroy');
     Route::post('/bulk-action', [SponsorController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Survey Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/surveys')->name('surveys.')->group(function () {
+    Route::get('/', [SurveyController::class, 'index'])->name('index');
+    Route::get('/search', [SurveyController::class, 'search'])->name('search');
+    Route::get('/create', [SurveyController::class, 'create'])->name('create');
+    Route::post('/', [SurveyController::class, 'store'])->name('store');
+    Route::get('/{survey}/activities', [SurveyController::class, 'activities'])->name('activities');
+    Route::get('/{survey}', [SurveyController::class, 'show'])->name('show');
+    Route::get('/{survey}/edit', [SurveyController::class, 'edit'])->name('edit');
+    Route::put('/{survey}', [SurveyController::class, 'update'])->name('update');
+    Route::delete('/{survey}', [SurveyController::class, 'destroy'])->name('destroy');
+    Route::post('/bulk-action', [SurveyController::class, 'bulkAction'])->name('bulk-action');
 });
 
 // AI Assistant Routes
