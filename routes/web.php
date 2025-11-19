@@ -7,6 +7,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamMemberController;
 use App\Http\Controllers\TeamInvitationController;
 use App\Http\Controllers\SpeakerController;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\TrashController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AIAssistantController;
@@ -128,6 +129,20 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/speakers')->name('spe
     Route::put('/{speaker}', [SpeakerController::class, 'update'])->name('update');
     Route::delete('/{speaker}', [SpeakerController::class, 'destroy'])->name('destroy');
     Route::post('/bulk-action', [SpeakerController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Vendor Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/vendors')->name('vendors.')->group(function () {
+    Route::get('/', [VendorController::class, 'index'])->name('index');
+    Route::get('/search', [VendorController::class, 'search'])->name('search');
+    Route::get('/create', [VendorController::class, 'create'])->name('create');
+    Route::post('/', [VendorController::class, 'store'])->name('store');
+    Route::get('/{vendor}/activities', [VendorController::class, 'activities'])->name('activities');
+    Route::get('/{vendor}', [VendorController::class, 'show'])->name('show');
+    Route::get('/{vendor}/edit', [VendorController::class, 'edit'])->name('edit');
+    Route::put('/{vendor}', [VendorController::class, 'update'])->name('update');
+    Route::delete('/{vendor}', [VendorController::class, 'destroy'])->name('destroy');
+    Route::post('/bulk-action', [VendorController::class, 'bulkAction'])->name('bulk-action');
 });
 
 // AI Assistant Routes

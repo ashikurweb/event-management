@@ -317,6 +317,8 @@ const getMenuKeyFromUrl = (url) => {
     '/dashboard/settings/recycle-bin': 'settings-recycle-bin',
     '/dashboard/settings/profile': 'settings-profile',
     '/dashboard/speakers': 'speakers',
+    '/dashboard/vendors': 'vendors-all',
+    '/dashboard/vendors/create': 'vendors-create',
   };
 
   // Check exact match first
@@ -365,6 +367,17 @@ const getMenuKeyFromUrl = (url) => {
     return 'speakers';
   }
 
+  // Check for vendors routes
+  if (path.startsWith('/dashboard/vendors')) {
+    if (path === '/dashboard/vendors' || path === '/dashboard/vendors/search') {
+      return 'vendors-all';
+    }
+    if (path === '/dashboard/vendors/create') {
+      return 'vendors-create';
+    }
+    return 'vendors-all';
+  }
+
   // Fallback: try to extract from path
   const parts = path.split('/').filter(p => p && p !== 'dashboard');
   if (parts.length > 0) {
@@ -398,6 +411,10 @@ const getParentKey = (key) => {
     'permissions-all': 'roles-permissions',
     'permissions-assign': 'roles-permissions',
     'role-user-assign': 'roles-permissions',
+    'vendors-all': 'vendors',
+    'vendors-create': 'vendors',
+    'vendors-by-category': 'vendors',
+    'vendors-event': 'vendors',
   };
   return parentMap[key] || null;
 };
@@ -438,6 +455,10 @@ const handleMenuClick = ({ key }) => {
     'settings-system': '/dashboard/settings/system',
     'settings-recycle-bin': '/dashboard/settings/recycle-bin',
     'speakers': '/dashboard/speakers',
+    'vendors-all': '/dashboard/vendors',
+    'vendors-create': '/dashboard/vendors/create',
+    'vendors-by-category': '/dashboard/vendors?filter=category',
+    'vendors-event': '/dashboard/vendors?filter=event',
     // Add more route mappings as needed
   };
 
