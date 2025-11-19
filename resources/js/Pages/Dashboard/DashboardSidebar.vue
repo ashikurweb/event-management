@@ -317,6 +317,14 @@ const getMenuKeyFromUrl = (url) => {
     '/dashboard/settings/recycle-bin': 'settings-recycle-bin',
     '/dashboard/settings/profile': 'settings-profile',
     '/dashboard/speakers': 'speakers',
+    '/dashboard/vendors': 'vendors-all',
+    '/dashboard/vendors/create': 'vendors-create',
+    '/dashboard/venues': 'venues-all',
+    '/dashboard/venues/create': 'venues-create',
+    '/dashboard/sponsors': 'sponsors-all',
+    '/dashboard/sponsors/create': 'sponsors-create',
+    '/dashboard/surveys': 'surveys-all',
+    '/dashboard/surveys/create': 'surveys-create',
   };
 
   // Check exact match first
@@ -365,6 +373,50 @@ const getMenuKeyFromUrl = (url) => {
     return 'speakers';
   }
 
+  // Check for vendors routes
+  if (path.startsWith('/dashboard/vendors')) {
+    if (path === '/dashboard/vendors' || path === '/dashboard/vendors/search') {
+      return 'vendors-all';
+    }
+    if (path === '/dashboard/vendors/create') {
+      return 'vendors-create';
+    }
+    return 'vendors-all';
+  }
+
+  // Check for venues routes
+  if (path.startsWith('/dashboard/venues')) {
+    if (path === '/dashboard/venues' || path === '/dashboard/venues/search') {
+      return 'venues-all';
+    }
+    if (path === '/dashboard/venues/create') {
+      return 'venues-create';
+    }
+    return 'venues-all';
+  }
+
+  // Check for sponsors routes
+  if (path.startsWith('/dashboard/sponsors')) {
+    if (path === '/dashboard/sponsors' || path === '/dashboard/sponsors/search') {
+      return 'sponsors-all';
+    }
+    if (path === '/dashboard/sponsors/create') {
+      return 'sponsors-create';
+    }
+    return 'sponsors-all';
+  }
+
+  // Check for surveys routes
+  if (path.startsWith('/dashboard/surveys')) {
+    if (path === '/dashboard/surveys' || path === '/dashboard/surveys/search') {
+      return 'surveys-all';
+    }
+    if (path === '/dashboard/surveys/create') {
+      return 'surveys-create';
+    }
+    return 'surveys-all';
+  }
+
   // Fallback: try to extract from path
   const parts = path.split('/').filter(p => p && p !== 'dashboard');
   if (parts.length > 0) {
@@ -398,6 +450,22 @@ const getParentKey = (key) => {
     'permissions-all': 'roles-permissions',
     'permissions-assign': 'roles-permissions',
     'role-user-assign': 'roles-permissions',
+    'vendors-all': 'vendors',
+    'vendors-create': 'vendors',
+    'vendors-by-category': 'vendors',
+    'vendors-event': 'vendors',
+    'venues-all': 'venues',
+    'venues-create': 'venues',
+    'venues-verified': 'venues',
+    'sponsors-all': 'sponsors',
+    'sponsors-create': 'sponsors',
+    'sponsors-platinum': 'sponsors',
+    'sponsors-gold': 'sponsors',
+    'sponsors-silver': 'sponsors',
+    'sponsors-bronze': 'sponsors',
+    'surveys-all': 'surveys',
+    'surveys-create': 'surveys',
+    'surveys-responses': 'surveys',
   };
   return parentMap[key] || null;
 };
@@ -438,6 +506,22 @@ const handleMenuClick = ({ key }) => {
     'settings-system': '/dashboard/settings/system',
     'settings-recycle-bin': '/dashboard/settings/recycle-bin',
     'speakers': '/dashboard/speakers',
+    'vendors-all': '/dashboard/vendors',
+    'vendors-create': '/dashboard/vendors/create',
+    'vendors-by-category': '/dashboard/vendors?filter=category',
+    'vendors-event': '/dashboard/vendors?filter=event',
+    'venues-all': '/dashboard/venues',
+    'venues-create': '/dashboard/venues/create',
+    'venues-verified': '/dashboard/venues?is_verified=1',
+    'sponsors-all': '/dashboard/sponsors',
+    'sponsors-create': '/dashboard/sponsors/create',
+    'sponsors-platinum': '/dashboard/sponsors?tier=platinum',
+    'sponsors-gold': '/dashboard/sponsors?tier=gold',
+    'sponsors-silver': '/dashboard/sponsors?tier=silver',
+    'sponsors-bronze': '/dashboard/sponsors?tier=bronze',
+    'surveys-all': '/dashboard/surveys',
+    'surveys-create': '/dashboard/surveys/create',
+    'surveys-responses': '/dashboard/surveys?filter=responses',
     // Add more route mappings as needed
   };
 

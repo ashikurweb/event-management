@@ -49,11 +49,17 @@ class AIAssistantController extends Controller
             // This can be used to get context without sending a message
             $user = auth()->user();
             
+            // Get current AI provider info
+            $providerInfo = $this->aiService->getProviderInfo();
+            
             return response()->json([
                 'success' => true,
                 'context' => [
                     'user_name' => $user->name ?? $user->first_name . ' ' . $user->last_name,
                 ],
+                'ai_provider' => $providerInfo['provider'],
+                'ai_model' => $providerInfo['model'],
+                'ai_configured' => $providerInfo['is_configured'],
             ]);
         } catch (\Exception $e) {
             return response()->json([
