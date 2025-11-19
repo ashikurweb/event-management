@@ -17,19 +17,55 @@ class AIAssistantService
 
     public function __construct()
     {
-        // Check if Groq is enabled (free alternative)
-        if (config('services.groq.enabled') && !empty(config('services.groq.api_key'))) {
+        // Priority order: Qwen 2.5 Coder > DeepSeek R1 > OpenRouter > Groq > OpenAI
+        
+        // 1. Qwen 2.5 Coder (Best for coding tasks)
+        if (config('services.qwen.enabled') && !empty(config('services.qwen.api_key'))) {
+            $this->provider = 'qwen';
+            $this->apiKey = config('services.qwen.api_key');
+            $this->apiUrl = config('services.qwen.api_url', 'https://openrouter.ai/api/v1/chat/completions');
+            $this->model = config('services.qwen.model', 'qwen/qwen-2.5-coder-32b-instruct');
+        }
+        // 2. DeepSeek R1 (Best for reasoning)
+        elseif (config('services.deepseek.enabled') && !empty(config('services.deepseek.api_key'))) {
+            $this->provider = 'deepseek';
+            $this->apiKey = config('services.deepseek.api_key');
+            $this->apiUrl = config('services.deepseek.api_url', 'https://api.deepseek.com/v1/chat/completions');
+            $this->model = config('services.deepseek.model', 'deepseek-r1-14b');
+        }
+        // 3. OpenRouter (Supports both models)
+        elseif (config('services.openrouter.enabled') && !empty(config('services.openrouter.api_key'))) {
+            $this->provider = 'openrouter';
+            $this->apiKey = config('services.openrouter.api_key');
+            $this->apiUrl = config('services.openrouter.api_url', 'https://openrouter.ai/api/v1/chat/completions');
+            $this->model = config('services.openrouter.model', 'qwen/qwen-2.5-coder-32b-instruct');
+        }
+        // 4. Groq (Free alternative)
+        elseif (config('services.groq.enabled') && !empty(config('services.groq.api_key'))) {
             $this->provider = 'groq';
             $this->apiKey = config('services.groq.api_key');
             $this->apiUrl = 'https://api.groq.com/openai/v1/chat/completions';
             $this->model = 'llama-3.1-8b-instant'; // Fast and free
-        } else {
-            // Fallback to OpenAI
+        }
+        // 5. OpenAI (Fallback)
+        else {
             $this->provider = 'openai';
             $this->apiKey = config('services.openai.api_key');
             $this->apiUrl = 'https://api.openai.com/v1/chat/completions';
             $this->model = 'gpt-3.5-turbo';
         }
+    }
+
+    /**
+     * Get current AI provider and model information
+     */
+    public function getProviderInfo(): array
+    {
+        return [
+            'provider' => $this->provider,
+            'model' => $this->model,
+            'is_configured' => !empty($this->apiKey),
+        ];
     }
 
     /**
@@ -143,8 +179,31 @@ class AIAssistantService
      */
     private function buildSystemPrompt(array $context): string
     {
+        // Base prompt
         $prompt = "You are an AI assistant for an event management dashboard called EventHub. ";
-        $prompt .= "You help users manage their events, view statistics, and navigate the dashboard.\n\n";
+        $prompt .= "You help users manage their events, view statistics, navigate the dashboard, ";
+        $prompt .= "and assist with coding tasks including Laravel migrations, SQL queries, REST APIs, ";
+        $prompt .= "and database design.\n\n";
+        
+        // Add provider-specific instructions
+        if ($this->provider === 'qwen' || $this->provider === 'openrouter') {
+            $prompt .= "**You are Qwen 2.5 Coder - Specialized in code generation.**\n";
+            $prompt .= "You excel at:\n";
+            $prompt .= "- Generating Laravel migrations, controllers, services\n";
+            $prompt .= "- Writing complex SQL queries, stored procedures, triggers\n";
+            $prompt .= "- Creating REST API endpoints and routes\n";
+            $prompt .= "- Database schema design and relationships\n";
+            $prompt .= "- Vue.js component generation\n";
+            $prompt .= "- Full-stack development tasks\n\n";
+        } elseif ($this->provider === 'deepseek') {
+            $prompt .= "**You are DeepSeek R1 - Specialized in advanced reasoning.**\n";
+            $prompt .= "You excel at:\n";
+            $prompt .= "- Complex problem solving and multi-step reasoning\n";
+            $prompt .= "- Advanced database architecture design\n";
+            $prompt .= "- Event-driven system architecture\n";
+            $prompt .= "- System-level analysis and planning\n";
+            $prompt .= "- Creative technical solutions\n\n";
+        }
         
         $prompt .= "Current Dashboard Context:\n";
         $prompt .= "- User: {$context['user_name']}\n";
@@ -172,6 +231,12 @@ class AIAssistantService
         $prompt .= "When user asks to view events, respond with: ACTION:SHOW_EVENTS\n";
         $prompt .= "When user asks about statistics or dashboard, respond with: ACTION:SHOW_STATISTICS\n";
 
+        $prompt .= "\n\nFor coding requests (migrations, SQL, APIs):\n";
+        $prompt .= "- Provide complete, working code\n";
+        $prompt .= "- Follow Laravel and Vue.js best practices\n";
+        $prompt .= "- Include proper error handling\n";
+        $prompt .= "- Add comments for complex logic\n";
+
         $prompt .= "\n\nYour responses should be helpful, concise, and friendly. ";
         $prompt .= "Always respond in the same language as the user's message. ";
         $prompt .= "If the user asks in Bengali, respond in Bengali. ";
@@ -181,7 +246,7 @@ class AIAssistantService
     }
 
     /**
-     * Call AI API (supports both OpenAI and Groq)
+     * Call AI API (supports Qwen, DeepSeek, OpenRouter, Groq, and OpenAI)
      */
     private function callAI(string $systemPrompt, string $userMessage, array $context): array
     {
@@ -189,10 +254,23 @@ class AIAssistantService
             throw new \Exception('API key not configured for ' . $this->provider);
         }
 
-        $response = Http::timeout(30)->withHeaders([
-            'Authorization' => 'Bearer ' . $this->apiKey,
+        // Prepare headers
+        $headers = [
             'Content-Type' => 'application/json',
-        ])->post($this->apiUrl, [
+        ];
+
+        // Add authorization header
+        if ($this->provider === 'openrouter') {
+            // OpenRouter requires HTTP-Referer and X-Title headers
+            $headers['Authorization'] = 'Bearer ' . $this->apiKey;
+            $headers['HTTP-Referer'] = config('app.url');
+            $headers['X-Title'] = 'EventHub AI Assistant';
+        } else {
+            $headers['Authorization'] = 'Bearer ' . $this->apiKey;
+        }
+
+        // Prepare request payload
+        $payload = [
             'model' => $this->model,
             'messages' => [
                 [
@@ -205,16 +283,54 @@ class AIAssistantService
                 ],
             ],
             'temperature' => 0.7,
-            'max_tokens' => 500,
-        ]);
+        ];
+
+        // Adjust max_tokens based on provider and task type
+        // For coding tasks, allow more tokens
+        $isCodingTask = $this->isCodingTask($userMessage);
+        $maxTokens = $isCodingTask ? 2000 : 1000;
+        $payload['max_tokens'] = $maxTokens;
+
+        // Provider-specific adjustments
+        if ($this->provider === 'qwen' || $this->provider === 'openrouter') {
+            // Qwen models work well with slightly higher temperature for creativity
+            $payload['temperature'] = 0.8;
+        } elseif ($this->provider === 'deepseek') {
+            // DeepSeek R1 benefits from lower temperature for reasoning
+            $payload['temperature'] = 0.6;
+        }
+
+        $response = Http::timeout(60)->withHeaders($headers)->post($this->apiUrl, $payload);
 
         if ($response->failed()) {
             $errorBody = $response->json();
-            $errorMessage = $errorBody['error']['message'] ?? $response->body();
+            $errorMessage = $errorBody['error']['message'] ?? $errorBody['message'] ?? $response->body();
             throw new \Exception($this->provider . ' API request failed: ' . $errorMessage);
         }
 
         return $response->json();
+    }
+
+    /**
+     * Check if the user message is a coding task
+     */
+    private function isCodingTask(string $message): bool
+    {
+        $codingKeywords = [
+            'migration', 'sql', 'query', 'controller', 'service', 'api', 'endpoint',
+            'route', 'model', 'schema', 'database', 'table', 'trigger', 'procedure',
+            'function', 'component', 'vue', 'laravel', 'php', 'javascript', 'code',
+            'generate', 'create', 'write', 'build', 'implement'
+        ];
+
+        $messageLower = strtolower($message);
+        foreach ($codingKeywords as $keyword) {
+            if (str_contains($messageLower, $keyword)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

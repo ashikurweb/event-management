@@ -90,4 +90,68 @@ return [
         'enabled' => env('GROQ_ENABLED', false),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Qwen 2.5 Coder Configuration (BEST FOR CODING)
+    |--------------------------------------------------------------------------
+    |
+    | Qwen 2.5 Coder is specialized for code generation, SQL, migrations,
+    | REST API development, and database design.
+    | Recommended for: Laravel migrations, controllers, SQL queries, APIs
+    |
+    | Get API key from:
+    | - OpenRouter: https://openrouter.ai/ (Recommended)
+    | - Hugging Face: https://huggingface.co/Qwen/Qwen2.5-Coder-32B-Instruct
+    |
+    */
+
+    'qwen' => [
+        'api_key' => env('QWEN_API_KEY'),
+        'api_url' => env('QWEN_API_URL', 'https://openrouter.ai/api/v1/chat/completions'),
+        'model' => env('QWEN_MODEL', 'qwen/qwen-2.5-coder-32b-instruct'),
+        'enabled' => env('QWEN_ENABLED', false),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | DeepSeek R1 Configuration (BEST FOR REASONING)
+    |--------------------------------------------------------------------------
+    |
+    | DeepSeek R1 provides GPT-4 level reasoning for complex problems,
+    | database design, event-driven architecture, and system design.
+    | Recommended for: Complex reasoning, architecture, deep analysis
+    |
+    | Get API key from:
+    | - DeepSeek Platform: https://platform.deepseek.com/
+    | - OpenRouter: https://openrouter.ai/ (Alternative)
+    |
+    */
+
+    'deepseek' => [
+        'api_key' => env('DEEPSEEK_API_KEY'),
+        'api_url' => env('DEEPSEEK_API_URL', 'https://api.deepseek.com/v1/chat/completions'),
+        'model' => env('DEEPSEEK_MODEL', 'deepseek-r1-14b'),
+        'enabled' => env('DEEPSEEK_ENABLED', false),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | OpenRouter Configuration (SUPPORTS BOTH MODELS)
+    |--------------------------------------------------------------------------
+    |
+    | OpenRouter provides access to multiple AI models including
+    | Qwen 2.5 Coder and DeepSeek R1 through a single API.
+    | Recommended for: Easy access to both models
+    |
+    | Get API key from: https://openrouter.ai/
+    |
+    */
+
+    'openrouter' => [
+        'api_key' => env('OPENROUTER_API_KEY'),
+        'api_url' => env('OPENROUTER_API_URL', 'https://openrouter.ai/api/v1/chat/completions'),
+        'model' => env('OPENROUTER_MODEL', 'qwen/qwen-2.5-coder-32b-instruct'),
+        'enabled' => env('OPENROUTER_ENABLED', false),
+    ],
+
 ];
