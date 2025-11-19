@@ -321,6 +321,8 @@ const getMenuKeyFromUrl = (url) => {
     '/dashboard/vendors/create': 'vendors-create',
     '/dashboard/venues': 'venues-all',
     '/dashboard/venues/create': 'venues-create',
+    '/dashboard/sponsors': 'sponsors-all',
+    '/dashboard/sponsors/create': 'sponsors-create',
   };
 
   // Check exact match first
@@ -391,6 +393,17 @@ const getMenuKeyFromUrl = (url) => {
     return 'venues-all';
   }
 
+  // Check for sponsors routes
+  if (path.startsWith('/dashboard/sponsors')) {
+    if (path === '/dashboard/sponsors' || path === '/dashboard/sponsors/search') {
+      return 'sponsors-all';
+    }
+    if (path === '/dashboard/sponsors/create') {
+      return 'sponsors-create';
+    }
+    return 'sponsors-all';
+  }
+
   // Fallback: try to extract from path
   const parts = path.split('/').filter(p => p && p !== 'dashboard');
   if (parts.length > 0) {
@@ -431,6 +444,12 @@ const getParentKey = (key) => {
     'venues-all': 'venues',
     'venues-create': 'venues',
     'venues-verified': 'venues',
+    'sponsors-all': 'sponsors',
+    'sponsors-create': 'sponsors',
+    'sponsors-platinum': 'sponsors',
+    'sponsors-gold': 'sponsors',
+    'sponsors-silver': 'sponsors',
+    'sponsors-bronze': 'sponsors',
   };
   return parentMap[key] || null;
 };
@@ -478,6 +497,12 @@ const handleMenuClick = ({ key }) => {
     'venues-all': '/dashboard/venues',
     'venues-create': '/dashboard/venues/create',
     'venues-verified': '/dashboard/venues?is_verified=1',
+    'sponsors-all': '/dashboard/sponsors',
+    'sponsors-create': '/dashboard/sponsors/create',
+    'sponsors-platinum': '/dashboard/sponsors?tier=platinum',
+    'sponsors-gold': '/dashboard/sponsors?tier=gold',
+    'sponsors-silver': '/dashboard/sponsors?tier=silver',
+    'sponsors-bronze': '/dashboard/sponsors?tier=bronze',
     // Add more route mappings as needed
   };
 

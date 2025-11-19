@@ -9,6 +9,7 @@ use App\Http\Controllers\TeamInvitationController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VenueController;
+use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\TrashController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AIAssistantController;
@@ -158,6 +159,20 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/venues')->name('venue
     Route::put('/{venue}', [VenueController::class, 'update'])->name('update');
     Route::delete('/{venue}', [VenueController::class, 'destroy'])->name('destroy');
     Route::post('/bulk-action', [VenueController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Sponsor Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/sponsors')->name('sponsors.')->group(function () {
+    Route::get('/', [SponsorController::class, 'index'])->name('index');
+    Route::get('/search', [SponsorController::class, 'search'])->name('search');
+    Route::get('/create', [SponsorController::class, 'create'])->name('create');
+    Route::post('/', [SponsorController::class, 'store'])->name('store');
+    Route::get('/{sponsor}/activities', [SponsorController::class, 'activities'])->name('activities');
+    Route::get('/{sponsor}', [SponsorController::class, 'show'])->name('show');
+    Route::get('/{sponsor}/edit', [SponsorController::class, 'edit'])->name('edit');
+    Route::put('/{sponsor}', [SponsorController::class, 'update'])->name('update');
+    Route::delete('/{sponsor}', [SponsorController::class, 'destroy'])->name('destroy');
+    Route::post('/bulk-action', [SponsorController::class, 'bulkAction'])->name('bulk-action');
 });
 
 // AI Assistant Routes
