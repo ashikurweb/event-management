@@ -11,6 +11,7 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VenueController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\TrashController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AIAssistantController;
@@ -188,6 +189,21 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/surveys')->name('surv
     Route::put('/{survey}', [SurveyController::class, 'update'])->name('update');
     Route::delete('/{survey}', [SurveyController::class, 'destroy'])->name('destroy');
     Route::post('/bulk-action', [SurveyController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Certificate Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/certificates')->name('certificates.')->group(function () {
+    Route::get('/', [CertificateController::class, 'index'])->name('index');
+    Route::get('/search', [CertificateController::class, 'search'])->name('search');
+    Route::get('/create', [CertificateController::class, 'create'])->name('create');
+    Route::post('/', [CertificateController::class, 'store'])->name('store');
+    Route::get('/{certificate}/activities', [CertificateController::class, 'activities'])->name('activities');
+    Route::get('/{certificate}', [CertificateController::class, 'show'])->name('show');
+    Route::get('/{certificate}/edit', [CertificateController::class, 'edit'])->name('edit');
+    Route::put('/{certificate}', [CertificateController::class, 'update'])->name('update');
+    Route::delete('/{certificate}', [CertificateController::class, 'destroy'])->name('destroy');
+    Route::post('/{certificate}/download', [CertificateController::class, 'download'])->name('download');
+    Route::post('/bulk-action', [CertificateController::class, 'bulkAction'])->name('bulk-action');
 });
 
 // AI Assistant Routes
