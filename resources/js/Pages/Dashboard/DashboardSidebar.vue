@@ -319,6 +319,8 @@ const getMenuKeyFromUrl = (url) => {
     '/dashboard/speakers': 'speakers',
     '/dashboard/vendors': 'vendors-all',
     '/dashboard/vendors/create': 'vendors-create',
+    '/dashboard/venues': 'venues-all',
+    '/dashboard/venues/create': 'venues-create',
   };
 
   // Check exact match first
@@ -378,6 +380,17 @@ const getMenuKeyFromUrl = (url) => {
     return 'vendors-all';
   }
 
+  // Check for venues routes
+  if (path.startsWith('/dashboard/venues')) {
+    if (path === '/dashboard/venues' || path === '/dashboard/venues/search') {
+      return 'venues-all';
+    }
+    if (path === '/dashboard/venues/create') {
+      return 'venues-create';
+    }
+    return 'venues-all';
+  }
+
   // Fallback: try to extract from path
   const parts = path.split('/').filter(p => p && p !== 'dashboard');
   if (parts.length > 0) {
@@ -415,6 +428,9 @@ const getParentKey = (key) => {
     'vendors-create': 'vendors',
     'vendors-by-category': 'vendors',
     'vendors-event': 'vendors',
+    'venues-all': 'venues',
+    'venues-create': 'venues',
+    'venues-verified': 'venues',
   };
   return parentMap[key] || null;
 };
@@ -459,6 +475,9 @@ const handleMenuClick = ({ key }) => {
     'vendors-create': '/dashboard/vendors/create',
     'vendors-by-category': '/dashboard/vendors?filter=category',
     'vendors-event': '/dashboard/vendors?filter=event',
+    'venues-all': '/dashboard/venues',
+    'venues-create': '/dashboard/venues/create',
+    'venues-verified': '/dashboard/venues?is_verified=1',
     // Add more route mappings as needed
   };
 
