@@ -23,9 +23,6 @@ class PromoCodeSearchRequest extends FormRequest
     {
         return [
             'search' => 'nullable|string|max:255',
-            'discount_type' => 'nullable|in:percentage,fixed,free_ticket',
-            'applicable_to' => 'nullable|in:all,specific_events,specific_categories',
-            'is_active' => 'nullable|boolean',
             'date_from' => 'nullable|date',
             'date_to' => 'nullable|date|after_or_equal:date_from',
             'sort_by' => 'nullable|in:code,discount_value,current_uses,valid_from,valid_until,created_at,updated_at',
@@ -42,8 +39,6 @@ class PromoCodeSearchRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'discount_type.in' => 'Invalid discount type selected.',
-            'applicable_to.in' => 'Invalid applicable option selected.',
             'date_to.after_or_equal' => 'End date must be after or equal to start date.',
             'sort_by.in' => 'Invalid sort field selected.',
             'sort_order.in' => 'Sort order must be either asc or desc.',

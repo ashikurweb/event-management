@@ -33,47 +33,7 @@
               <template #prefix><SearchOutlined /></template>
             </a-input>
           </a-col>
-          <a-col :xs="24" :sm="12" :md="6">
-            <a-select
-              v-model:value="filters.discount_type"
-              placeholder="Discount type"
-              allow-clear
-              style="width: 100%"
-              @change="handleSearch"
-            >
-              <a-select-option value="percentage">Percentage</a-select-option>
-              <a-select-option value="fixed">Fixed</a-select-option>
-              <a-select-option value="free_ticket">Free Ticket</a-select-option>
-            </a-select>
-          </a-col>
-          <a-col :xs="24" :sm="12" :md="6">
-            <a-select
-              v-model:value="filters.applicable_to"
-              placeholder="Applicable to"
-              allow-clear
-              style="width: 100%"
-              @change="handleSearch"
-            >
-              <a-select-option value="all">All Events</a-select-option>
-              <a-select-option value="specific_events">Specific Events</a-select-option>
-              <a-select-option value="specific_categories">Specific Categories</a-select-option>
-            </a-select>
-          </a-col>
-          <a-col :xs="24" :sm="12" :md="4">
-            <a-select
-              v-model:value="filters.is_active"
-              placeholder="Status"
-              allow-clear
-              style="width: 100%"
-              @change="handleSearch"
-            >
-              <a-select-option value="1">Active</a-select-option>
-              <a-select-option value="0">Inactive</a-select-option>
-            </a-select>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16" style="margin-top: 12px">
-          <a-col :xs="24" :sm="12" :md="12">
+          <a-col :xs="24" :sm="12" :md="8">
             <a-range-picker
               v-model:value="dateRange"
               :placeholder="['Valid From', 'Valid Until']"
@@ -81,7 +41,7 @@
               @change="handleDateChange"
             />
           </a-col>
-          <a-col :xs="24" :sm="12" :md="12">
+          <a-col :xs="24" :sm="24" :md="8">
             <a-space>
               <a-button type="primary" @click="handleSearch">
                 <template #icon><SearchOutlined /></template>

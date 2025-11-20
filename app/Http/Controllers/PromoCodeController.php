@@ -48,22 +48,6 @@ class PromoCodeController extends Controller
             });
         }
 
-        // Filter by discount type
-        if ($request->filled('discount_type')) {
-            $query->where('discount_type', $request->discount_type);
-        }
-
-        // Filter by applicable to
-        if ($request->filled('applicable_to')) {
-            $query->where('applicable_to', $request->applicable_to);
-        }
-
-        // Filter by active status
-        if ($request->has('is_active') && $request->is_active !== null && $request->is_active !== '') {
-            $isActive = $request->is_active === '1' || $request->is_active === 1 || $request->is_active === true;
-            $query->where('is_active', $isActive);
-        }
-
         // Filter by date range
         if ($request->filled('date_from')) {
             $query->whereDate('valid_from', '>=', $request->date_from);
@@ -86,7 +70,7 @@ class PromoCodeController extends Controller
 
         return Inertia::render('Dashboard/PromoCodes/Index', [
             'promoCodes' => $promoCodes,
-            'filters' => $request->only(['search', 'discount_type', 'applicable_to', 'is_active']),
+            'filters' => $request->only(['search', 'date_from', 'date_to']),
         ]);
     }
 

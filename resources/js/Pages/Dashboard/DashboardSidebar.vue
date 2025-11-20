@@ -132,13 +132,10 @@
       <a-menu-divider />
 
       <!-- Group 4: Marketing -->
-      <a-sub-menu key="promo-codes">
+      <a-menu-item key="promo-codes">
         <template #icon><TagOutlined /></template>
-        <template #title>Promo Codes</template>
-        <a-menu-item key="promo-codes-all">All Promo Codes</a-menu-item>
-        <a-menu-item key="promo-codes-create">Create Promo Code</a-menu-item>
-        <a-menu-item key="promo-codes-active">Active Promo Codes</a-menu-item>
-      </a-sub-menu>
+        <span>Promo Codes</span>
+      </a-menu-item>
 
       <a-sub-menu key="email">
         <template #icon><MailOutlined /></template>
@@ -299,8 +296,7 @@ const getMenuKeyFromUrl = (url) => {
     '/dashboard': 'dashboard',
     '/dashboard/events': 'events-all',
     '/dashboard/event-tags': 'event-tags-all',
-    '/dashboard/promo-codes': 'promo-codes-all',
-    '/dashboard/promo-codes/create': 'promo-codes-create',
+    '/dashboard/promo-codes': 'promo-codes',
     '/dashboard/categories': 'categories',
     '/dashboard/teams': 'teams-all',
     '/dashboard/teams/create': 'teams-create',
@@ -371,18 +367,7 @@ const getMenuKeyFromUrl = (url) => {
 
   // Check for promo codes routes
   if (path.startsWith('/dashboard/promo-codes')) {
-    if (path === '/dashboard/promo-codes' || path === '/dashboard/promo-codes/search') {
-      const urlParams = new URLSearchParams(url.split('?')[1] || '');
-      const isActive = urlParams.get('is_active');
-      if (isActive === '1') {
-        return 'promo-codes-active';
-      }
-      return 'promo-codes-all';
-    }
-    if (path === '/dashboard/promo-codes/create') {
-      return 'promo-codes-create';
-    }
-    return 'promo-codes-all';
+    return 'promo-codes';
   }
 
   // Check for speakers routes
@@ -448,9 +433,6 @@ const getParentKey = (key) => {
   const parentMap = {
     'events-all': 'events',
     'event-tags-all': 'events',
-    'promo-codes-all': 'promo-codes',
-    'promo-codes-create': 'promo-codes',
-    'promo-codes-active': 'promo-codes',
     'teams-all': 'teams',
     'teams-members': 'teams',
     'teams-invitations': 'teams',
@@ -504,9 +486,7 @@ const handleMenuClick = ({ key }) => {
     'dashboard': '/dashboard',
     'events-all': '/dashboard/events',
     'event-tags-all': '/dashboard/event-tags',
-    'promo-codes-all': '/dashboard/promo-codes',
-    'promo-codes-create': '/dashboard/promo-codes/create',
-    'promo-codes-active': '/dashboard/promo-codes?is_active=1',
+    'promo-codes': '/dashboard/promo-codes',
     'categories': '/dashboard/categories',
     'teams-all': '/dashboard/teams',
     'teams-members': '/dashboard/team-members',
