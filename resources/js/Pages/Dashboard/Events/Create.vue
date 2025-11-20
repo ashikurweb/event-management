@@ -683,5 +683,66 @@ const handleCancel = () => {
 :deep(.ant-tabs-content-holder) {
   padding-top: 16px;
 }
+
+/* Tab Text Color - Light Mode */
+:deep(.ant-tabs-tab) {
+  color: var(--text-primary, #262626) !important;
+}
+
+:deep(.ant-tabs-tab:hover) {
+  color: var(--color-primary, #1890ff) !important;
+}
+
+:deep(.ant-tabs-tab-active) {
+  color: var(--color-primary, #1890ff) !important;
+}
+
+:deep(.ant-tabs-tab-active .ant-tabs-tab-btn) {
+  color: var(--color-primary, #1890ff) !important;
+}
+
+/* Tab Text Color - Dark Mode */
+[data-theme="dark"] :deep(.ant-tabs-tab) {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] :deep(.ant-tabs-tab:hover) {
+  color: #40a9ff !important;
+}
+
+[data-theme="dark"] :deep(.ant-tabs-tab-active) {
+  color: #40a9ff !important;
+}
+
+[data-theme="dark"] :deep(.ant-tabs-tab-active .ant-tabs-tab-btn) {
+  color: #40a9ff !important;
+}
+
+[data-theme="dark"] :deep(.ant-tabs-tab-btn) {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] :deep(.ant-tabs-tab-active .ant-tabs-tab-btn) {
+  color: #40a9ff !important;
+}
+
+/* Divider Text Color - Light Mode */
+:deep(.ant-divider) {
+  color: var(--text-primary, #262626) !important;
+}
+
+:deep(.ant-divider-inner-text) {
+  color: var(--text-primary, #262626) !important;
+}
+
+/* Divider Text Color - Dark Mode */
+[data-theme="dark"] :deep(.ant-divider) {
+  color: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+[data-theme="dark"] :deep(.ant-divider-inner-text) {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
 </style>
 
