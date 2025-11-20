@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
 {
@@ -25,6 +27,12 @@ class ProfileController extends Controller
         }
         
         $user->load(['profile', 'socialAccounts']);
+
+        // Check if user can change password
+        // Logic: If user has no social accounts, they registered - can change password
+        // If user has social accounts, check if oldest social account was created at the same time as user (within 1 minute)
+        // This indicates social login, so don't allow password change
+        $canChangePassword = $this->canUserChangePassword($user);
 
         return Inertia::render('Dashboard/Profile', [
             'user' => [
@@ -43,6 +51,7 @@ class ProfileController extends Controller
                 'last_login_at' => $user->last_login_at?->format('Y-m-d H:i:s'),
                 'created_at' => $user->created_at->format('Y-m-d H:i:s'),
                 'updated_at' => $user->updated_at->format('Y-m-d H:i:s'),
+                'can_change_password' => $canChangePassword,
                 'profile' => $user->profile ? [
                     'company_name' => $user->profile->company_name,
                     'website' => $user->profile->website,
@@ -198,6 +207,86 @@ class ProfileController extends Controller
                 'message' => $e->getMessage() ?: 'Failed to upload avatar',
             ], 500);
         }
+    }
+
+    /**
+     * Check if user can change password.
+     * Users who registered (not social login) can change password.
+     * Users who logged in via social login cannot change password.
+     *
+     * @param User $user
+     * @return bool
+     */
+    protected function canUserChangePassword(User $user): bool
+    {
+        // If user has no social accounts, they definitely registered - can change password
+        if ($user->socialAccounts->isEmpty()) {
+            return true;
+        }
+
+        // If user has social accounts, check if oldest social account was created
+        // at the same time as user (within 1 minute) - indicates social login
+        $oldestSocialAccount = $user->socialAccounts->sortBy('created_at')->first();
+        
+        if ($oldestSocialAccount) {
+            $userCreatedAt = $user->created_at;
+            $socialAccountCreatedAt = $oldestSocialAccount->created_at;
+            
+            // If social account was created within 1 minute of user creation,
+            // it's likely a social login user - cannot change password
+            $timeDifference = abs($userCreatedAt->diffInSeconds($socialAccountCreatedAt));
+            
+            if ($timeDifference <= 60) {
+                // Social login user - cannot change password
+                return false;
+            }
+        }
+
+        // User registered first, then linked social accounts - can change password
+        return true;
+    }
+
+    /**
+     * Update user password.
+     */
+    public function updatePassword(Request $request)
+    {
+        $validated = $request->validate([
+            'current_password' => ['required', 'string'],
+            'password' => ['required', 'string', 'confirmed', Password::min(8)],
+        ]);
+
+        /** @var User|null $user */
+        $user = Auth::user();
+        
+        if (!$user) {
+            abort(401);
+        }
+
+        // Load social accounts to check if user can change password
+        $user->load('socialAccounts');
+
+        // Check if user can change password
+        if (!$this->canUserChangePassword($user)) {
+            return back()
+                ->withInput()
+                ->with('error', 'Password change is not available for social login accounts.');
+        }
+
+        // Verify current password
+        if (!Hash::check($validated['current_password'], $user->password)) {
+            return back()
+                ->withInput()
+                ->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
+
+        // Update password
+        $user->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return redirect()->route('profile.index')
+            ->with('success', 'Password updated successfully!');
     }
 }
 

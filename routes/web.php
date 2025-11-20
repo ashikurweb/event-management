@@ -32,6 +32,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/profile')->name('prof
     Route::get('/', [ProfileController::class, 'index'])->name('index');
     Route::put('/', [ProfileController::class, 'update'])->name('update');
     Route::post('/avatar', [ProfileController::class, 'updateAvatar'])->name('avatar');
+    Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update');
 });
 
 Route::get('/events', function () {

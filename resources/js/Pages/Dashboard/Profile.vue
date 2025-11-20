@@ -399,6 +399,82 @@
               <a-empty v-else description="No social accounts connected" />
             </div>
           </a-tab-pane>
+
+          <!-- Password Change Tab (only for registered users) -->
+          <a-tab-pane v-if="user?.can_change_password" key="password" tab="Change Password">
+            <div class="tab-content">
+              <a-form
+                :model="passwordForm"
+                layout="vertical"
+                ref="passwordFormRef"
+                @finish="handlePasswordChange"
+                class="password-change-form"
+              >
+                <a-alert
+                  message="Password Requirements"
+                  description="Your password must be at least 8 characters long."
+                  type="info"
+                  show-icon
+                  style="margin-bottom: 24px;"
+                />
+
+                <a-form-item
+                  label="Current Password"
+                  name="current_password"
+                  :rules="[{ required: true, message: 'Please enter your current password' }]"
+                >
+                  <a-input-password
+                    v-model:value="passwordForm.current_password"
+                    placeholder="Enter your current password"
+                    size="large"
+                  />
+                </a-form-item>
+
+                <a-form-item
+                  label="New Password"
+                  name="password"
+                  :rules="[
+                    { required: true, message: 'Please enter a new password' },
+                    { min: 8, message: 'Password must be at least 8 characters' }
+                  ]"
+                >
+                  <a-input-password
+                    v-model:value="passwordForm.password"
+                    placeholder="Enter your new password"
+                    size="large"
+                  />
+                </a-form-item>
+
+                <a-form-item
+                  label="Confirm New Password"
+                  name="password_confirmation"
+                  :rules="[
+                    { required: true, message: 'Please confirm your new password' },
+                    { validator: validatePasswordConfirmation }
+                  ]"
+                >
+                  <a-input-password
+                    v-model:value="passwordForm.password_confirmation"
+                    placeholder="Confirm your new password"
+                    size="large"
+                  />
+                </a-form-item>
+
+                <a-form-item>
+                  <a-button
+                    type="primary"
+                    html-type="submit"
+                    :loading="changingPassword"
+                    size="large"
+                    block
+                  >
+                    <template #icon><SaveOutlined /></template>
+                    Update Password
+                  </a-button>
+                </a-form-item>
+              </a-form>
+            </div>
+          </a-tab-pane>
         </a-tabs>
       </a-card>
     </div>
@@ -426,8 +502,10 @@ const user = computed(() => page.props.user || null);
 const activeTab = ref('personal');
 const isEditing = ref(false);
 const saving = ref(false);
+const changingPassword = ref(false);
 const personalFormRef = ref(null);
 const profileFormRef = ref(null);
+const passwordFormRef = ref(null);
 
 const formData = reactive({
   first_name: '',
@@ -447,6 +525,12 @@ const formData = reactive({
   postal_code: '',
   timezone: 'UTC',
   language: 'en',
+});
+
+const passwordForm = reactive({
+  current_password: '',
+  password: '',
+  password_confirmation: '',
 });
 
 const fullName = computed(() => {
@@ -617,11 +701,53 @@ const getProviderColor = (provider) => {
   };
   return colors[provider.toLowerCase()] || 'default';
 };
+
+const validatePasswordConfirmation = async (_rule, value) => {
+  if (!value) {
+    return Promise.reject('Please confirm your new password');
+  }
+  if (value !== passwordForm.password) {
+    return Promise.reject('Passwords do not match');
+  }
+  return Promise.resolve();
+};
+
+const handlePasswordChange = () => {
+  changingPassword.value = true;
+
+  router.put('/dashboard/profile/password', passwordForm, {
+    preserveScroll: true,
+    onSuccess: () => {
+      message.success('Password updated successfully!');
+      // Reset form
+      passwordForm.current_password = '';
+      passwordForm.password = '';
+      passwordForm.password_confirmation = '';
+      changingPassword.value = false;
+    },
+    onError: (errors) => {
+      changingPassword.value = false;
+      if (errors.message) {
+        message.error(errors.message);
+      } else if (errors.errors) {
+        // Handle validation errors
+        const firstError = Object.values(errors.errors)[0];
+        if (Array.isArray(firstError)) {
+          message.error(firstError[0]);
+        } else {
+          message.error(firstError);
+        }
+      } else {
+        message.error('Failed to update password. Please check the form for errors.');
+      }
+    },
+  });
+};
 </script>
 
 <style scoped>
 .profile-page {
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -749,6 +875,11 @@ const getProviderColor = (provider) => {
 
 .tab-content {
   min-height: 400px;
+}
+
+.password-change-form {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .info-descriptions {
