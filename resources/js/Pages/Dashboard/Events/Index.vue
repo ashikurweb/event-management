@@ -29,7 +29,7 @@
       <!-- Filters -->
       <div class="filters-section">
         <a-row :gutter="16">
-          <a-col :xs="24" :sm="12" :md="6">
+          <a-col :xs="24" :sm="12" :md="8">
             <a-input
               v-model:value="filters.search"
               placeholder="Search events..."
@@ -39,121 +39,7 @@
               <template #prefix><SearchOutlined /></template>
             </a-input>
           </a-col>
-          <a-col :xs="24" :sm="12" :md="6">
-            <a-select
-              v-model:value="filters.organizer_id"
-              placeholder="Filter by organizer"
-              allow-clear
-              style="width: 100%"
-              show-search
-              :filter-option="filterOption"
-              @change="handleSearch"
-            >
-              <a-select-option
-                v-for="organizer in organizers"
-                :key="organizer.id"
-                :value="organizer.id"
-              >
-                {{ organizer.first_name }} {{ organizer.last_name }}
-              </a-select-option>
-            </a-select>
-          </a-col>
-          <a-col :xs="24" :sm="12" :md="6">
-            <a-select
-              v-model:value="filters.category_id"
-              placeholder="Filter by category"
-              allow-clear
-              style="width: 100%"
-              show-search
-              :filter-option="filterOption"
-              @change="handleSearch"
-            >
-              <a-select-option
-                v-for="category in categories"
-                :key="category.id"
-                :value="category.id"
-              >
-                {{ category.name }}
-              </a-select-option>
-            </a-select>
-          </a-col>
-          <a-col :xs="24" :sm="12" :md="6">
-            <a-select
-              v-model:value="filters.event_type"
-              placeholder="Event type"
-              allow-clear
-              style="width: 100%"
-              @change="handleSearch"
-            >
-              <a-select-option value="online">Online</a-select-option>
-              <a-select-option value="offline">Offline</a-select-option>
-              <a-select-option value="hybrid">Hybrid</a-select-option>
-            </a-select>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16" style="margin-top: 12px">
-          <a-col :xs="24" :sm="12" :md="6">
-            <a-select
-              v-model:value="filters.status"
-              placeholder="Status"
-              allow-clear
-              style="width: 100%"
-              @change="handleSearch"
-            >
-              <a-select-option value="draft">Draft</a-select-option>
-              <a-select-option value="published">Published</a-select-option>
-              <a-select-option value="cancelled">Cancelled</a-select-option>
-              <a-select-option value="completed">Completed</a-select-option>
-              <a-select-option value="postponed">Postponed</a-select-option>
-            </a-select>
-          </a-col>
-          <a-col :xs="24" :sm="12" :md="6">
-            <a-select
-              v-model:value="filters.visibility"
-              placeholder="Visibility"
-              allow-clear
-              style="width: 100%"
-              @change="handleSearch"
-            >
-              <a-select-option value="public">Public</a-select-option>
-              <a-select-option value="private">Private</a-select-option>
-              <a-select-option value="unlisted">Unlisted</a-select-option>
-            </a-select>
-          </a-col>
-          <a-col :xs="24" :sm="12" :md="6">
-            <a-select
-              v-model:value="filters.is_featured"
-              placeholder="Featured"
-              allow-clear
-              style="width: 100%"
-              @change="handleSearch"
-            >
-              <a-select-option value="1">Featured</a-select-option>
-              <a-select-option value="0">Not Featured</a-select-option>
-            </a-select>
-          </a-col>
-          <a-col :xs="24" :sm="12" :md="6">
-            <a-select
-              v-model:value="filters.tag_id"
-              placeholder="Filter by tag"
-              allow-clear
-              style="width: 100%"
-              show-search
-              :filter-option="filterOption"
-              @change="handleSearch"
-            >
-              <a-select-option
-                v-for="tag in tags"
-                :key="tag.id"
-                :value="tag.id"
-              >
-                {{ tag.name }}
-              </a-select-option>
-            </a-select>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16" style="margin-top: 12px">
-          <a-col :xs="24" :sm="12" :md="12">
+          <a-col :xs="24" :sm="12" :md="8">
             <a-range-picker
               v-model:value="dateRange"
               :placeholder="['Start Date From', 'End Date To']"
@@ -161,7 +47,7 @@
               @change="handleDateChange"
             />
           </a-col>
-          <a-col :xs="24" :sm="12" :md="12">
+          <a-col :xs="24" :sm="24" :md="8">
             <a-space>
               <a-button type="primary" @click="handleSearch">
                 <template #icon><SearchOutlined /></template>
@@ -315,9 +201,6 @@ import dayjs from 'dayjs';
 const page = usePage();
 
 const events = computed(() => page.props.events || { data: [] });
-const organizers = computed(() => page.props.organizers || []);
-const categories = computed(() => page.props.categories || []);
-const tags = computed(() => page.props.tags || []);
 const initialFilters = page.props.filters || {};
 
 const filters = ref(initialFilters);
@@ -398,10 +281,6 @@ const pagination = computed(() => ({
   showSizeChanger: true,
   showTotal: (total) => `Total ${total} events`,
 }));
-
-const filterOption = (input, option) => {
-  return option.children[0].children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
-};
 
 const formatDate = (dateString) => {
   if (!dateString) return '—';

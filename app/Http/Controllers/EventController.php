@@ -26,19 +26,8 @@ class EventController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
-        // Get data for filters
-        $organizers = User::orderBy('first_name')
-            ->orderBy('last_name')
-            ->get(['id', 'first_name', 'last_name', 'email']);
-        
-        $categories = Category::orderBy('name')->get(['id', 'name']);
-        $tags = EventTag::orderBy('name')->get(['id', 'name']);
-
         return Inertia::render('Dashboard/Events/Index', [
             'events' => $events,
-            'organizers' => $organizers,
-            'categories' => $categories,
-            'tags' => $tags,
             'filters' => [],
         ]);
     }
@@ -67,50 +56,12 @@ class EventController extends Controller
             });
         }
 
-        // Filter by organizer
-        if ($request->filled('organizer_id')) {
-            $query->where('organizer_id', $request->organizer_id);
-        }
-
-        // Filter by category
-        if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
-        }
-
-        // Filter by event type
-        if ($request->filled('event_type')) {
-            $query->where('event_type', $request->event_type);
-        }
-
-        // Filter by status
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        // Filter by visibility
-        if ($request->filled('visibility')) {
-            $query->where('visibility', $request->visibility);
-        }
-
-        // Filter by featured
-        if ($request->has('is_featured') && $request->is_featured !== null && $request->is_featured !== '') {
-            $isFeatured = $request->is_featured === '1' || $request->is_featured === 1 || $request->is_featured === true;
-            $query->where('is_featured', $isFeatured);
-        }
-
         // Filter by date range
         if ($request->filled('date_from')) {
             $query->whereDate('start_date', '>=', $request->date_from);
         }
         if ($request->filled('date_to')) {
             $query->whereDate('end_date', '<=', $request->date_to);
-        }
-
-        // Filter by tag
-        if ($request->filled('tag_id')) {
-            $query->whereHas('tags', function ($tagQuery) use ($request) {
-                $tagQuery->where('event_tags.id', $request->tag_id);
-            });
         }
 
         // Sorting
@@ -125,20 +76,9 @@ class EventController extends Controller
 
         $events = $query->paginate($request->get('per_page', 15));
 
-        // Get data for filters
-        $organizers = User::orderBy('first_name')
-            ->orderBy('last_name')
-            ->get(['id', 'first_name', 'last_name', 'email']);
-        
-        $categories = Category::orderBy('name')->get(['id', 'name']);
-        $tags = EventTag::orderBy('name')->get(['id', 'name']);
-
         return Inertia::render('Dashboard/Events/Index', [
             'events' => $events,
-            'organizers' => $organizers,
-            'categories' => $categories,
-            'tags' => $tags,
-            'filters' => $request->only(['search', 'organizer_id', 'category_id', 'event_type', 'status', 'visibility', 'is_featured', 'tag_id']),
+            'filters' => $request->only(['search', 'date_from', 'date_to']),
         ]);
     }
 
