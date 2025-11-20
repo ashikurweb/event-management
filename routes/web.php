@@ -38,11 +38,11 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/profile')->name('prof
 });
 
 Route::get('/events', function () {
-    return Inertia::render('Events/Events');
+    return Inertia::render('Frontend/Events/Events');
 })->name('events');
 
 Route::get('/events/{id}', function ($id) {
-    return Inertia::render('Events/EventDetail', ['id' => $id]);
+    return Inertia::render('Frontend/Events/EventDetail', ['id' => $id]);
 })->name('event.detail');
 
 // Settings Routes
