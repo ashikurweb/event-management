@@ -35,16 +35,15 @@
               class="forgot-password-form"
             >
               <a-form-item name="email">
-                <div class="modern-input-wrapper">
-                  <MailOutlined class="input-icon" />
-                  <a-input
-                    v-model:value="form.email"
-                    size="large"
-                    placeholder="Email address"
-                    class="modern-input"
-                    :bordered="false"
-                  />
-                </div>
+                <a-input
+                  v-model:value="form.email"
+                  size="large"
+                  placeholder="Email address"
+                >
+                  <template #prefix>
+                    <MailOutlined />
+                  </template>
+                </a-input>
               </a-form-item>
 
               <a-form-item>

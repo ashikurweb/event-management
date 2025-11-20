@@ -46,32 +46,30 @@
               class="reset-password-form"
             >
               <a-form-item name="email">
-                <div class="modern-input-wrapper">
-                  <MailOutlined class="input-icon" />
-                  <a-input
-                    v-model:value="form.email"
-                    size="large"
-                    placeholder="Email address"
-                    class="modern-input"
-                    :bordered="false"
-                    :disabled="!!props.email"
-                  />
-                </div>
+                <a-input
+                  v-model:value="form.email"
+                  size="large"
+                  placeholder="Email address"
+                  :disabled="!!props.email"
+                >
+                  <template #prefix>
+                    <MailOutlined />
+                  </template>
+                </a-input>
               </a-form-item>
 
               <a-form-item name="otp">
-                <div class="modern-input-wrapper">
-                  <SafetyOutlined class="input-icon" />
-                  <a-input
-                    v-model:value="form.otp"
-                    size="large"
-                    placeholder="Enter 6-digit OTP"
-                    class="modern-input"
-                    :bordered="false"
-                    maxlength="6"
-                    @input="handleOtpInput"
-                  />
-                </div>
+                <a-input
+                  v-model:value="form.otp"
+                  size="large"
+                  placeholder="Enter 6-digit OTP"
+                  maxlength="6"
+                  @input="handleOtpInput"
+                >
+                  <template #prefix>
+                    <SafetyOutlined />
+                  </template>
+                </a-input>
                 <div class="otp-hint">
                   <a-button 
                     type="link" 
@@ -87,29 +85,27 @@
               </a-form-item>
 
               <a-form-item name="password">
-                <div class="modern-input-wrapper">
-                  <LockOutlined class="input-icon" />
-                  <a-input-password
-                    v-model:value="form.password"
-                    size="large"
-                    placeholder="New password"
-                    class="modern-input"
-                    :bordered="false"
-                  />
-                </div>
+                <a-input-password
+                  v-model:value="form.password"
+                  size="large"
+                  placeholder="New password"
+                >
+                  <template #prefix>
+                    <LockOutlined />
+                  </template>
+                </a-input-password>
               </a-form-item>
 
               <a-form-item name="password_confirmation">
-                <div class="modern-input-wrapper">
-                  <LockOutlined class="input-icon" />
-                  <a-input-password
-                    v-model:value="form.password_confirmation"
-                    size="large"
-                    placeholder="Confirm new password"
-                    class="modern-input"
-                    :bordered="false"
-                  />
-                </div>
+                <a-input-password
+                  v-model:value="form.password_confirmation"
+                  size="large"
+                  placeholder="Confirm new password"
+                >
+                  <template #prefix>
+                    <LockOutlined />
+                  </template>
+                </a-input-password>
               </a-form-item>
 
               <a-form-item>
