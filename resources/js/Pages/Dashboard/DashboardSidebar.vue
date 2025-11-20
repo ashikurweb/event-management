@@ -27,10 +27,6 @@
         <template #icon><CalendarOutlined /></template>
         <template #title>Events</template>
         <a-menu-item key="events-all">All Events</a-menu-item>
-        <a-menu-item key="events-create">Create Event</a-menu-item>
-        <a-menu-item key="events-draft">Draft Events</a-menu-item>
-        <a-menu-item key="events-published">Published Events</a-menu-item>
-        <a-menu-item key="events-cancelled">Cancelled Events</a-menu-item>
         <a-menu-item key="event-tags-all">Event Tags</a-menu-item>
       </a-sub-menu>
 
@@ -302,7 +298,6 @@ const getMenuKeyFromUrl = (url) => {
   const urlToKeyMap = {
     '/dashboard': 'dashboard',
     '/dashboard/events': 'events-all',
-    '/dashboard/events/create': 'events-create',
     '/dashboard/event-tags': 'event-tags-all',
     '/dashboard/promo-codes': 'promo-codes-all',
     '/dashboard/promo-codes/create': 'promo-codes-create',
@@ -340,18 +335,6 @@ const getMenuKeyFromUrl = (url) => {
 
   // Check for events routes
   if (path.startsWith('/dashboard/events')) {
-    if (path === '/dashboard/events' || path === '/dashboard/events/search') {
-      const urlParams = new URLSearchParams(url.split('?')[1] || '');
-      const status = urlParams.get('status');
-      if (status) {
-        return `events-${status}`;
-      }
-      return 'events-all';
-    }
-    if (path === '/dashboard/events/create') {
-      return 'events-create';
-    }
-    // For edit/show pages, still show as events-all
     return 'events-all';
   }
 
@@ -464,10 +447,6 @@ const getMenuKeyFromUrl = (url) => {
 const getParentKey = (key) => {
   const parentMap = {
     'events-all': 'events',
-    'events-create': 'events',
-    'events-draft': 'events',
-    'events-published': 'events',
-    'events-cancelled': 'events',
     'event-tags-all': 'events',
     'promo-codes-all': 'promo-codes',
     'promo-codes-create': 'promo-codes',
@@ -524,10 +503,6 @@ const handleMenuClick = ({ key }) => {
   const routeMap = {
     'dashboard': '/dashboard',
     'events-all': '/dashboard/events',
-    'events-create': '/dashboard/events/create',
-    'events-draft': '/dashboard/events?status=draft',
-    'events-published': '/dashboard/events?status=published',
-    'events-cancelled': '/dashboard/events?status=cancelled',
     'event-tags-all': '/dashboard/event-tags',
     'promo-codes-all': '/dashboard/promo-codes',
     'promo-codes-create': '/dashboard/promo-codes/create',

@@ -120,7 +120,7 @@
 }
 
 [data-theme="dark"] .badge-featured {
-  @apply bg-[#1f1f1f]/95 text-amber-400;
+  @apply bg-[#1f1f1f] text-amber-400;
 }
 
 .badge-type {
@@ -201,8 +201,9 @@
   background: transparent !important;
   border-bottom: 1px solid transparent !important;
   box-shadow: none !important;
-  backdrop-filter: blur(0px);
-  -webkit-backdrop-filter: blur(0px);
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
@@ -211,35 +212,39 @@
   background: transparent !important;
   border-bottom: 1px solid transparent !important;
   box-shadow: none !important;
-  backdrop-filter: blur(0px);
-  -webkit-backdrop-filter: blur(0px);
 }
 
 [data-theme="light"] .header-transparent {
   background: transparent !important;
   border-bottom: 1px solid transparent !important;
   box-shadow: none !important;
-  backdrop-filter: blur(0px);
-  -webkit-backdrop-filter: blur(0px);
 }
 
 /* Header Scrolled - Light Theme */
-.header-scrolled-light {
+.header-transparent.header-scrolled-light,
+header.header-transparent.header-scrolled-light,
+[data-theme="light"] .header-transparent.header-scrolled-light,
+[data-theme="light"] header.header-transparent.header-scrolled-light {
   background: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
   border-bottom: 1px solid rgba(229, 231, 235, 0.6) !important;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 /* Header Scrolled - Dark Theme */
-.header-scrolled-dark {
+.header-transparent.header-scrolled-dark,
+header.header-transparent.header-scrolled-dark,
+[data-theme="dark"] .header-transparent.header-scrolled-dark,
+[data-theme="dark"] header.header-transparent.header-scrolled-dark {
   background: rgba(20, 20, 20, 0.85) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
   border-bottom: 1px solid rgba(45, 45, 45, 0.6) !important;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
