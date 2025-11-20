@@ -17,6 +17,8 @@ use App\Http\Controllers\EventTagController;
 use App\Http\Controllers\PromoCodeController;
 use App\Http\Controllers\TrashController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ReviewReplyController;
 use App\Http\Controllers\AIAssistantController;
 
 Route::get('/', function () {
@@ -249,6 +251,26 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/promo-codes')->name('
     Route::put('/{promoCode}', [PromoCodeController::class, 'update'])->name('update');
     Route::delete('/{promoCode}', [PromoCodeController::class, 'destroy'])->name('destroy');
     Route::post('/bulk-action', [PromoCodeController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Review Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/reviews')->name('reviews.')->group(function () {
+    Route::get('/', [ReviewController::class, 'index'])->name('index');
+    Route::get('/search', [ReviewController::class, 'search'])->name('search');
+    Route::post('/', [ReviewController::class, 'store'])->name('store');
+    Route::get('/{review}', [ReviewController::class, 'show'])->name('show');
+    Route::put('/{review}', [ReviewController::class, 'update'])->name('update');
+    Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('destroy');
+    Route::post('/{review}/approve', [ReviewController::class, 'approve'])->name('approve');
+    Route::post('/{review}/reject', [ReviewController::class, 'reject'])->name('reject');
+    Route::post('/bulk-action', [ReviewController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Review Reply Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/review-replies')->name('review-replies.')->group(function () {
+    Route::post('/', [ReviewReplyController::class, 'store'])->name('store');
+    Route::put('/{reviewReply}', [ReviewReplyController::class, 'update'])->name('update');
+    Route::delete('/{reviewReply}', [ReviewReplyController::class, 'destroy'])->name('destroy');
 });
 
 // AI Assistant Routes

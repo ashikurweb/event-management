@@ -174,6 +174,11 @@
         <a-menu-item key="surveys-create">Create Survey</a-menu-item>
       </a-sub-menu>
 
+      <a-menu-item key="reviews">
+        <template #icon><StarOutlined /></template>
+        <span>Reviews & Ratings</span>
+      </a-menu-item>
+
       <a-sub-menu key="certificates">
         <template #icon><TrophyFilled /></template>
         <template #title>Certificates</template>
@@ -557,6 +562,7 @@ const handleMenuClick = ({ key }) => {
     'surveys-all': '/dashboard/surveys',
     'surveys-create': '/dashboard/surveys/create',
     'surveys-responses': '/dashboard/surveys?filter=responses',
+    'reviews': '/dashboard/reviews',
     // Add more route mappings as needed
   };
 
