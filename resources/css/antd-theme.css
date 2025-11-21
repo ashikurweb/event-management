@@ -1582,11 +1582,33 @@
 
 /* Date Picker OK Button */
 :root[data-theme="dark"] .ant-picker-ok {
-    color: #40a9ff !important;
+    color: #ffffff !important;
+    background-color: #40a9ff !important;
+    border-color: #40a9ff !important;
 }
 
 :root[data-theme="dark"] .ant-picker-ok:hover {
-    color: #69c0ff !important;
+    color: #ffffff !important;
+    background-color: #69c0ff !important;
+    border-color: #69c0ff !important;
+}
+
+:root[data-theme="dark"] .ant-picker-ok:focus {
+    color: #ffffff !important;
+    background-color: #40a9ff !important;
+    border-color: #40a9ff !important;
+}
+
+:root[data-theme="dark"] .ant-picker-ok-btn {
+    color: #ffffff !important;
+    background-color: #40a9ff !important;
+    border-color: #40a9ff !important;
+}
+
+:root[data-theme="dark"] .ant-picker-ok-btn:hover {
+    color: #ffffff !important;
+    background-color: #69c0ff !important;
+    border-color: #69c0ff !important;
 }
 
 /* Date Picker Time Panel */
@@ -1605,11 +1627,60 @@
 
 :root[data-theme="dark"] .ant-picker-time-panel-column > li:hover {
     background-color: rgba(255, 255, 255, 0.08) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
 }
 
 :root[data-theme="dark"] .ant-picker-time-panel-column > li.ant-picker-time-panel-cell-selected {
     background-color: rgba(24, 144, 255, 0.2) !important;
     color: #40a9ff !important;
+    font-weight: 600 !important;
+}
+
+/* Time Picker Column - All text elements */
+:root[data-theme="dark"] .ant-picker-time-panel-column > li > div {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-time-panel-column > li.ant-picker-time-panel-cell-selected > div {
+    color: #40a9ff !important;
+}
+
+/* Time Picker Input Format Text */
+:root[data-theme="dark"] .ant-picker-time-panel-input-wrapper {
+    background-color: #1f1f1f !important;
+    border-color: #434343 !important;
+}
+
+:root[data-theme="dark"] .ant-picker-time-panel-input {
+    background-color: transparent !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-time-panel-input input {
+    background-color: transparent !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-time-panel-input input::placeholder {
+    color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Time Picker Format Separator */
+:root[data-theme="dark"] .ant-picker-time-panel-input-separator {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* Time Picker Input Inner - All text */
+:root[data-theme="dark"] .ant-picker-time-panel-input-inner {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-time-panel-input-inner input {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-theme="dark"] .ant-picker-time-panel-input-inner span {
+    color: rgba(255, 255, 255, 0.85) !important;
 }
 
 /* Date Picker Disabled State */
