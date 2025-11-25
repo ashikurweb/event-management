@@ -133,7 +133,6 @@
               <a-space>
                 <a-button type="link" size="small" @click="handleRestore(record)">
                   <template #icon><UndoOutlined /></template>
-                  Restore
                 </a-button>
                 <a-popconfirm
                   title="Are you sure you want to permanently delete this item?"
@@ -143,7 +142,6 @@
                 >
                   <a-button type="link" size="small" danger>
                     <template #icon><DeleteOutlined /></template>
-                    Delete
                   </a-button>
                 </a-popconfirm>
               </a-space>
