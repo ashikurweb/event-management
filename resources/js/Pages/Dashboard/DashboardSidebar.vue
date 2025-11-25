@@ -678,7 +678,7 @@ const handleMenuClick = ({ key }) => {
 }
 
 [data-theme="dark"] .sticky-logo {
-  background: #141414;
+  background: #1f1f1f;
   border-bottom-color: #2d2d2d;
 }
 
