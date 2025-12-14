@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('event_tag_pivot', function (Blueprint $table) {
             $table->foreignId('event_id')->constrained()->onDelete('cascade');
-            $table->foreignId('tag_id')->constrained('event_tags')->onDelete('cascade');
+            $table->foreignId('event_tag_id')->constrained('event_tags')->onDelete('cascade');
             $table->timestamps();
 
-            $table->primary(['event_id', 'tag_id']);
+            $table->primary(['event_id', 'event_tag_id']);
         });
     }
 

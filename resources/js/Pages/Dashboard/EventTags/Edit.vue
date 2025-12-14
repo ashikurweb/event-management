@@ -53,7 +53,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, watch } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layouts/DashboardLayout.vue';
 import Breadcrumb from '../../../Components/Breadcrumb.vue';
@@ -61,6 +61,8 @@ import Breadcrumb from '../../../Components/Breadcrumb.vue';
 const page = usePage();
 const formRef = ref(null);
 const saving = ref(false);
+// For edit, we assume it's manually edited initially so we don't overwrite existing slug unless cleared
+const isSlugManuallyEdited = ref(true); 
 
 const tag = computed(() => page.props.tag);
 
@@ -73,6 +75,26 @@ const breadcrumbItems = ref([
 const form = reactive({
   name: tag.value?.name || '',
   slug: tag.value?.slug || '',
+});
+
+// Generate slug from name
+const generateSlug = (text) => {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '') // Remove special characters
+    .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
+    .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+};
+
+// Watch name field and auto-generate slug
+watch(() => form.name, (newName) => {
+  // On edit, we might want to be more conservative. 
+  // If slug is empty, definitely generate. 
+  // If we decided to track manual edits, we respect that.
+  if (!form.slug) {
+      form.slug = generateSlug(newName);
+  }
 });
 
 const rules = {
