@@ -115,6 +115,7 @@
 <script setup>
 import { ref, reactive, computed, watch } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
+import { generateSlug } from '../../../utils/stringHelpers.js';
 import DashboardLayout from '../../../Layouts/DashboardLayout.vue';
 import Breadcrumb from '../../../Components/Breadcrumb.vue';
 import Input from '../../../Components/Input.vue';
@@ -141,15 +142,6 @@ const form = reactive({
   is_active: '1',
 });
 
-// Generate slug from name
-const generateSlug = (text) => {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, '') // Remove special characters
-    .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
-    .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
-};
 
 // Watch name field and auto-generate slug
 watch(() => form.name, (newName) => {
