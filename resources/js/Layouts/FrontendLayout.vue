@@ -23,17 +23,12 @@
               Connect, learn, and celebrate with thousands of events worldwide.
             </p>
             <div class="flex gap-3">
-              <a
-                v-for="social in socialLinks"
-                :key="social.name"
-                :href="social.href"
-                :class="[
-                  'w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200',
-                  isDark 
-                    ? 'bg-[#262626] text-gray-400 hover:bg-blue-900/30 hover:text-blue-400'
-                    : 'bg-gray-100 text-gray-600 hover:bg-blue-100 hover:text-blue-600'
-                ]"
-              >
+              <a v-for="social in socialLinks" :key="social.name" :href="social.href" :class="[
+                'w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200',
+                isDark
+                  ? 'bg-[#262626] text-gray-400 hover:bg-blue-900/30 hover:text-blue-400'
+                  : 'bg-gray-100 text-gray-600 hover:bg-blue-100 hover:text-blue-600'
+              ]">
                 <component :is="social.icon" />
               </a>
             </div>
@@ -44,15 +39,12 @@
             <h3 class="text-lg font-semibold mb-4" :class="isDark ? 'text-white' : 'text-gray-900'">Quick Links</h3>
             <ul class="space-y-2">
               <li v-for="link in quickLinks" :key="link.href">
-                <Link
-                  :href="link.href"
-                  :class="[
-                    'text-sm transition-colors duration-200',
-                    isDark 
-                      ? 'text-gray-400 hover:text-blue-400'
-                      : 'text-gray-600 hover:text-blue-600'
-                  ]"
-                >
+                <Link :href="link.href" :class="[
+                  'text-sm transition-colors duration-200',
+                  isDark
+                    ? 'text-gray-400 hover:text-blue-400'
+                    : 'text-gray-600 hover:text-blue-600'
+                ]">
                   {{ link.label }}
                 </Link>
               </li>
@@ -64,15 +56,12 @@
             <h3 class="text-lg font-semibold mb-4" :class="isDark ? 'text-white' : 'text-gray-900'">Support</h3>
             <ul class="space-y-2">
               <li v-for="link in supportLinks" :key="link.href">
-                <a
-                  :href="link.href"
-                  :class="[
-                    'text-sm transition-colors duration-200',
-                    isDark 
-                      ? 'text-gray-400 hover:text-blue-400'
-                      : 'text-gray-600 hover:text-blue-600'
-                  ]"
-                >
+                <a :href="link.href" :class="[
+                  'text-sm transition-colors duration-200',
+                  isDark
+                    ? 'text-gray-400 hover:text-blue-400'
+                    : 'text-gray-600 hover:text-blue-600'
+                ]">
                   {{ link.label }}
                 </a>
               </li>
@@ -87,13 +76,8 @@
             </p>
             <div class="newsletter-form">
               <a-input-group compact class="newsletter-input-group">
-                <a-input
-                  v-model:value="newsletterEmail"
-                  placeholder="Your email"
-                  class="newsletter-input"
-                  :class="isDark ? 'newsletter-input-dark' : 'newsletter-input-light'"
-                  size="large"
-                />
+                <a-input v-model:value="newsletterEmail" placeholder="Your email" class="newsletter-input"
+                  :class="isDark ? 'newsletter-input-dark' : 'newsletter-input-light'" size="large" />
                 <a-button type="primary" size="large" class="newsletter-button">
                   Subscribe
                 </a-button>
