@@ -7,31 +7,16 @@
         <h2 class="card-title">Edit Event</h2>
       </template>
 
-      <a-form
-        :model="form"
-        :rules="rules"
-        layout="vertical"
-        ref="formRef"
-        @finish="handleSubmit"
-      >
+      <a-form :model="form" :rules="rules" layout="vertical" ref="formRef" @finish="handleSubmit">
         <a-tabs default-active-key="basic">
           <!-- Basic Information -->
           <a-tab-pane key="basic" tab="Basic Information">
             <a-row :gutter="16">
               <a-col :xs="24" :md="12">
                 <a-form-item label="Organizer" name="organizer_id" required>
-                  <a-select
-                    v-model:value="form.organizer_id"
-                    placeholder="Select an organizer"
-                    show-search
-                    :filter-option="filterOption"
-                    style="width: 100%"
-                  >
-                    <a-select-option
-                      v-for="organizer in organizers"
-                      :key="organizer.id"
-                      :value="organizer.id"
-                    >
+                  <a-select v-model:value="form.organizer_id" placeholder="Select an organizer" show-search
+                    :filter-option="filterOption" style="width: 100%">
+                    <a-select-option v-for="organizer in organizers" :key="organizer.id" :value="organizer.id">
                       {{ organizer.first_name }} {{ organizer.last_name }} ({{ organizer.email }})
                     </a-select-option>
                   </a-select>
@@ -40,19 +25,9 @@
 
               <a-col :xs="24" :md="12">
                 <a-form-item label="Category" name="category_id">
-                  <a-select
-                    v-model:value="form.category_id"
-                    placeholder="Select a category (optional)"
-                    allow-clear
-                    show-search
-                    :filter-option="filterOption"
-                    style="width: 100%"
-                  >
-                    <a-select-option
-                      v-for="category in categories"
-                      :key="category.id"
-                      :value="category.id"
-                    >
+                  <a-select v-model:value="form.category_id" placeholder="Select a category (optional)" allow-clear
+                    show-search :filter-option="filterOption" style="width: 100%">
+                    <a-select-option v-for="category in categories" :key="category.id" :value="category.id">
                       {{ category.name }}
                     </a-select-option>
                   </a-select>
@@ -63,21 +38,13 @@
             <a-row :gutter="16">
               <a-col :xs="24" :md="16">
                 <a-form-item label="Title" name="title" required>
-                  <a-input
-                    v-model:value="form.title"
-                    placeholder="Enter event title"
-                    :maxlength="255"
-                  />
+                  <a-input v-model:value="form.title" placeholder="Enter event title" :maxlength="255" />
                 </a-form-item>
               </a-col>
 
               <a-col :xs="24" :md="8">
                 <a-form-item label="Slug" name="slug">
-                  <a-input
-                    v-model:value="form.slug"
-                    placeholder="Auto-generated from title"
-                    :maxlength="255"
-                  />
+                  <a-input v-model:value="form.slug" placeholder="Auto-generated from title" :maxlength="255" />
                   <template #extra>
                     <span class="form-extra-text">Auto-generated if left empty</span>
                   </template>
@@ -86,31 +53,18 @@
             </a-row>
 
             <a-form-item label="Short Description" name="short_description">
-              <a-textarea
-                v-model:value="form.short_description"
-                placeholder="Enter a short description (max 500 characters)"
-                :rows="3"
-                :maxlength="500"
-                show-count
-              />
+              <a-textarea v-model:value="form.short_description"
+                placeholder="Enter a short description (max 500 characters)" :rows="3" :maxlength="500" show-count />
             </a-form-item>
 
             <a-form-item label="Description" name="description">
-              <a-textarea
-                v-model:value="form.description"
-                placeholder="Enter full event description"
-                :rows="6"
-              />
+              <a-textarea v-model:value="form.description" placeholder="Enter full event description" :rows="6" />
             </a-form-item>
 
             <a-row :gutter="16">
               <a-col :xs="24" :md="8">
                 <a-form-item label="Event Type" name="event_type" required>
-                  <a-select
-                    v-model:value="form.event_type"
-                    placeholder="Select event type"
-                    style="width: 100%"
-                  >
+                  <a-select v-model:value="form.event_type" placeholder="Select event type" style="width: 100%">
                     <a-select-option value="online">Online</a-select-option>
                     <a-select-option value="offline">Offline</a-select-option>
                     <a-select-option value="hybrid">Hybrid</a-select-option>
@@ -120,11 +74,7 @@
 
               <a-col :xs="24" :md="8">
                 <a-form-item label="Status" name="status">
-                  <a-select
-                    v-model:value="form.status"
-                    placeholder="Select status"
-                    style="width: 100%"
-                  >
+                  <a-select v-model:value="form.status" placeholder="Select status" style="width: 100%">
                     <a-select-option value="draft">Draft</a-select-option>
                     <a-select-option value="published">Published</a-select-option>
                     <a-select-option value="cancelled">Cancelled</a-select-option>
@@ -136,11 +86,7 @@
 
               <a-col :xs="24" :md="8">
                 <a-form-item label="Visibility" name="visibility">
-                  <a-select
-                    v-model:value="form.visibility"
-                    placeholder="Select visibility"
-                    style="width: 100%"
-                  >
+                  <a-select v-model:value="form.visibility" placeholder="Select visibility" style="width: 100%">
                     <a-select-option value="public">Public</a-select-option>
                     <a-select-option value="private">Private</a-select-option>
                     <a-select-option value="unlisted">Unlisted</a-select-option>
@@ -150,19 +96,9 @@
             </a-row>
 
             <a-form-item label="Tags" name="tags">
-              <a-select
-                v-model:value="form.tags"
-                mode="multiple"
-                placeholder="Select tags"
-                show-search
-                :filter-option="filterOption"
-                style="width: 100%"
-              >
-                <a-select-option
-                  v-for="tag in tags"
-                  :key="tag.id"
-                  :value="tag.id"
-                >
+              <a-select v-model:value="form.tags" mode="multiple" placeholder="Select tags" show-search
+                :filter-option="filterOption" style="width: 100%">
+                <a-select-option v-for="tag in tags" :key="tag.id" :value="tag.id">
                   {{ tag.name }}
                 </a-select-option>
               </a-select>
@@ -174,25 +110,15 @@
             <a-row :gutter="16">
               <a-col :xs="24" :md="12">
                 <a-form-item label="Start Date & Time" name="start_date" required>
-                  <a-date-picker
-                    v-model:value="form.start_date"
-                    show-time
-                    format="YYYY-MM-DD HH:mm:ss"
-                    style="width: 100%"
-                    placeholder="Select start date and time"
-                  />
+                  <a-date-picker v-model:value="form.start_date" show-time format="YYYY-MM-DD HH:mm:ss"
+                    style="width: 100%" placeholder="Select start date and time" />
                 </a-form-item>
               </a-col>
 
               <a-col :xs="24" :md="12">
                 <a-form-item label="End Date & Time" name="end_date" required>
-                  <a-date-picker
-                    v-model:value="form.end_date"
-                    show-time
-                    format="YYYY-MM-DD HH:mm:ss"
-                    style="width: 100%"
-                    placeholder="Select end date and time"
-                  />
+                  <a-date-picker v-model:value="form.end_date" show-time format="YYYY-MM-DD HH:mm:ss"
+                    style="width: 100%" placeholder="Select end date and time" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -200,11 +126,7 @@
             <a-row :gutter="16">
               <a-col :xs="24" :md="12">
                 <a-form-item label="Timezone" name="timezone" required>
-                  <a-input
-                    v-model:value="form.timezone"
-                    placeholder="e.g., UTC, America/New_York"
-                    :maxlength="50"
-                  />
+                  <a-input v-model:value="form.timezone" placeholder="e.g., UTC, America/New_York" :maxlength="50" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -212,25 +134,15 @@
             <a-row :gutter="16">
               <a-col :xs="24" :md="12">
                 <a-form-item label="Registration Start" name="registration_start">
-                  <a-date-picker
-                    v-model:value="form.registration_start"
-                    show-time
-                    format="YYYY-MM-DD HH:mm:ss"
-                    style="width: 100%"
-                    placeholder="Select registration start date"
-                  />
+                  <a-date-picker v-model:value="form.registration_start" show-time format="YYYY-MM-DD HH:mm:ss"
+                    style="width: 100%" placeholder="Select registration start date" />
                 </a-form-item>
               </a-col>
 
               <a-col :xs="24" :md="12">
                 <a-form-item label="Registration End" name="registration_end">
-                  <a-date-picker
-                    v-model:value="form.registration_end"
-                    show-time
-                    format="YYYY-MM-DD HH:mm:ss"
-                    style="width: 100%"
-                    placeholder="Select registration end date"
-                  />
+                  <a-date-picker v-model:value="form.registration_end" show-time format="YYYY-MM-DD HH:mm:ss"
+                    style="width: 100%" placeholder="Select registration end date" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -238,97 +150,7 @@
 
           <!-- Location (for offline/hybrid) -->
           <a-tab-pane key="location" tab="Location">
-            <a-row :gutter="16">
-              <a-col :xs="24">
-                <a-form-item label="Venue Name" name="venue_name">
-                  <a-input
-                    v-model:value="form.venue_name"
-                    placeholder="Enter venue name"
-                    :maxlength="255"
-                  />
-                </a-form-item>
-              </a-col>
-            </a-row>
-
-            <a-form-item label="Venue Address" name="venue_address">
-              <a-textarea
-                v-model:value="form.venue_address"
-                placeholder="Enter full venue address"
-                :rows="3"
-              />
-            </a-form-item>
-
-            <a-row :gutter="16">
-              <a-col :xs="24" :md="8">
-                <a-form-item label="City" name="venue_city">
-                  <a-input
-                    v-model:value="form.venue_city"
-                    placeholder="Enter city"
-                    :maxlength="100"
-                  />
-                </a-form-item>
-              </a-col>
-
-              <a-col :xs="24" :md="8">
-                <a-form-item label="State" name="venue_state">
-                  <a-input
-                    v-model:value="form.venue_state"
-                    placeholder="Enter state"
-                    :maxlength="100"
-                  />
-                </a-form-item>
-              </a-col>
-
-              <a-col :xs="24" :md="8">
-                <a-form-item label="Country" name="venue_country">
-                  <a-input
-                    v-model:value="form.venue_country"
-                    placeholder="Enter country"
-                    :maxlength="100"
-                  />
-                </a-form-item>
-              </a-col>
-            </a-row>
-
-            <a-row :gutter="16">
-              <a-col :xs="24" :md="12">
-                <a-form-item label="Postal Code" name="venue_postal_code">
-                  <a-input
-                    v-model:value="form.venue_postal_code"
-                    placeholder="Enter postal code"
-                    :maxlength="20"
-                  />
-                </a-form-item>
-              </a-col>
-            </a-row>
-
-            <a-row :gutter="16">
-              <a-col :xs="24" :md="12">
-                <a-form-item label="Latitude" name="latitude">
-                  <a-input-number
-                    v-model:value="form.latitude"
-                    placeholder="Enter latitude"
-                    style="width: 100%"
-                    :min="-90"
-                    :max="90"
-                    :precision="8"
-                  />
-                </a-form-item>
-              </a-col>
-
-              <a-col :xs="24" :md="12">
-                <a-form-item label="Longitude" name="longitude">
-                  <a-input-number
-                    v-model:value="form.longitude"
-                    placeholder="Enter longitude"
-                    style="width: 100%"
-                    :min="-180"
-                    :max="180"
-                    :precision="8"
-                  />
-                </a-form-item>
-              </a-col>
-            </a-row>
+            <!-- Venue Selection from Database -->
           </a-tab-pane>
 
           <!-- Online Details (for online/hybrid) -->
@@ -336,10 +158,7 @@
             <a-row :gutter="16">
               <a-col :xs="24">
                 <a-form-item label="Meeting URL" name="meeting_url">
-                  <a-input
-                    v-model:value="form.meeting_url"
-                    placeholder="Enter meeting URL"
-                  />
+                  <a-input v-model:value="form.meeting_url" placeholder="Enter meeting URL" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -347,21 +166,14 @@
             <a-row :gutter="16">
               <a-col :xs="24" :md="12">
                 <a-form-item label="Meeting Platform" name="meeting_platform">
-                  <a-input
-                    v-model:value="form.meeting_platform"
-                    placeholder="e.g., Zoom, Google Meet, Teams"
-                    :maxlength="50"
-                  />
+                  <a-input v-model:value="form.meeting_platform" placeholder="e.g., Zoom, Google Meet, Teams"
+                    :maxlength="50" />
                 </a-form-item>
               </a-col>
 
               <a-col :xs="24" :md="12">
                 <a-form-item label="Meeting ID" name="meeting_id">
-                  <a-input
-                    v-model:value="form.meeting_id"
-                    placeholder="Enter meeting ID"
-                    :maxlength="255"
-                  />
+                  <a-input v-model:value="form.meeting_id" placeholder="Enter meeting ID" :maxlength="255" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -369,11 +181,8 @@
             <a-row :gutter="16">
               <a-col :xs="24" :md="12">
                 <a-form-item label="Meeting Password" name="meeting_password">
-                  <a-input-password
-                    v-model:value="form.meeting_password"
-                    placeholder="Enter meeting password"
-                    :maxlength="255"
-                  />
+                  <a-input-password v-model:value="form.meeting_password" placeholder="Enter meeting password"
+                    :maxlength="255" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -384,23 +193,15 @@
             <a-row :gutter="16">
               <a-col :xs="24" :md="8">
                 <a-form-item label="Max Attendees" name="max_attendees">
-                  <a-input-number
-                    v-model:value="form.max_attendees"
-                    placeholder="Enter max attendees"
-                    style="width: 100%"
-                    :min="1"
-                  />
+                  <a-input-number v-model:value="form.max_attendees" placeholder="Enter max attendees"
+                    style="width: 100%" :min="1" />
                 </a-form-item>
               </a-col>
 
               <a-col :xs="24" :md="8">
                 <a-form-item label="Min Attendees" name="min_attendees">
-                  <a-input-number
-                    v-model:value="form.min_attendees"
-                    placeholder="Enter min attendees"
-                    style="width: 100%"
-                    :min="1"
-                  />
+                  <a-input-number v-model:value="form.min_attendees" placeholder="Enter min attendees"
+                    style="width: 100%" :min="1" />
                 </a-form-item>
               </a-col>
 
@@ -443,21 +244,14 @@
             <a-row :gutter="16">
               <a-col :xs="24" :md="12">
                 <a-form-item label="Featured Image URL" name="featured_image">
-                  <a-input
-                    v-model:value="form.featured_image"
-                    placeholder="Enter featured image URL"
-                    :maxlength="255"
-                  />
+                  <a-input v-model:value="form.featured_image" placeholder="Enter featured image URL"
+                    :maxlength="255" />
                 </a-form-item>
               </a-col>
 
               <a-col :xs="24" :md="12">
                 <a-form-item label="Banner Image URL" name="banner_image">
-                  <a-input
-                    v-model:value="form.banner_image"
-                    placeholder="Enter banner image URL"
-                    :maxlength="255"
-                  />
+                  <a-input v-model:value="form.banner_image" placeholder="Enter banner image URL" :maxlength="255" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -465,10 +259,7 @@
             <a-row :gutter="16">
               <a-col :xs="24">
                 <a-form-item label="Video URL" name="video_url">
-                  <a-input
-                    v-model:value="form.video_url"
-                    placeholder="Enter video URL"
-                  />
+                  <a-input v-model:value="form.video_url" placeholder="Enter video URL" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -478,29 +269,18 @@
             <a-row :gutter="16">
               <a-col :xs="24">
                 <a-form-item label="Meta Title" name="meta_title">
-                  <a-input
-                    v-model:value="form.meta_title"
-                    placeholder="Enter meta title"
-                    :maxlength="255"
-                  />
+                  <a-input v-model:value="form.meta_title" placeholder="Enter meta title" :maxlength="255" />
                 </a-form-item>
               </a-col>
             </a-row>
 
             <a-form-item label="Meta Description" name="meta_description">
-              <a-textarea
-                v-model:value="form.meta_description"
-                placeholder="Enter meta description"
-                :rows="3"
-              />
+              <a-textarea v-model:value="form.meta_description" placeholder="Enter meta description" :rows="3" />
             </a-form-item>
 
             <a-form-item label="Meta Keywords" name="meta_keywords">
-              <a-textarea
-                v-model:value="form.meta_keywords"
-                placeholder="Enter meta keywords (comma-separated)"
-                :rows="2"
-              />
+              <a-textarea v-model:value="form.meta_keywords" placeholder="Enter meta keywords (comma-separated)"
+                :rows="2" />
             </a-form-item>
           </a-tab-pane>
         </a-tabs>
@@ -532,6 +312,8 @@ const saving = ref(false);
 const organizers = computed(() => page.props.organizers || []);
 const categories = computed(() => page.props.categories || []);
 const tags = computed(() => page.props.tags || []);
+const venues = computed(() => page.props.venues || []);
+const selectedVenueId = ref(null);
 
 const breadcrumbItems = ref([
   { label: 'Dashboard', href: '/dashboard' },
@@ -641,6 +423,24 @@ const handleSubmit = async () => {
 const handleCancel = () => {
   router.visit('/dashboard/events');
 };
+
+const handleVenueChange = (venueId) => {
+  if (!venueId) {
+    return;
+  }
+
+  const venue = venues.value.find(v => v.id === venueId);
+  if (venue) {
+    form.venue_name = venue.name;
+    form.venue_address = venue.address;
+    form.venue_city = venue.city;
+    form.venue_state = venue.state;
+    form.venue_country = venue.country;
+    form.venue_postal_code = venue.postal_code;
+    form.latitude = venue.latitude ? Number(venue.latitude) : null;
+    form.longitude = venue.longitude ? Number(venue.longitude) : null;
+  }
+};
 </script>
 
 <style scoped>
@@ -686,4 +486,3 @@ const handleCancel = () => {
   padding-top: 16px;
 }
 </style>
-

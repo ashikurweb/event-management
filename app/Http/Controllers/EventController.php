@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\EventTag;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Venue;
 use App\Models\UserActivityLog;
 use App\Http\Requests\Event\EventStoreRequest;
 use App\Http\Requests\Event\EventUpdateRequest;
@@ -93,11 +94,13 @@ class EventController extends Controller
         
         $categories = Category::orderBy('name')->get(['id', 'name']);
         $tags = EventTag::orderBy('name')->get(['id', 'name']);
+        $venues = Venue::orderBy('name')->get(['id', 'name', 'address', 'city', 'state', 'country', 'postal_code', 'latitude', 'longitude']);
 
         return Inertia::render('Dashboard/Events/Create', [
             'organizers' => $organizers,
             'categories' => $categories,
             'tags' => $tags,
+            'venues' => $venues,
         ]);
     }
 
@@ -207,6 +210,7 @@ class EventController extends Controller
         
         $categories = Category::orderBy('name')->get(['id', 'name']);
         $tags = EventTag::orderBy('name')->get(['id', 'name']);
+        $venues = Venue::orderBy('name')->get(['id', 'name', 'address', 'city', 'state', 'country', 'postal_code', 'latitude', 'longitude']);
 
         $event->load(['organizer', 'category', 'tags']);
 
@@ -215,6 +219,7 @@ class EventController extends Controller
             'organizers' => $organizers,
             'categories' => $categories,
             'tags' => $tags,
+            'venues' => $venues,
         ]);
     }
 
