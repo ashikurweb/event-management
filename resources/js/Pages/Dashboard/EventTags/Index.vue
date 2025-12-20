@@ -4,7 +4,9 @@
       <Breadcrumb :items="breadcrumbItems" />
       <div class="breadcrumb-actions">
         <a-button @click="handleRefresh" title="Refresh">
-          <template #icon><ReloadOutlined /></template>
+          <template #icon>
+            <ReloadOutlined />
+          </template>
         </a-button>
       </div>
     </div>
@@ -14,7 +16,9 @@
         <div class="card-header">
           <h2 class="card-title">Event Tags</h2>
           <a-button type="primary" @click="handleCreate">
-            <template #icon><PlusOutlined /></template>
+            <template #icon>
+              <PlusOutlined />
+            </template>
             Create Tag
           </a-button>
         </div>
@@ -23,24 +27,8 @@
       <!-- Filters -->
       <div class="filters-section">
         <a-row :gutter="16">
-          <a-col :xs="24" :sm="12" :md="8">
-            <a-input
-              v-model:value="filters.search"
-              placeholder="Search tags..."
-              allow-clear
-              @pressEnter="handleSearch"
-            >
-              <template #prefix><SearchOutlined /></template>
-            </a-input>
-          </a-col>
-          <a-col :xs="24" :sm="12" :md="16">
-            <a-space>
-              <a-button type="primary" @click="handleSearch">
-                <template #icon><SearchOutlined /></template>
-                Search
-              </a-button>
-              <a-button @click="handleResetFilters">Reset</a-button>
-            </a-space>
+          <a-col :xs="24" :md="12">
+            <Search v-model="filters.search" placeholder="Search tags..." @search="handleSearch" />
           </a-col>
         </a-row>
       </div>
@@ -56,18 +44,11 @@
       </div>
 
       <!-- Table -->
-      <a-table
-        :columns="columns"
-        :data-source="tags.data"
-        :row-key="(record) => record.id"
-        :pagination="false"
-        :loading="loading"
-        :row-selection="{
+      <a-table :columns="columns" :data-source="tags.data" :row-key="(record) => record.id" :pagination="false"
+        :loading="loading" :row-selection="{
           selectedRowKeys: selectedRowKeys,
           onChange: onSelectChange,
-        }"
-        @change="handleTableChange"
-      >
+        }" @change="handleTableChange">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
             <div class="tag-name-cell">
@@ -86,19 +67,21 @@
           <template v-if="column.key === 'actions'">
             <a-space>
               <a-button type="link" size="small" @click="handleView(record)">
-                <template #icon><EyeOutlined /></template>
+                <template #icon>
+                  <EyeOutlined />
+                </template>
               </a-button>
               <a-button type="link" size="small" @click="handleEdit(record)">
-                <template #icon><EditOutlined /></template>
+                <template #icon>
+                  <EditOutlined />
+                </template>
               </a-button>
-              <a-popconfirm
-                title="Are you sure you want to delete this tag?"
-                ok-text="Yes"
-                cancel-text="No"
-                @confirm="handleDelete(record)"
-              >
+              <a-popconfirm title="Are you sure you want to delete this tag?" ok-text="Yes" cancel-text="No"
+                @confirm="handleDelete(record)">
                 <a-button type="link" size="small" danger>
-                  <template #icon><DeleteOutlined /></template>
+                  <template #icon>
+                    <DeleteOutlined />
+                  </template>
                 </a-button>
               </a-popconfirm>
             </a-space>
@@ -107,14 +90,9 @@
       </a-table>
 
       <!-- Modern Pagination -->
-      <Pagination
-        :current="pagination.current"
-        :page-size="pagination.pageSize"
-        :total="pagination.total"
-        :page-size-options="[10, 15, 20, 50, 100]"
-        @change="handlePaginationChange"
-        @page-size-change="handlePageSizeChange"
-      />
+      <Pagination :current="pagination.current" :page-size="pagination.pageSize" :total="pagination.total"
+        :page-size-options="[10, 15, 20, 50, 100]" @change="handlePaginationChange"
+        @page-size-change="handlePageSizeChange" />
     </a-card>
   </DashboardLayout>
 </template>
@@ -125,9 +103,9 @@ import { router, usePage } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layouts/DashboardLayout.vue';
 import Breadcrumb from '../../../Components/Breadcrumb.vue';
 import Pagination from '../../../Components/Pagination.vue';
+import Search from '../../../Components/Search.vue';
 import {
   PlusOutlined,
-  SearchOutlined,
   EyeOutlined,
   EditOutlined,
   DeleteOutlined,
@@ -278,7 +256,7 @@ const handleBulkAction = (action) => {
 const handleRefresh = () => {
   filters.value = {};
   selectedRowKeys.value = [];
-  
+
   router.visit('/dashboard/event-tags', {
     preserveState: false,
     preserveScroll: false,
@@ -376,4 +354,3 @@ const handleRefresh = () => {
   color: rgba(255, 255, 255, 0.45);
 }
 </style>
-

@@ -20,6 +20,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ReviewReplyController;
 use App\Http\Controllers\AIAssistantController;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\TicketTypeController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return Inertia::render('Home');
@@ -82,6 +85,40 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard/categories')->name('c
     Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
     Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
     Route::post('/bulk-action', [CategoryController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Ticket Type Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/ticket-types')->name('ticket-types.')->group(function () {
+    Route::get('/', [TicketTypeController::class, 'index'])->name('index');
+    Route::get('/create', [TicketTypeController::class, 'create'])->name('create');
+    Route::post('/', [TicketTypeController::class, 'store'])->name('store');
+    Route::get('/{ticketType}/activities', [TicketTypeController::class, 'activities'])->name('activities');
+    Route::get('/{ticketType}', [TicketTypeController::class, 'show'])->name('show');
+    Route::get('/{ticketType}/edit', [TicketTypeController::class, 'edit'])->name('edit');
+    Route::put('/{ticketType}', [TicketTypeController::class, 'update'])->name('update');
+    Route::delete('/{ticketType}', [TicketTypeController::class, 'destroy'])->name('destroy');
+    Route::post('/bulk-action', [TicketTypeController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Ticket Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/tickets')->name('tickets.')->group(function () {
+    Route::get('/', [TicketController::class, 'index'])->name('index');
+    Route::get('/create', [TicketController::class, 'create'])->name('create');
+    Route::post('/', [TicketController::class, 'store'])->name('store');
+    Route::get('/{ticket}/activities', [TicketController::class, 'activities'])->name('activities');
+    Route::get('/{ticket}', [TicketController::class, 'show'])->name('show');
+    Route::get('/{ticket}/edit', [TicketController::class, 'edit'])->name('edit');
+    Route::put('/{ticket}', [TicketController::class, 'update'])->name('update');
+    Route::delete('/{ticket}', [TicketController::class, 'destroy'])->name('destroy');
+    Route::post('/bulk-action', [TicketController::class, 'bulkAction'])->name('bulk-action');
+});
+
+// Order Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard/orders')->name('orders.')->group(function () {
+    Route::get('/', [OrderController::class, 'index'])->name('index');
+    Route::get('/{order}', [OrderController::class, 'show'])->name('show');
+    Route::put('/{order}/status', [OrderController::class, 'updateStatus'])->name('update-status');
+    Route::delete('/{order}', [OrderController::class, 'destroy'])->name('destroy');
 });
 
 // Team Invitation Routes (must come before teams routes to avoid route conflict)

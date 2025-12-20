@@ -145,6 +145,8 @@
     --card-bg: #ffffff;
     --card-border: #f0f0f0;
     --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --card-bg-glass: rgba(255, 255, 255, 0.7);
+    --card-border-glass: rgba(255, 255, 255, 0.3);
     
     /* Input */
     --input-bg: #ffffff;

@@ -4,13 +4,19 @@
       <Breadcrumb :items="breadcrumbItems" />
       <div class="breadcrumb-actions">
         <a-button @click="handleRefresh" title="Refresh">
-          <template #icon><ReloadOutlined /></template>
+          <template #icon>
+            <ReloadOutlined />
+          </template>
         </a-button>
         <a-button @click="handleExportPDF" title="Export PDF">
-          <template #icon><FilePdfOutlined /></template>
+          <template #icon>
+            <FilePdfOutlined />
+          </template>
         </a-button>
         <a-button @click="handleExportExcel" title="Export Excel">
-          <template #icon><FileExcelOutlined /></template>
+          <template #icon>
+            <FileExcelOutlined />
+          </template>
         </a-button>
       </div>
     </div>
@@ -20,7 +26,9 @@
         <div class="card-title-wrapper">
           <h2 class="card-title">All Vendors</h2>
           <a-button type="primary" @click="handleCreate">
-            <template #icon><PlusOutlined /></template>
+            <template #icon>
+              <PlusOutlined />
+            </template>
             Add Vendor
           </a-button>
         </div>
@@ -29,43 +37,23 @@
       <!-- Filters -->
       <div class="filters-section">
         <a-row :gutter="16">
-          <a-col :xs="24" :sm="12" :md="8">
-            <a-input
-              v-model:value="filters.search"
-              placeholder="Search vendors..."
-              allow-clear
-              @pressEnter="handleSearch"
-            >
-              <template #prefix><SearchOutlined /></template>
-            </a-input>
+          <a-col :xs="24" :sm="12" :md="12">
+            <Search v-model="filters.search" placeholder="Search vendors..." @search="handleSearch" />
           </a-col>
-          <a-col :xs="24" :sm="12" :md="8">
-            <a-range-picker
-              v-model:value="dateRange"
-              :placeholder="['Start Date', 'End Date']"
-              style="width: 100%"
-              @change="handleDateChange"
-            />
+          <a-col :xs="24" :sm="12" :md="12">
+            <DatePicker v-model="dateRange" @change="handleDateChange" />
           </a-col>
-          <a-col :xs="24" :sm="12" :md="4">
-            <a-select
-              v-model:value="filters.is_verified"
-              placeholder="Verification"
-              allow-clear
-              style="width: 100%"
-              @change="handleSearch"
-            >
-              <a-select-option value="1">Verified</a-select-option>
+        </a-row>
+        <a-row :gutter="16" style="margin-top: 12px">
+          <a-col :xs="24" :sm="12" :md="12">
+            <a-select v-model:value="filters.is_verified" placeholder="Verification Status" allow-clear
+              style="width: 100%" @change="handleSearch">
+              <a-select-option value="1">Verified Only</a-select-option>
               <a-select-option value="0">Not Verified</a-select-option>
             </a-select>
           </a-col>
-          <a-col :xs="24" :sm="12" :md="4">
-            <a-input
-              v-model:value="filters.category"
-              placeholder="Category"
-              allow-clear
-              @pressEnter="handleSearch"
-            />
+          <a-col :xs="24" :sm="12" :md="12">
+            <Search v-model="filters.category" placeholder="Filter by Category" @search="handleSearch" />
           </a-col>
         </a-row>
       </div>
@@ -83,29 +71,19 @@
       </div>
 
       <!-- Table -->
-      <a-table
-        :columns="columns"
-        :data-source="vendors.data"
-        :row-key="(record) => record.id"
-        :pagination="false"
-        :loading="loading"
-        :row-selection="{
+      <a-table :columns="columns" :data-source="vendors.data" :row-key="(record) => record.id" :pagination="false"
+        :loading="loading" :row-selection="{
           selectedRowKeys: selectedRowKeys,
           onChange: onSelectChange,
-        }"
-        @change="handleTableChange"
-      >
+        }" @change="handleTableChange">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'logo'">
-            <a-avatar
-              v-if="record.logo_url"
-              :src="record.logo_url"
-              :size="50"
-              shape="square"
-              class="vendor-logo-avatar"
-            />
+            <a-avatar v-if="record.logo_url" :src="record.logo_url" :size="50" shape="square"
+              class="vendor-logo-avatar" />
             <a-avatar v-else :size="50" shape="square">
-              <template #icon><ShopOutlined /></template>
+              <template #icon>
+                <ShopOutlined />
+              </template>
             </a-avatar>
           </template>
 
@@ -130,19 +108,21 @@
           <template v-if="column.key === 'actions'">
             <a-space>
               <a-button type="link" size="small" @click="handleView(record)">
-                <template #icon><EyeOutlined /></template>
+                <template #icon>
+                  <EyeOutlined />
+                </template>
               </a-button>
               <a-button type="link" size="small" @click="handleEdit(record)">
-                <template #icon><EditOutlined /></template>
+                <template #icon>
+                  <EditOutlined />
+                </template>
               </a-button>
-              <a-popconfirm
-                title="Are you sure you want to delete this vendor?"
-                ok-text="Yes"
-                cancel-text="No"
-                @confirm="handleDelete(record)"
-              >
+              <a-popconfirm title="Are you sure you want to delete this vendor?" ok-text="Yes" cancel-text="No"
+                @confirm="handleDelete(record)">
                 <a-button type="link" size="small" danger>
-                  <template #icon><DeleteOutlined /></template>
+                  <template #icon>
+                    <DeleteOutlined />
+                  </template>
                 </a-button>
               </a-popconfirm>
             </a-space>
@@ -151,14 +131,9 @@
       </a-table>
 
       <!-- Modern Pagination -->
-      <Pagination
-        :current="pagination.current"
-        :page-size="pagination.pageSize"
-        :total="pagination.total"
-        :page-size-options="[10, 15, 20, 50, 100]"
-        @change="handlePaginationChange"
-        @page-size-change="handlePageSizeChange"
-      />
+      <Pagination :current="pagination.current" :page-size="pagination.pageSize" :total="pagination.total"
+        :page-size-options="[10, 15, 20, 50, 100]" @change="handlePaginationChange"
+        @page-size-change="handlePageSizeChange" />
     </a-card>
   </DashboardLayout>
 </template>
@@ -169,9 +144,10 @@ import { router, usePage } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layouts/DashboardLayout.vue';
 import Breadcrumb from '../../../Components/Breadcrumb.vue';
 import Pagination from '../../../Components/Pagination.vue';
+import Search from '../../../Components/Search.vue';
+import DatePicker from '../../../Components/DatePicker.vue';
 import {
   PlusOutlined,
-  SearchOutlined,
   EyeOutlined,
   EditOutlined,
   DeleteOutlined,
@@ -370,7 +346,7 @@ const handleRefresh = () => {
   };
   dateRange.value = null;
   selectedRowKeys.value = [];
-  
+
   router.visit('/dashboard/vendors', {
     preserveState: false,
     preserveScroll: false,
@@ -380,7 +356,7 @@ const handleRefresh = () => {
 const handleExportPDF = () => {
   const tableData = vendors.value.data || [];
   const columns = ['Name', 'Company', 'Email', 'Phone', 'Category', 'Rating', 'Verified'];
-  
+
   let content = `
     <html>
     <head>
@@ -419,7 +395,7 @@ const handleExportPDF = () => {
     </body>
     </html>
   `;
-  
+
   const printWindow = window.open('', '_blank');
   printWindow.document.write(content);
   printWindow.document.close();
@@ -430,7 +406,7 @@ const handleExportPDF = () => {
 
 const handleExportExcel = () => {
   const tableData = vendors.value.data || [];
-  
+
   const headers = ['Name', 'Company', 'Email', 'Phone', 'Category', 'Rating', 'Verified', 'Website', 'Created At'];
   const rows = tableData.map(row => [
     row.name || '',
@@ -443,12 +419,12 @@ const handleExportExcel = () => {
     row.website || '',
     row.created_at ? dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss') : '',
   ]);
-  
+
   const csvContent = [
     headers.join(','),
     ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
   ].join('\n');
-  
+
   const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
   const url = URL.createObjectURL(blob);
@@ -482,7 +458,7 @@ const handleExportExcel = () => {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .breadcrumb-actions {
     width: 100%;
     justify-content: flex-end;
@@ -578,4 +554,3 @@ const handleExportExcel = () => {
   color: rgba(255, 255, 255, 0.65);
 }
 </style>
-

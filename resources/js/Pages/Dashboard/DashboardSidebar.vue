@@ -1,5 +1,6 @@
 <template>
-  <div class="dashboard-sidebar" :class="{ collapsed: collapsed, 'mobile-open': mobileOpen, 'mobile-closed': !mobileOpen }">
+  <div class="dashboard-sidebar"
+    :class="{ collapsed: collapsed, 'mobile-open': mobileOpen, 'mobile-closed': !mobileOpen }">
     <!-- Logo - Sticky -->
     <div class="sidebar-logo sticky-logo">
       <div class="logo-icon">E</div>
@@ -8,235 +9,274 @@
 
     <!-- Menu -->
     <div class="menu-container">
-    <a-menu
-      v-model:selectedKeys="selectedKeys"
-      v-model:openKeys="openKeys"
-      mode="inline"
-      theme="light"
-      :inline-collapsed="collapsed"
-      class="dashboard-menu"
-      @click="handleMenuClick"
-    >
-      <!-- Group 1: Core -->
-      <a-menu-item key="dashboard">
-        <template #icon><DashboardOutlined /></template>
-        <span>Dashboard</span>
-      </a-menu-item>
+      <a-menu v-model:selectedKeys="selectedKeys" v-model:openKeys="openKeys" mode="inline" theme="light"
+        :inline-collapsed="collapsed" class="dashboard-menu" @click="handleMenuClick">
+        <!-- Group 1: Core -->
+        <a-menu-item key="dashboard">
+          <template #icon>
+            <DashboardOutlined />
+          </template>
+          <span>Dashboard</span>
+        </a-menu-item>
 
-      <a-sub-menu key="events">
-        <template #icon><CalendarOutlined /></template>
-        <template #title>Events</template>
-        <a-menu-item key="events-all">All Events</a-menu-item>
-        <a-menu-item key="event-tags-all">Event Tags</a-menu-item>
-      </a-sub-menu>
+        <a-sub-menu key="events">
+          <template #icon>
+            <CalendarOutlined />
+          </template>
+          <template #title>Events</template>
+          <a-menu-item key="events-all">All Events</a-menu-item>
+          <a-menu-item key="event-tags-all">Event Tags</a-menu-item>
+        </a-sub-menu>
 
-      <a-sub-menu key="tickets">
-        <template #icon><IdcardOutlined /></template>
-        <template #title>Tickets & Orders</template>
-        <a-menu-item key="orders-all">All Orders</a-menu-item>
-        <a-menu-item key="orders-pending">Pending Orders</a-menu-item>
-        <a-menu-item key="orders-completed">Completed Orders</a-menu-item>
-        <a-menu-item key="tickets-all">Tickets</a-menu-item>
-        <a-menu-item key="tickets-types">Ticket Types</a-menu-item>
-        <a-menu-item key="tickets-checkin">Check-in</a-menu-item>
-        <a-menu-item key="tickets-waitlist">Waitlist</a-menu-item>
-      </a-sub-menu>
+        <a-sub-menu key="tickets">
+          <template #icon>
+            <IdcardOutlined />
+          </template>
+          <template #title>Tickets & Orders</template>
+          <a-menu-item key="orders-all">All Orders</a-menu-item>
+          <a-menu-item key="orders-pending">Pending Orders</a-menu-item>
+          <a-menu-item key="orders-completed">Completed Orders</a-menu-item>
+          <a-menu-item key="tickets-all">Tickets</a-menu-item>
+          <a-menu-item key="tickets-types">Ticket Types</a-menu-item>
+          <a-menu-item key="tickets-checkin">Check-in</a-menu-item>
+          <a-menu-item key="tickets-waitlist">Waitlist</a-menu-item>
+        </a-sub-menu>
 
-      <a-sub-menu key="payments">
-        <template #icon><MoneyCollectOutlined /></template>
-        <template #title>Payments</template>
-        <a-menu-item key="payments-all">All Payments</a-menu-item>
-        <a-menu-item key="payments-pending">Pending Payments</a-menu-item>
-        <a-menu-item key="payments-completed">Completed Payments</a-menu-item>
-        <a-menu-item key="payments-refunds">Refunds</a-menu-item>
-        <a-menu-item key="payments-methods">Payment Methods</a-menu-item>
-      </a-sub-menu>
+        <a-sub-menu key="payments">
+          <template #icon>
+            <MoneyCollectOutlined />
+          </template>
+          <template #title>Payments</template>
+          <a-menu-item key="payments-all">All Payments</a-menu-item>
+          <a-menu-item key="payments-pending">Pending Payments</a-menu-item>
+          <a-menu-item key="payments-completed">Completed Payments</a-menu-item>
+          <a-menu-item key="payments-refunds">Refunds</a-menu-item>
+          <a-menu-item key="payments-methods">Payment Methods</a-menu-item>
+        </a-sub-menu>
 
-      <!-- Divider -->
-      <a-menu-divider />
+        <!-- Divider -->
+        <a-menu-divider />
 
-      <!-- Group 2: People -->
-      <a-sub-menu key="users">
-        <template #icon><TeamOutlined /></template>
-        <template #title>Users & Roles</template>
-        <a-menu-item key="users-all">All Users</a-menu-item>
-        <a-menu-item key="users-organizers">Organizers</a-menu-item>
-        <a-menu-item key="users-attendees">Attendees</a-menu-item>
-        <a-menu-item key="users-vendors">Vendors</a-menu-item>
-        <a-menu-item key="users-speakers">Speakers</a-menu-item>
-        <a-menu-item key="users-activity">Activity Logs</a-menu-item>
-      </a-sub-menu>
+        <!-- Group 2: People -->
+        <a-sub-menu key="users">
+          <template #icon>
+            <TeamOutlined />
+          </template>
+          <template #title>Users & Roles</template>
+          <a-menu-item key="users-all">All Users</a-menu-item>
+          <a-menu-item key="users-organizers">Organizers</a-menu-item>
+          <a-menu-item key="users-attendees">Attendees</a-menu-item>
+          <a-menu-item key="users-vendors">Vendors</a-menu-item>
+          <a-menu-item key="users-speakers">Speakers</a-menu-item>
+          <a-menu-item key="users-activity">Activity Logs</a-menu-item>
+        </a-sub-menu>
 
-      <!-- Roles & Permissions - Separate Menu Item -->
-      <a-sub-menu key="roles-permissions">
-        <template #icon><SafetyOutlined /></template>
-        <template #title>Roles & Permissions</template>
-        <a-menu-item key="roles-all">All Roles</a-menu-item>
-        <a-menu-item key="roles-create">Create Role</a-menu-item>
-        <a-menu-item key="permissions-all">All Permissions</a-menu-item>
-        <a-menu-item key="permissions-assign">Assign Permissions</a-menu-item>
-        <a-menu-item key="role-user-assign">Assign Roles to Users</a-menu-item>
-      </a-sub-menu>
+        <!-- Roles & Permissions - Separate Menu Item -->
+        <a-sub-menu key="roles-permissions">
+          <template #icon>
+            <SafetyOutlined />
+          </template>
+          <template #title>Roles & Permissions</template>
+          <a-menu-item key="roles-all">All Roles</a-menu-item>
+          <a-menu-item key="roles-create">Create Role</a-menu-item>
+          <a-menu-item key="permissions-all">All Permissions</a-menu-item>
+          <a-menu-item key="permissions-assign">Assign Permissions</a-menu-item>
+          <a-menu-item key="role-user-assign">Assign Roles to Users</a-menu-item>
+        </a-sub-menu>
 
-      <a-menu-item key="speakers">
-        <template #icon><UserOutlined /></template>
-        <span>Speakers</span>
-      </a-menu-item>
+        <a-menu-item key="speakers">
+          <template #icon>
+            <UserOutlined />
+          </template>
+          <span>Speakers</span>
+        </a-menu-item>
 
-      <!-- Divider -->
-      <a-menu-divider />
+        <!-- Divider -->
+        <a-menu-divider />
 
-      <!-- Group 3: Resources -->
-      <a-menu-item key="categories">
-        <template #icon><FolderOutlined /></template>
-        <span>Categories</span>
-      </a-menu-item>
+        <!-- Group 3: Resources -->
+        <a-menu-item key="categories">
+          <template #icon>
+            <FolderOutlined />
+          </template>
+          <span>Categories</span>
+        </a-menu-item>
 
-      <a-sub-menu key="teams">
-        <template #icon><TeamOutlined /></template>
-        <template #title>Teams</template>
-        <a-menu-item key="teams-all">My Teams</a-menu-item>
-        <a-menu-item key="teams-members">Team Members</a-menu-item>
-        <a-menu-item key="teams-invitations">Team Invitations</a-menu-item>
-      </a-sub-menu>
+        <a-sub-menu key="teams">
+          <template #icon>
+            <TeamOutlined />
+          </template>
+          <template #title>Teams</template>
+          <a-menu-item key="teams-all">My Teams</a-menu-item>
+          <a-menu-item key="teams-members">Team Members</a-menu-item>
+          <a-menu-item key="teams-invitations">Team Invitations</a-menu-item>
+        </a-sub-menu>
 
-      <a-sub-menu key="venues">
-        <template #icon><EnvironmentOutlined /></template>
-        <template #title>Venues</template>
-        <a-menu-item key="venues-all">All Venues</a-menu-item>
-        <a-menu-item key="venues-create">Add Venue</a-menu-item>
-        <a-menu-item key="venues-verified">Verified Venues</a-menu-item>
-      </a-sub-menu>
+        <a-sub-menu key="venues">
+          <template #icon>
+            <EnvironmentOutlined />
+          </template>
+          <template #title>Venues</template>
+          <a-menu-item key="venues-all">All Venues</a-menu-item>
+          <a-menu-item key="venues-create">Add Venue</a-menu-item>
+          <a-menu-item key="venues-verified">Verified Venues</a-menu-item>
+        </a-sub-menu>
 
-      <a-sub-menu key="sponsors">
-        <template #icon><StarOutlined /></template>
-        <template #title>Sponsors</template>
-        <a-menu-item key="sponsors-all">All Sponsors</a-menu-item>
-        <a-menu-item key="sponsors-platinum">Platinum</a-menu-item>
-        <a-menu-item key="sponsors-gold">Gold</a-menu-item>
-        <a-menu-item key="sponsors-silver">Silver</a-menu-item>
-        <a-menu-item key="sponsors-bronze">Bronze</a-menu-item>
-        <a-menu-item key="sponsors-create">Add Sponsor</a-menu-item>
-      </a-sub-menu>
+        <a-sub-menu key="sponsors">
+          <template #icon>
+            <StarOutlined />
+          </template>
+          <template #title>Sponsors</template>
+          <a-menu-item key="sponsors-all">All Sponsors</a-menu-item>
+          <a-menu-item key="sponsors-platinum">Platinum</a-menu-item>
+          <a-menu-item key="sponsors-gold">Gold</a-menu-item>
+          <a-menu-item key="sponsors-silver">Silver</a-menu-item>
+          <a-menu-item key="sponsors-bronze">Bronze</a-menu-item>
+          <a-menu-item key="sponsors-create">Add Sponsor</a-menu-item>
+        </a-sub-menu>
 
-      <a-sub-menu key="vendors">
-        <template #icon><ShopOutlined /></template>
-        <template #title>Vendors</template>
-        <a-menu-item key="vendors-all">All Vendors</a-menu-item>
-        <a-menu-item key="vendors-by-category">By Category</a-menu-item>
-        <a-menu-item key="vendors-create">Add Vendor</a-menu-item>
-        <a-menu-item key="vendors-event">Event Vendors</a-menu-item>
-      </a-sub-menu>
+        <a-sub-menu key="vendors">
+          <template #icon>
+            <ShopOutlined />
+          </template>
+          <template #title>Vendors</template>
+          <a-menu-item key="vendors-all">All Vendors</a-menu-item>
+          <a-menu-item key="vendors-by-category">By Category</a-menu-item>
+          <a-menu-item key="vendors-create">Add Vendor</a-menu-item>
+          <a-menu-item key="vendors-event">Event Vendors</a-menu-item>
+        </a-sub-menu>
 
-      <!-- Divider -->
-      <a-menu-divider />
+        <!-- Divider -->
+        <a-menu-divider />
 
-      <!-- Group 4: Marketing -->
-      <a-menu-item key="promo-codes">
-        <template #icon><TagOutlined /></template>
-        <span>Promo Codes</span>
-      </a-menu-item>
+        <!-- Group 4: Marketing -->
+        <a-menu-item key="promo-codes">
+          <template #icon>
+            <TagOutlined />
+          </template>
+          <span>Promo Codes</span>
+        </a-menu-item>
 
-      <a-sub-menu key="email">
-        <template #icon><MailOutlined /></template>
-        <template #title>Email & Communication</template>
-        <a-menu-item key="email-templates">Email Templates</a-menu-item>
-        <a-menu-item key="email-logs">Email Logs</a-menu-item>
-        <a-menu-item key="email-campaigns">Campaigns</a-menu-item>
-        <a-menu-item key="email-subscribers">Newsletter Subscribers</a-menu-item>
-      </a-sub-menu>
+        <a-sub-menu key="email">
+          <template #icon>
+            <MailOutlined />
+          </template>
+          <template #title>Email & Communication</template>
+          <a-menu-item key="email-templates">Email Templates</a-menu-item>
+          <a-menu-item key="email-logs">Email Logs</a-menu-item>
+          <a-menu-item key="email-campaigns">Campaigns</a-menu-item>
+          <a-menu-item key="email-subscribers">Newsletter Subscribers</a-menu-item>
+        </a-sub-menu>
 
-      <!-- Divider -->
-      <a-menu-divider />
+        <!-- Divider -->
+        <a-menu-divider />
 
-      <!-- Group 5: Engagement -->
-      <a-sub-menu key="reviews">
-        <template #icon><StarOutlined /></template>
-        <template #title>Reviews & Ratings</template>
-        <a-menu-item key="reviews-all">All Reviews</a-menu-item>
-        <a-menu-item key="reviews-pending">Pending Reviews</a-menu-item>
-        <a-menu-item key="reviews-approved">Approved Reviews</a-menu-item>
-        <a-menu-item key="reviews-replies">Review Replies</a-menu-item>
-      </a-sub-menu>
+        <!-- Group 5: Engagement -->
+        <a-sub-menu key="reviews">
+          <template #icon>
+            <StarOutlined />
+          </template>
+          <template #title>Reviews & Ratings</template>
+          <a-menu-item key="reviews-all">All Reviews</a-menu-item>
+          <a-menu-item key="reviews-pending">Pending Reviews</a-menu-item>
+          <a-menu-item key="reviews-approved">Approved Reviews</a-menu-item>
+          <a-menu-item key="reviews-replies">Review Replies</a-menu-item>
+        </a-sub-menu>
 
-      <a-sub-menu key="surveys">
-        <template #icon><FileTextOutlined /></template>
-        <template #title>Surveys</template>
-        <a-menu-item key="surveys-all">All Surveys</a-menu-item>
-        <a-menu-item key="surveys-responses">Survey Responses</a-menu-item>
-        <a-menu-item key="surveys-create">Create Survey</a-menu-item>
-      </a-sub-menu>
+        <a-sub-menu key="surveys">
+          <template #icon>
+            <FileTextOutlined />
+          </template>
+          <template #title>Surveys</template>
+          <a-menu-item key="surveys-all">All Surveys</a-menu-item>
+          <a-menu-item key="surveys-responses">Survey Responses</a-menu-item>
+          <a-menu-item key="surveys-create">Create Survey</a-menu-item>
+        </a-sub-menu>
 
-      <a-menu-item key="reviews">
-        <template #icon><StarOutlined /></template>
-        <span>Reviews & Ratings</span>
-      </a-menu-item>
+        <a-menu-item key="reviews">
+          <template #icon>
+            <StarOutlined />
+          </template>
+          <span>Reviews & Ratings</span>
+        </a-menu-item>
 
-      <a-sub-menu key="certificates">
-        <template #icon><TrophyFilled /></template>
-        <template #title>Certificates</template>
-        <a-menu-item key="certificates-all">All Certificates</a-menu-item>
-        <a-menu-item key="certificates-templates">Templates</a-menu-item>
-        <a-menu-item key="certificates-generate">Generate</a-menu-item>
-      </a-sub-menu>
+        <a-sub-menu key="certificates">
+          <template #icon>
+            <TrophyFilled />
+          </template>
+          <template #title>Certificates</template>
+          <a-menu-item key="certificates-all">All Certificates</a-menu-item>
+          <a-menu-item key="certificates-templates">Templates</a-menu-item>
+          <a-menu-item key="certificates-generate">Generate</a-menu-item>
+        </a-sub-menu>
 
-      <a-sub-menu key="notifications">
-        <template #icon><BellOutlined /></template>
-        <template #title>Notifications</template>
-        <a-menu-item key="notifications-all">All Notifications</a-menu-item>
-        <a-menu-item key="notifications-preferences">Preferences</a-menu-item>
-        <a-menu-item key="notifications-custom">Custom Notifications</a-menu-item>
-      </a-sub-menu>
+        <a-sub-menu key="notifications">
+          <template #icon>
+            <BellOutlined />
+          </template>
+          <template #title>Notifications</template>
+          <a-menu-item key="notifications-all">All Notifications</a-menu-item>
+          <a-menu-item key="notifications-preferences">Preferences</a-menu-item>
+          <a-menu-item key="notifications-custom">Custom Notifications</a-menu-item>
+        </a-sub-menu>
 
-      <!-- Divider -->
-      <a-menu-divider />
+        <!-- Divider -->
+        <a-menu-divider />
 
-      <!-- Group 6: Analytics -->
-      <a-sub-menu key="analytics">
-        <template #icon><BarChartOutlined /></template>
-        <template #title>Analytics & Reports</template>
-        <a-menu-item key="analytics-events">Event Analytics</a-menu-item>
-        <a-menu-item key="analytics-sales">Sales Reports</a-menu-item>
-        <a-menu-item key="analytics-users">User Reports</a-menu-item>
-        <a-menu-item key="analytics-revenue">Revenue Reports</a-menu-item>
-        <a-menu-item key="analytics-custom">Custom Reports</a-menu-item>
-      </a-sub-menu>
+        <!-- Group 6: Analytics -->
+        <a-sub-menu key="analytics">
+          <template #icon>
+            <BarChartOutlined />
+          </template>
+          <template #title>Analytics & Reports</template>
+          <a-menu-item key="analytics-events">Event Analytics</a-menu-item>
+          <a-menu-item key="analytics-sales">Sales Reports</a-menu-item>
+          <a-menu-item key="analytics-users">User Reports</a-menu-item>
+          <a-menu-item key="analytics-revenue">Revenue Reports</a-menu-item>
+          <a-menu-item key="analytics-custom">Custom Reports</a-menu-item>
+        </a-sub-menu>
 
-      <!-- Divider -->
-      <a-menu-divider />
+        <!-- Divider -->
+        <a-menu-divider />
 
-      <!-- Group 7: Content -->
-      <a-sub-menu key="content">
-        <template #icon><FileOutlined /></template>
-        <template #title>Content Management</template>
-        <a-menu-item key="content-pages">All Pages</a-menu-item>
-        <a-menu-item key="content-pages-create">Create Page</a-menu-item>
-        <a-menu-item key="content-posts">Event Posts</a-menu-item>
-        <a-menu-item key="content-comments">Post Comments</a-menu-item>
-      </a-sub-menu>
+        <!-- Group 7: Content -->
+        <a-sub-menu key="content">
+          <template #icon>
+            <FileOutlined />
+          </template>
+          <template #title>Content Management</template>
+          <a-menu-item key="content-pages">All Pages</a-menu-item>
+          <a-menu-item key="content-pages-create">Create Page</a-menu-item>
+          <a-menu-item key="content-posts">Event Posts</a-menu-item>
+          <a-menu-item key="content-comments">Post Comments</a-menu-item>
+        </a-sub-menu>
 
-      <!-- Divider -->
-      <a-menu-divider />
+        <!-- Divider -->
+        <a-menu-divider />
 
-      <!-- Group 8: System -->
-      <a-sub-menu key="reports">
-        <template #icon><FlagOutlined /></template>
-        <template #title>Reports & Moderation</template>
-        <a-menu-item key="reports-all">All Reports</a-menu-item>
-        <a-menu-item key="reports-pending">Pending Reports</a-menu-item>
-        <a-menu-item key="reports-resolved">Resolved Reports</a-menu-item>
-      </a-sub-menu>
+        <!-- Group 8: System -->
+        <a-sub-menu key="reports">
+          <template #icon>
+            <FlagOutlined />
+          </template>
+          <template #title>Reports & Moderation</template>
+          <a-menu-item key="reports-all">All Reports</a-menu-item>
+          <a-menu-item key="reports-pending">Pending Reports</a-menu-item>
+          <a-menu-item key="reports-resolved">Resolved Reports</a-menu-item>
+        </a-sub-menu>
 
-      <a-sub-menu key="settings">
-        <template #icon><SettingOutlined /></template>
-        <template #title>Settings</template>
-        <a-menu-item key="settings-general">General Settings</a-menu-item>
-        <a-menu-item key="settings-payment">Payment Settings</a-menu-item>
-        <a-menu-item key="settings-email">Email Settings</a-menu-item>
-        <a-menu-item key="settings-system">System Settings</a-menu-item>
-        <a-menu-item key="settings-profile">Profile Settings</a-menu-item>
-      </a-sub-menu>
-    </a-menu>
+        <a-sub-menu key="settings">
+          <template #icon>
+            <SettingOutlined />
+          </template>
+          <template #title>Settings</template>
+          <a-menu-item key="settings-general">General Settings</a-menu-item>
+          <a-menu-item key="settings-payment">Payment Settings</a-menu-item>
+          <a-menu-item key="settings-email">Email Settings</a-menu-item>
+          <a-menu-item key="settings-system">System Settings</a-menu-item>
+          <a-menu-item key="settings-profile">Profile Settings</a-menu-item>
+        </a-sub-menu>
+      </a-menu>
     </div>
   </div>
 </template>
@@ -290,7 +330,7 @@ const openKeys = ref([]);
 const getMenuKeyFromUrl = (url) => {
   // Remove query parameters
   const path = url.split('?')[0];
-  
+
   // Create reverse route map
   const urlToKeyMap = {
     '/dashboard': 'dashboard',
@@ -298,6 +338,8 @@ const getMenuKeyFromUrl = (url) => {
     '/dashboard/event-tags': 'event-tags-all',
     '/dashboard/promo-codes': 'promo-codes',
     '/dashboard/categories': 'categories',
+    '/dashboard/tickets': 'tickets-all',
+    '/dashboard/ticket-types': 'tickets-types',
     '/dashboard/teams': 'teams-all',
     '/dashboard/teams/create': 'teams-create',
     '/dashboard/team-members': 'teams-members',
@@ -437,6 +479,8 @@ const getParentKey = (key) => {
     'teams-members': 'teams',
     'teams-invitations': 'teams',
     'teams-create': 'teams',
+    'tickets-all': 'tickets',
+    'tickets-types': 'tickets',
     'settings-general': 'settings',
     'settings-payment': 'settings',
     'settings-email': 'settings',
@@ -472,7 +516,7 @@ const getParentKey = (key) => {
 watch(() => page.url, (newUrl) => {
   const menuKey = getMenuKeyFromUrl(newUrl);
   selectedKeys.value = [menuKey];
-  
+
   // Open parent sub-menu if child is selected
   const parentKey = getParentKey(menuKey);
   if (parentKey && !openKeys.value.includes(parentKey)) {
@@ -488,6 +532,11 @@ const handleMenuClick = ({ key }) => {
     'event-tags-all': '/dashboard/event-tags',
     'promo-codes': '/dashboard/promo-codes',
     'categories': '/dashboard/categories',
+    'tickets-all': '/dashboard/tickets',
+    'tickets-types': '/dashboard/ticket-types',
+    'orders-all': '/dashboard/orders',
+    'orders-pending': '/dashboard/orders?status=pending',
+    'orders-completed': '/dashboard/orders?status=completed',
     'teams-all': '/dashboard/teams',
     'teams-members': '/dashboard/team-members',
     'teams-invitations': '/dashboard/team-invitations',
@@ -586,7 +635,8 @@ const handleMenuClick = ({ key }) => {
   }
 
   .dashboard-sidebar.collapsed {
-    width: 280px; /* Full width on mobile when open */
+    width: 280px;
+    /* Full width on mobile when open */
   }
 
   .sidebar-logo {
@@ -789,4 +839,3 @@ const handleMenuClick = ({ key }) => {
   background: #595959;
 }
 </style>
-

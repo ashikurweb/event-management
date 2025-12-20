@@ -23,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         JsonResource::withoutWrapping();
-        Category::observe(CategoryObserver::class);
+        Category::observe(\App\Observers\CategoryObserver::class);
+        \App\Models\Ticket::observe(\App\Observers\TicketObserver::class);
+        \App\Models\TicketType::observe(\App\Observers\TicketTypeObserver::class);
     }
 }
