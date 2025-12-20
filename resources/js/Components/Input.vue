@@ -1,7 +1,8 @@
 <template>
-  <div class="modern-input-wrapper-root" v-bind="$attrs">
+  <div class="modern-input-wrapper" :class="{ 'has-error': isError }">
     <a-input-password v-if="type === 'password'" v-model:value="inputValue" :placeholder="placeholder" :size="size"
-      :disabled="disabled" :readonly="readonly" :maxlength="maxlength" :class="inputClass">
+      :disabled="disabled" :readonly="readonly" :maxlength="maxlength" :class="inputClass" :status="mergedStatus"
+      v-bind="$attrs" @blur="handleBlur" @focus="$emit('focus', $event)" @change="$emit('change', $event)">
       <template v-if="$slots.prefix || icon" #prefix>
         <slot name="prefix">
           <component v-if="icon" :is="icon" />
@@ -12,7 +13,8 @@
       </template>
     </a-input-password>
     <a-input v-else v-model:value="inputValue" :type="type" :placeholder="placeholder" :size="size" :disabled="disabled"
-      :readonly="readonly" :maxlength="maxlength" :class="inputClass">
+      :readonly="readonly" :maxlength="maxlength" :class="inputClass" :status="mergedStatus" v-bind="$attrs"
+      @blur="handleBlur" @focus="$emit('focus', $event)" @change="$emit('change', $event)">
       <template v-if="$slots.prefix || icon" #prefix>
         <slot name="prefix">
           <component v-if="icon" :is="icon" />
@@ -27,11 +29,14 @@
 
 <script setup>
 import { computed } from 'vue';
+import { Form } from 'ant-design-vue';
 
-// Disable standard attribute inheritance since we handle it on the wrapper
+// Disable standard attribute inheritance since we handle it on the inner input
 defineOptions({
   inheritAttrs: false
 });
+
+const formItemContext = Form.useInjectFormItemContext();
 
 const props = defineProps({
   modelValue: {
@@ -72,9 +77,13 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  status: {
+    type: String,
+    default: '',
+  },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'blur', 'focus', 'change']);
 
 const inputValue = computed({
   get: () => props.modelValue,
@@ -82,6 +91,14 @@ const inputValue = computed({
     emit('update:modelValue', value);
   },
 });
+
+const mergedStatus = computed(() => props.status || formItemContext.status);
+const isError = computed(() => mergedStatus.value === 'error');
+
+const handleBlur = (e) => {
+  emit('blur', e);
+  formItemContext.onFieldBlur();
+};
 </script>
 
 <style scoped></style>
