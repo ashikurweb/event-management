@@ -28,19 +28,26 @@
           <a-menu-item key="event-tags-all">Event Tags</a-menu-item>
         </a-sub-menu>
 
-        <a-sub-menu key="tickets">
+        <a-menu-item key="orders-all">
+          <template #icon>
+            <ShoppingCartOutlined />
+          </template>
+          <span>Orders</span>
+        </a-menu-item>
+
+        <a-menu-item key="tickets-all">
           <template #icon>
             <IdcardOutlined />
           </template>
-          <template #title>Tickets & Orders</template>
-          <a-menu-item key="orders-all">All Orders</a-menu-item>
-          <a-menu-item key="orders-pending">Pending Orders</a-menu-item>
-          <a-menu-item key="orders-completed">Completed Orders</a-menu-item>
-          <a-menu-item key="tickets-all">Tickets</a-menu-item>
-          <a-menu-item key="tickets-types">Ticket Types</a-menu-item>
-          <a-menu-item key="tickets-checkin">Check-in</a-menu-item>
-          <a-menu-item key="tickets-waitlist">Waitlist</a-menu-item>
-        </a-sub-menu>
+          <span>Tickets</span>
+        </a-menu-item>
+
+        <a-menu-item key="tickets-types">
+          <template #icon>
+            <ProjectOutlined />
+          </template>
+          <span>Ticket Types</span>
+        </a-menu-item>
 
         <a-sub-menu key="payments">
           <template #icon>
@@ -289,6 +296,8 @@ import {
   CalendarOutlined,
   IdcardOutlined,
   MoneyCollectOutlined,
+  ShoppingCartOutlined,
+  ProjectOutlined,
   TeamOutlined,
   UserOutlined,
   UserAddOutlined,
@@ -340,6 +349,7 @@ const getMenuKeyFromUrl = (url) => {
     '/dashboard/categories': 'categories',
     '/dashboard/tickets': 'tickets-all',
     '/dashboard/ticket-types': 'tickets-types',
+    '/dashboard/orders': 'orders-all',
     '/dashboard/teams': 'teams-all',
     '/dashboard/teams/create': 'teams-create',
     '/dashboard/team-members': 'teams-members',
@@ -439,6 +449,11 @@ const getMenuKeyFromUrl = (url) => {
     return 'venues-all';
   }
 
+  // Check for orders routes
+  if (path.startsWith('/dashboard/orders')) {
+    return 'orders-all';
+  }
+
   // Check for sponsors routes
   if (path.startsWith('/dashboard/sponsors')) {
     if (path === '/dashboard/sponsors' || path === '/dashboard/sponsors/search') {
@@ -479,8 +494,6 @@ const getParentKey = (key) => {
     'teams-members': 'teams',
     'teams-invitations': 'teams',
     'teams-create': 'teams',
-    'tickets-all': 'tickets',
-    'tickets-types': 'tickets',
     'settings-general': 'settings',
     'settings-payment': 'settings',
     'settings-email': 'settings',

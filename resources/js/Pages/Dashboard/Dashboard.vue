@@ -85,12 +85,7 @@
     <!-- Recent Activity & Upcoming Events -->
     <div class="content-row">
       <a-card title="Recent Orders" class="content-card" :bordered="false">
-        <a-table
-          :columns="orderColumns"
-          :data-source="recentOrders"
-          :pagination="false"
-          size="small"
-        >
+        <a-table :columns="orderColumns" :data-source="recentOrders" :pagination="false" size="small">
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'status'">
               <a-tag :color="getStatusColor(record.status)">
@@ -105,10 +100,7 @@
       </a-card>
 
       <a-card title="Upcoming Events" class="content-card" :bordered="false">
-        <a-list
-          :data-source="upcomingEvents"
-          item-layout="horizontal"
-        >
+        <a-list :data-source="upcomingEvents" item-layout="horizontal">
           <template #renderItem="{ item }">
             <a-list-item>
               <a-list-item-meta>
@@ -120,8 +112,12 @@
                 </template>
                 <template #description>
                   <div class="event-meta">
-                    <span><CalendarOutlined /> {{ item.date }}</span>
-                    <span><UserOutlined /> {{ item.attendees }} attendees</span>
+                    <span>
+                      <CalendarOutlined /> {{ item.date }}
+                    </span>
+                    <span>
+                      <UserOutlined /> {{ item.attendees }} attendees
+                    </span>
                   </div>
                 </template>
               </a-list-item-meta>
@@ -428,6 +424,7 @@ const getStatusColor = (status) => {
 
 /* Responsive Styles */
 @media (max-width: 1200px) {
+
   .charts-row,
   .content-row {
     grid-template-columns: 1fr;
@@ -648,4 +645,3 @@ const getStatusColor = (status) => {
   }
 }
 </style>
-
