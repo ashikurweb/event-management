@@ -45,11 +45,8 @@ const handleSocialLogin = (provider) => {
         <!-- Left Side - Branding with Image -->
         <div class="auth-branding">
           <div class="branding-image-wrapper">
-            <img 
-              src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=1200&fit=crop&q=80" 
-              alt="EventHub"
-              class="branding-image"
-            />
+            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=1200&fit=crop&q=80"
+              alt="EventHub" class="branding-image" />
             <div class="branding-overlay">
               <div class="brand-logo-overlay">
                 <div class="logo-icon-overlay">E</div>
@@ -69,31 +66,22 @@ const handleSocialLogin = (provider) => {
 
             <!-- Social Login Buttons -->
             <div class="social-login-section">
-              <a-button
-                block
-                size="large"
-                class="social-btn google-btn"
-                @click="handleSocialLogin('google')"
-              >
-                <template #icon><GoogleOutlined /></template>
+              <a-button block size="large" class="social-btn google-btn" @click="handleSocialLogin('google')">
+                <template #icon>
+                  <GoogleOutlined />
+                </template>
                 Continue with Google
               </a-button>
-              <a-button
-                block
-                size="large"
-                class="social-btn facebook-btn"
-                @click="handleSocialLogin('facebook')"
-              >
-                <template #icon><FacebookOutlined /></template>
+              <a-button block size="large" class="social-btn facebook-btn" @click="handleSocialLogin('facebook')">
+                <template #icon>
+                  <FacebookOutlined />
+                </template>
                 Continue with Facebook
               </a-button>
-              <a-button
-                block
-                size="large"
-                class="social-btn github-btn"
-                @click="handleSocialLogin('github')"
-              >
-                <template #icon><GithubOutlined /></template>
+              <a-button block size="large" class="social-btn github-btn" @click="handleSocialLogin('github')">
+                <template #icon>
+                  <GithubOutlined />
+                </template>
                 Continue with GitHub
               </a-button>
             </div>
@@ -103,46 +91,25 @@ const handleSocialLogin = (provider) => {
             </div>
 
             <!-- Login Form -->
-            <a-form
-              :model="form"
-              :rules="rules"
-              @finish="handleLogin"
-              class="login-form"
-            >
+            <a-form :model="form" :rules="rules" @finish="handleLogin" class="login-form">
               <a-form-item name="email">
-                <Input
-                  v-model="form.email"
-                  type="email"
-                  placeholder="Email address"
-                  :icon="MailOutlined"
-                />
+                <Input v-model="form.email" type="email" placeholder="Email address" :icon="MailOutlined" />
               </a-form-item>
 
               <a-form-item name="password">
-                <Input
-                  v-model="form.password"
-                  type="password"
-                  placeholder="Password"
-                  :icon="LockOutlined"
-                />
+                <Input v-model="form.password" type="password" placeholder="Password" :icon="LockOutlined" />
               </a-form-item>
 
               <div class="form-options">
                 <a-checkbox v-model:checked="form.remember">
                   Remember me
                 </a-checkbox>
-                <Link  href="/forgot-password" class="forgot-link">Forgot password?</Link>
+                <Link href="/forgot-password" class="forgot-link">Forgot password?</Link>
               </div>
 
               <a-form-item>
-                <PrimaryButton
-                  html-type="submit"
-                  size="large"
-                  block
-                  :loading="loading"
-                  loading-text="Signing in..."
-                  text="Sign In"
-                />
+                <PrimaryButton html-type="submit" size="large" block :loading="loading" loading-text="Signing in..."
+                  text="Sign In" />
               </a-form-item>
             </a-form>
 
@@ -179,7 +146,7 @@ const handleSocialLogin = (provider) => {
   inset: 0;
   z-index: 0;
   background: #ffffff;
-  background-image: 
+  background-image:
     radial-gradient(circle at 1px 1px, rgba(139, 92, 246, 0.15) 1px, transparent 0),
     radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.12) 1px, transparent 0),
     radial-gradient(circle at 1px 1px, rgba(236, 72, 153, 0.1) 1px, transparent 0);
@@ -199,7 +166,7 @@ const handleSocialLogin = (provider) => {
   inset: 0;
   z-index: 0;
   background: #000000;
-  background-image: 
+  background-image:
     radial-gradient(circle at 1px 1px, rgba(139, 92, 246, 0.2) 1px, transparent 0),
     radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.18) 1px, transparent 0),
     radial-gradient(circle at 1px 1px, rgba(236, 72, 153, 0.15) 1px, transparent 0);
@@ -254,11 +221,9 @@ const handleSocialLogin = (provider) => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(102, 126, 234, 0.85) 0%,
-    rgba(118, 75, 162, 0.85) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(102, 126, 234, 0.85) 0%,
+      rgba(118, 75, 162, 0.85) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -582,4 +547,3 @@ const handleSocialLogin = (provider) => {
   }
 }
 </style>
-

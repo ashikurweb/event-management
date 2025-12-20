@@ -14,59 +14,30 @@
     <section class="filters-section">
       <div class="section-container">
         <div class="filters-bar">
-          <a-input-search
-            v-model:value="filters.search"
-            placeholder="Search events..."
-            class="search-filter"
-            @search="handleSearch"
-            allow-clear
-            enter-button
-          />
-          <a-select
-            v-model:value="filters.category"
-            placeholder="All Categories"
-            class="category-filter"
-            allow-clear
-            @change="handleFilterChange"
-          >
+          <a-input-search v-model:value="filters.search" placeholder="Search events..." class="search-filter"
+            @search="handleSearch" allow-clear enter-button />
+          <a-select v-model:value="filters.category" placeholder="All Categories" class="category-filter" allow-clear
+            @change="handleFilterChange">
             <a-select-option value="">All Categories</a-select-option>
-            <a-select-option
-              v-for="category in categories"
-              :key="category.id"
-              :value="category.slug"
-            >
+            <a-select-option v-for="category in categories" :key="category.id" :value="category.slug">
               {{ category.name }}
             </a-select-option>
           </a-select>
-          <a-select
-            v-model:value="filters.event_type"
-            placeholder="Event Type"
-            class="type-filter"
-            allow-clear
-            @change="handleFilterChange"
-          >
+          <a-select v-model:value="filters.event_type" placeholder="Event Type" class="type-filter" allow-clear
+            @change="handleFilterChange">
             <a-select-option value="">All Types</a-select-option>
             <a-select-option value="online">Online</a-select-option>
             <a-select-option value="offline">Offline</a-select-option>
             <a-select-option value="hybrid">Hybrid</a-select-option>
           </a-select>
-          <a-select
-            v-model:value="filters.sort"
-            placeholder="Sort By"
-            class="sort-filter"
-            @change="handleFilterChange"
-          >
+          <a-select v-model:value="filters.sort" placeholder="Sort By" class="sort-filter" @change="handleFilterChange">
             <a-select-option value="date_asc">Date: Earliest First</a-select-option>
             <a-select-option value="date_desc">Date: Latest First</a-select-option>
             <a-select-option value="price_asc">Price: Low to High</a-select-option>
             <a-select-option value="price_desc">Price: High to Low</a-select-option>
             <a-select-option value="popular">Most Popular</a-select-option>
           </a-select>
-          <a-button
-            type="default"
-            @click="toggleViewMode"
-            class="view-toggle"
-          >
+          <a-button type="default" @click="toggleViewMode" class="view-toggle">
             <AppstoreOutlined v-if="viewMode === 'list'" />
             <UnorderedListOutlined v-else />
           </a-button>
@@ -87,18 +58,9 @@
         <div v-else>
           <!-- Grid View -->
           <div v-if="viewMode === 'grid'" class="events-grid">
-            <div
-              v-for="event in events"
-              :key="event.id"
-              class="event-card"
-              @click="handleEventClick(event.slug)"
-            >
+            <div v-for="event in events" :key="event.id" class="event-card" @click="handleEventClick(event.slug)">
               <div class="event-image">
-                <img
-                  v-if="event.featured_image"
-                  :src="event.featured_image"
-                  :alt="event.title"
-                />
+                <img v-if="event.featured_image" :src="event.featured_image" :alt="event.title" />
                 <div v-else class="event-image-placeholder">
                   <CalendarOutlined />
                 </div>
@@ -142,18 +104,9 @@
 
           <!-- List View -->
           <div v-else class="events-list">
-            <div
-              v-for="event in events"
-              :key="event.id"
-              class="event-list-item"
-              @click="handleEventClick(event.slug)"
-            >
+            <div v-for="event in events" :key="event.id" class="event-list-item" @click="handleEventClick(event.slug)">
               <div class="event-list-image">
-                <img
-                  v-if="event.featured_image"
-                  :src="event.featured_image"
-                  :alt="event.title"
-                />
+                <img v-if="event.featured_image" :src="event.featured_image" :alt="event.title" />
                 <div v-else class="event-image-placeholder">
                   <CalendarOutlined />
                 </div>
@@ -211,16 +164,9 @@
 
           <!-- Pagination -->
           <div v-if="events.length > 0" class="pagination-wrapper">
-            <a-pagination
-              v-model:current="currentPage"
-              :total="totalEvents"
-              :page-size="pageSize"
-              show-size-changer
-              :page-size-options="['12', '24', '48', '96']"
-              show-total
-              @change="handlePageChange"
-              @show-size-change="handlePageSizeChange"
-            />
+            <a-pagination v-model:current="currentPage" :total="totalEvents" :page-size="pageSize" show-size-changer
+              :page-size-options="['12', '24', '48', '96']" show-total @change="handlePageChange"
+              @show-size-change="handlePageSizeChange" />
           </div>
         </div>
       </div>
@@ -356,7 +302,7 @@ onMounted(() => {
   filters.search = urlParams.get('search') || '';
   filters.category = urlParams.get('category') || '';
   filters.event_type = urlParams.get('event_type') || '';
-  
+
   // Load events
   loadEvents();
 });
@@ -368,7 +314,7 @@ const loadEvents = async () => {
   // const data = await response.json();
   // events.value = data.events;
   // totalEvents.value = data.total;
-  
+
   setTimeout(() => {
     loading.value = false;
     totalEvents.value = events.value.length;
@@ -1122,4 +1068,3 @@ const formatTime = (dateString) => {
   }
 }
 </style>
-
