@@ -30,14 +30,11 @@
       <div class="filters-section">
         <a-row :gutter="16">
           <a-col :xs="24" :sm="12" :md="8">
-            <a-input
-              v-model:value="filters.search"
+            <Search
+              v-model="filters.search"
               placeholder="Search categories..."
-              allow-clear
-              @pressEnter="handleSearch"
-            >
-              <template #prefix><SearchOutlined /></template>
-            </a-input>
+              @search="handleSearch"
+            />
           </a-col>
           <a-col :xs="24" :sm="12" :md="8">
             <a-range-picker
@@ -151,9 +148,9 @@ import { router, usePage } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layouts/DashboardLayout.vue';
 import Breadcrumb from '../../../Components/Breadcrumb.vue';
 import Pagination from '../../../Components/Pagination.vue';
+import Search from '../../../Components/Search.vue';
 import {
   PlusOutlined,
-  SearchOutlined,
   EyeOutlined,
   EditOutlined,
   DeleteOutlined,

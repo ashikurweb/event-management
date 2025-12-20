@@ -186,7 +186,7 @@
 
 .ant-input-search .ant-input:hover {
     background-color: #fafafa !important;
-    border-color: #1890ff !important;
+    border-color: #1890ff;
 }
 
 .ant-input-search .ant-input:focus,
@@ -248,7 +248,7 @@
 
 :root[data-theme="dark"] .ant-input-search .ant-input:hover {
     background-color: #262626 !important;
-    border-color: #595959 !important;
+    border-color: #595959;
 }
 
 :root[data-theme="dark"] .ant-input-search .ant-input:focus,
@@ -300,8 +300,8 @@
 
 .ant-input:hover {
     background-color: #fafafa !important;
-    border-color: #1890ff !important;
-    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.08) !important;
+    border-color: #1890ff;
+    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.08);
 }
 
 .ant-input:focus,
@@ -332,8 +332,8 @@
 
 :root[data-theme="dark"] .ant-input:hover {
     background-color: #262626 !important;
-    border-color: #595959 !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+    border-color: #595959;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 :root[data-theme="dark"] .ant-input:focus,
@@ -798,8 +798,8 @@
 
 .ant-input-affix-wrapper:hover {
     background-color: #fafafa !important;
-    border-color: #1890ff !important;
-    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.08) !important;
+    border-color: #1890ff;
+    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.08);
 }
 
 .ant-input-affix-wrapper-focused {
@@ -851,8 +851,8 @@
 
 :root[data-theme="dark"] .ant-input-affix-wrapper:hover {
     background-color: #262626 !important;
-    border-color: #595959 !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+    border-color: #595959;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 :root[data-theme="dark"] .ant-input-affix-wrapper-focused {
