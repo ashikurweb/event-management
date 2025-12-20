@@ -108,17 +108,8 @@ class CustomRunCommand extends Command
 
                 // Create the symbolic link
                 if (is_dir($target)) {
-                    try {
-                        // Use native symlink function
-                        if (function_exists('symlink')) {
-                            symlink($target, $link);
-                            $this->info("✅ The [{$link}] link has been connected to [{$target}].");
-                        } else {
-                            $this->error("❌ symlink function is not available on this system.");
-                        }
-                    } catch (\Exception $e) {
-                        $this->error("❌ Failed to create link: " . $e->getMessage());
-                    }
+                    File::link($target, $link);
+                    $this->info("✅ The [{$link}] link has been connected to [{$target}].");
                 } else {
                     $this->error("❌ The target [{$target}] does not exist.");
                 }
