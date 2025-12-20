@@ -4,13 +4,19 @@
       <Breadcrumb :items="breadcrumbItems" />
       <div class="breadcrumb-actions">
         <a-button @click="handleRefresh" title="Refresh">
-          <template #icon><ReloadOutlined /></template>
+          <template #icon>
+            <ReloadOutlined />
+          </template>
         </a-button>
         <a-button @click="handleExportPDF" title="Export PDF">
-          <template #icon><FilePdfOutlined /></template>
+          <template #icon>
+            <FilePdfOutlined />
+          </template>
         </a-button>
         <a-button @click="handleExportExcel" title="Export Excel">
-          <template #icon><FileExcelOutlined /></template>
+          <template #icon>
+            <FileExcelOutlined />
+          </template>
         </a-button>
       </div>
     </div>
@@ -20,7 +26,9 @@
         <div class="card-header">
           <h2 class="card-title">Categories</h2>
           <a-button type="primary" @click="handleCreate">
-            <template #icon><PlusOutlined /></template>
+            <template #icon>
+              <PlusOutlined />
+            </template>
             Create Category
           </a-button>
         </div>
@@ -29,32 +37,11 @@
       <!-- Filters -->
       <div class="filters-section">
         <a-row :gutter="16">
-          <a-col :xs="24" :sm="12" :md="8">
-            <Search
-              v-model="filters.search"
-              placeholder="Search categories..."
-              @search="handleSearch"
-            />
+          <a-col :xs="24" :sm="12" :md="12">
+            <Search v-model="filters.search" placeholder="Search categories..." @search="handleSearch" />
           </a-col>
-          <a-col :xs="24" :sm="12" :md="8">
-            <a-range-picker
-              v-model:value="dateRange"
-              :placeholder="['Start Date', 'End Date']"
-              style="width: 100%"
-              @change="handleDateChange"
-            />
-          </a-col>
-          <a-col :xs="24" :sm="12" :md="8">
-            <a-select
-              v-model:value="filters.is_active"
-              placeholder="Filter by status"
-              allow-clear
-              style="width: 100%"
-              @change="handleSearch"
-            >
-              <a-select-option value="1">Active</a-select-option>
-              <a-select-option value="0">Inactive</a-select-option>
-            </a-select>
+          <a-col :xs="24" :sm="12" :md="12">
+            <DatePicker v-model="dateRange" @change="handleDateChange" />
           </a-col>
         </a-row>
       </div>
@@ -72,18 +59,11 @@
       </div>
 
       <!-- Table -->
-      <a-table
-        :columns="columns"
-        :data-source="categories.data"
-        :row-key="(record) => record.id"
-        :pagination="false"
-        :loading="loading"
-        :row-selection="{
+      <a-table :columns="columns" :data-source="categories.data" :row-key="(record) => record.id" :pagination="false"
+        :loading="loading" :row-selection="{
           selectedRowKeys: selectedRowKeys,
           onChange: onSelectChange,
-        }"
-        @change="handleTableChange"
-      >
+        }" @change="handleTableChange">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
             <div class="category-name-cell">
@@ -109,19 +89,21 @@
           <template v-if="column.key === 'actions'">
             <a-space>
               <a-button type="link" size="small" @click="handleView(record)">
-                <template #icon><EyeOutlined /></template>
+                <template #icon>
+                  <EyeOutlined />
+                </template>
               </a-button>
               <a-button type="link" size="small" @click="handleEdit(record)">
-                <template #icon><EditOutlined /></template>
+                <template #icon>
+                  <EditOutlined />
+                </template>
               </a-button>
-              <a-popconfirm
-                title="Are you sure you want to delete this category?"
-                ok-text="Yes"
-                cancel-text="No"
-                @confirm="handleDelete(record)"
-              >
+              <a-popconfirm title="Are you sure you want to delete this category?" ok-text="Yes" cancel-text="No"
+                @confirm="handleDelete(record)">
                 <a-button type="link" size="small" danger>
-                  <template #icon><DeleteOutlined /></template>
+                  <template #icon>
+                    <DeleteOutlined />
+                  </template>
                 </a-button>
               </a-popconfirm>
             </a-space>
@@ -130,14 +112,9 @@
       </a-table>
 
       <!-- Modern Pagination -->
-      <Pagination
-        :current="pagination.current"
-        :page-size="pagination.pageSize"
-        :total="pagination.total"
-        :page-size-options="[10, 15, 20, 50, 100]"
-        @change="handlePaginationChange"
-        @page-size-change="handlePageSizeChange"
-      />
+      <Pagination :current="pagination.current" :page-size="pagination.pageSize" :total="pagination.total"
+        :page-size-options="[10, 15, 20, 50, 100]" @change="handlePaginationChange"
+        @page-size-change="handlePageSizeChange" />
     </a-card>
   </DashboardLayout>
 </template>
@@ -149,6 +126,7 @@ import DashboardLayout from '../../../Layouts/DashboardLayout.vue';
 import Breadcrumb from '../../../Components/Breadcrumb.vue';
 import Pagination from '../../../Components/Pagination.vue';
 import Search from '../../../Components/Search.vue';
+import DatePicker from '../../../Components/DatePicker.vue';
 import {
   PlusOutlined,
   EyeOutlined,
@@ -165,10 +143,6 @@ const page = usePage();
 const categories = computed(() => page.props.categories || { data: [] });
 const allCategories = computed(() => page.props.allCategories || []);
 const initialFilters = page.props.filters || {};
-// Convert boolean is_active to string for select component
-if (initialFilters.is_active !== undefined && initialFilters.is_active !== null && initialFilters.is_active !== '') {
-  initialFilters.is_active = initialFilters.is_active ? '1' : '0';
-}
 const filters = ref(initialFilters);
 // Initialize date range if filters have date values
 const dateRange = ref(
@@ -341,11 +315,10 @@ const handleRefresh = () => {
   // Reset all filters
   filters.value = {
     search: '',
-    is_active: '',
   };
   dateRange.value = null;
   selectedRowKeys.value = [];
-  
+
   // Reload page without filters
   router.visit('/dashboard/categories', {
     preserveState: false,
@@ -356,7 +329,7 @@ const handleRefresh = () => {
 const handleExportPDF = () => {
   const tableData = categories.value.data || [];
   const columns = ['Name', 'Slug', 'Parent', 'Children', 'Order', 'Status'];
-  
+
   let content = `
     <html>
     <head>
@@ -394,7 +367,7 @@ const handleExportPDF = () => {
     </body>
     </html>
   `;
-  
+
   const printWindow = window.open('', '_blank');
   printWindow.document.write(content);
   printWindow.document.close();
@@ -405,7 +378,7 @@ const handleExportPDF = () => {
 
 const handleExportExcel = () => {
   const tableData = categories.value.data || [];
-  
+
   // Create CSV content
   const headers = ['Name', 'Slug', 'Parent', 'Children', 'Order', 'Status', 'Created At'];
   const rows = tableData.map(row => [
@@ -417,12 +390,12 @@ const handleExportExcel = () => {
     row.is_active ? 'Active' : 'Inactive',
     row.created_at ? dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss') : '',
   ]);
-  
+
   const csvContent = [
     headers.join(','),
     ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
   ].join('\n');
-  
+
   // Create blob and download
   const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
@@ -457,7 +430,7 @@ const handleExportExcel = () => {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .breadcrumb-actions {
     width: 100%;
     justify-content: flex-end;
@@ -538,4 +511,3 @@ const handleExportExcel = () => {
 
 /* Table, Input, Select styles - Using global styles from antd-theme.css */
 </style>
-
