@@ -36,6 +36,11 @@ class CustomRunCommand extends Command
             $this->info('🔄 Starting database refresh...');
         }
         $this->newLine();
+ 
+        // Generate application key
+        $this->info('🔑 Generating application key...');
+        Artisan::call('key:generate', [], $this->getOutput());
+        $this->newLine();
 
         // Create storage link
         $this->info('🔗 Creating storage link...');
