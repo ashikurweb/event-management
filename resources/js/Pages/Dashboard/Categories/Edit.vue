@@ -7,31 +7,17 @@
         <h2 class="card-title">Edit Category</h2>
       </template>
 
-      <a-form
-        :model="form"
-        :rules="rules"
-        layout="vertical"
-        ref="formRef"
-        @finish="handleSubmit"
-      >
+      <a-form :model="form" :rules="rules" layout="vertical" ref="formRef" @finish="handleSubmit">
         <a-row :gutter="12">
           <a-col :xs="24" :md="12">
             <a-form-item label="Name" name="name" required>
-              <Input
-                v-model="form.name"
-                placeholder="Enter category name"
-                :maxlength="100"
-              />
+              <Input v-model="form.name" placeholder="Enter category name" :maxlength="100" />
             </a-form-item>
           </a-col>
 
           <a-col :xs="24" :md="12">
             <a-form-item label="Slug" name="slug">
-              <Input
-                v-model="form.slug"
-                placeholder="Auto-generated from name"
-                :maxlength="100"
-              />
+              <Input v-model="form.slug" placeholder="Auto-generated from name" :maxlength="100" />
               <template #extra>
                 <span class="form-extra-text">Leave empty to auto-generate</span>
               </template>
@@ -40,27 +26,15 @@
         </a-row>
 
         <a-form-item label="Description" name="description">
-          <a-textarea
-            v-model:value="form.description"
-            placeholder="Enter category description"
-            :rows="4"
-            :maxlength="500"
-          />
+          <a-textarea v-model:value="form.description" placeholder="Enter category description" :rows="4"
+            :maxlength="500" />
         </a-form-item>
 
         <a-row :gutter="12">
           <a-col :xs="24" :md="8">
             <a-form-item label="Parent Category" name="parent_id">
-              <a-select
-                v-model:value="form.parent_id"
-                placeholder="Select parent category (optional)"
-                allow-clear
-              >
-                <a-select-option
-                  v-for="category in parentCategories"
-                  :key="category.id"
-                  :value="category.id"
-                >
+              <a-select v-model:value="form.parent_id" placeholder="Select parent category (optional)" allow-clear>
+                <a-select-option v-for="category in parentCategories" :key="category.id" :value="category.id">
                   {{ category.name }}
                 </a-select-option>
               </a-select>
@@ -69,13 +43,8 @@
 
           <a-col :xs="24" :md="8">
             <a-form-item label="Display Order" name="display_order">
-              <Input
-                v-model="form.display_order"
-                type="number"
-                placeholder="Display order"
-                :min="0"
-                style="width: 100%"
-              />
+              <Input v-model="form.display_order" type="number" placeholder="Display order" :min="0"
+                style="width: 100%" />
               <template #extra>
                 <span class="form-extra-text">Lower numbers appear first</span>
               </template>
@@ -84,11 +53,7 @@
 
           <a-col :xs="24" :md="8">
             <a-form-item label="Status" name="is_active">
-              <a-select
-                v-model:value="form.is_active"
-                placeholder="Select status"
-                style="width: 100%"
-              >
+              <a-select v-model:value="form.is_active" placeholder="Select status" style="width: 100%">
                 <a-select-option value="1">Active</a-select-option>
                 <a-select-option value="0">Inactive</a-select-option>
               </a-select>
@@ -256,4 +221,3 @@ const handleCancel = () => {
   color: rgba(255, 255, 255, 0.85);
 }
 </style>
-

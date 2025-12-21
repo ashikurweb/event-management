@@ -42,11 +42,8 @@ const handleRegister = (values) => {
         <!-- Left Side - Branding with Image -->
         <div class="auth-branding">
           <div class="branding-image-wrapper">
-            <img 
-              src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&h=1200&fit=crop&q=80" 
-              alt="EventHub"
-              class="branding-image"
-            />
+            <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&h=1200&fit=crop&q=80"
+              alt="EventHub" class="branding-image" />
             <div class="branding-overlay">
               <div class="brand-logo-overlay">
                 <div class="logo-icon-overlay">E</div>
@@ -65,55 +62,26 @@ const handleRegister = (values) => {
             </div>
 
             <!-- Register Form -->
-            <a-form
-              :model="form"
-              :rules="rules"
-              @finish="handleRegister"
-              class="register-form"
-            >
+            <a-form :model="form" :rules="rules" @finish="handleRegister" class="register-form">
               <a-form-item name="first_name">
-                <Input
-                  v-model="form.first_name"
-                  type="text"
-                  placeholder="First name"
-                  :icon="UserOutlined"
-                />
+                <Input v-model="form.first_name" type="text" placeholder="First name" :icon="UserOutlined" />
               </a-form-item>
 
               <a-form-item name="last_name">
-                <Input
-                  v-model="form.last_name"
-                  type="text"
-                  placeholder="Last name"
-                  :icon="UserOutlined"
-                />
+                <Input v-model="form.last_name" type="text" placeholder="Last name" :icon="UserOutlined" />
               </a-form-item>
 
               <a-form-item name="email">
-                <Input
-                  v-model="form.email"
-                  type="email"
-                  placeholder="Email address"
-                  :icon="MailOutlined"
-                />
+                <Input v-model="form.email" type="email" placeholder="Email address" :icon="MailOutlined" />
               </a-form-item>
 
               <a-form-item name="password">
-                <Input
-                  v-model="form.password"
-                  type="password"
-                  placeholder="Password"
-                  :icon="LockOutlined"
-                />
+                <Input v-model="form.password" type="password" placeholder="Password" :icon="LockOutlined" />
               </a-form-item>
 
               <a-form-item name="password_confirmation">
-                <Input
-                  v-model="form.password_confirmation"
-                  type="password"
-                  placeholder="Confirm password"
-                  :icon="LockOutlined"
-                />
+                <Input v-model="form.password_confirmation" type="password" placeholder="Confirm password"
+                  :icon="LockOutlined" />
               </a-form-item>
 
               <a-form-item name="terms">
@@ -126,14 +94,8 @@ const handleRegister = (values) => {
               </a-form-item>
 
               <a-form-item>
-                <PrimaryButton
-                  html-type="submit"
-                  size="large"
-                  block
-                  :loading="loading"
-                  loading-text="Creating account..."
-                  text="Create Account"
-                />
+                <PrimaryButton html-type="submit" size="large" block :loading="loading"
+                  loading-text="Creating account..." text="Create Account" />
               </a-form-item>
             </a-form>
 
@@ -170,7 +132,7 @@ const handleRegister = (values) => {
   inset: 0;
   z-index: 0;
   background: #ffffff;
-  background-image: 
+  background-image:
     radial-gradient(circle at 1px 1px, rgba(139, 92, 246, 0.15) 1px, transparent 0),
     radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.12) 1px, transparent 0),
     radial-gradient(circle at 1px 1px, rgba(236, 72, 153, 0.1) 1px, transparent 0);
@@ -190,7 +152,7 @@ const handleRegister = (values) => {
   inset: 0;
   z-index: 0;
   background: #000000;
-  background-image: 
+  background-image:
     radial-gradient(circle at 1px 1px, rgba(139, 92, 246, 0.2) 1px, transparent 0),
     radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.18) 1px, transparent 0),
     radial-gradient(circle at 1px 1px, rgba(236, 72, 153, 0.15) 1px, transparent 0);
@@ -245,11 +207,9 @@ const handleRegister = (values) => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(102, 126, 234, 0.85) 0%,
-    rgba(118, 75, 162, 0.85) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(102, 126, 234, 0.85) 0%,
+      rgba(118, 75, 162, 0.85) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -550,4 +510,3 @@ const handleRegister = (values) => {
   }
 }
 </style>
-

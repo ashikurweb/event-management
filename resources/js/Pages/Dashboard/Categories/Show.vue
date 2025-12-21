@@ -8,11 +8,15 @@
           <h2 class="card-title">Category Details</h2>
           <a-space>
             <a-button @click="handleEdit">
-              <template #icon><EditOutlined /></template>
+              <template #icon>
+                <EditOutlined />
+              </template>
               Edit
             </a-button>
             <a-button @click="handleBack">
-              <template #icon><ArrowLeftOutlined /></template>
+              <template #icon>
+                <ArrowLeftOutlined />
+              </template>
               Back
             </a-button>
           </a-space>
@@ -25,39 +29,39 @@
           <a-descriptions-item label="Name">
             <span class="info-value">{{ category.name }}</span>
           </a-descriptions-item>
-          
+
           <a-descriptions-item label="Slug">
             <span class="info-value">{{ category.slug }}</span>
           </a-descriptions-item>
-          
+
           <a-descriptions-item label="Description">
             <span class="info-value" v-if="category.description">
               {{ category.description }}
             </span>
             <span class="text-muted" v-else>—</span>
           </a-descriptions-item>
-          
+
           <a-descriptions-item label="Parent Category">
             <a-tag v-if="category.parent" color="blue">
               {{ category.parent.name }}
             </a-tag>
             <span class="text-muted" v-else>No parent category</span>
           </a-descriptions-item>
-          
+
           <a-descriptions-item label="Display Order">
             <span class="info-value">{{ category.display_order || 0 }}</span>
           </a-descriptions-item>
-          
+
           <a-descriptions-item label="Status">
             <a-tag :color="category.is_active ? 'green' : 'red'">
               {{ category.is_active ? 'Active' : 'Inactive' }}
             </a-tag>
           </a-descriptions-item>
-          
+
           <a-descriptions-item label="Created At">
             <span class="info-value">{{ formatDate(category.created_at) }}</span>
           </a-descriptions-item>
-          
+
           <a-descriptions-item label="Updated At">
             <span class="info-value">{{ formatDate(category.updated_at) }}</span>
           </a-descriptions-item>
@@ -68,13 +72,8 @@
       <div class="section-divider"></div>
       <div class="related-section" v-if="category.children && category.children.length > 0">
         <h3 class="section-title">Child Categories ({{ category.children.length }})</h3>
-        <a-table
-          :columns="childColumns"
-          :data-source="category.children"
-          :row-key="(record) => record.id"
-          :pagination="false"
-          size="small"
-        >
+        <a-table :columns="childColumns" :data-source="category.children" :row-key="(record) => record.id"
+          :pagination="false" size="small">
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'name'">
               <a @click="handleViewChild(record)" class="category-link">
@@ -89,10 +88,14 @@
             <template v-if="column.key === 'actions'">
               <a-space>
                 <a-button type="link" size="small" @click="handleViewChild(record)">
-                  <template #icon><EyeOutlined /></template>
+                  <template #icon>
+                    <EyeOutlined />
+                  </template>
                 </a-button>
                 <a-button type="link" size="small" @click="handleEditChild(record)">
-                  <template #icon><EditOutlined /></template>
+                  <template #icon>
+                    <EditOutlined />
+                  </template>
                 </a-button>
               </a-space>
             </template>
@@ -108,13 +111,8 @@
       <div class="section-divider"></div>
       <div class="related-section" v-if="category.events && category.events.length > 0">
         <h3 class="section-title">Events ({{ category.events.length }})</h3>
-        <a-table
-          :columns="eventColumns"
-          :data-source="category.events"
-          :row-key="(record) => record.id"
-          :pagination="false"
-          size="small"
-        >
+        <a-table :columns="eventColumns" :data-source="category.events" :row-key="(record) => record.id"
+          :pagination="false" size="small">
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'title'">
               <a @click="handleViewEvent(record.id)" class="event-link">
@@ -144,11 +142,7 @@
       <template #title>
         <h2 class="card-title">Activity Log</h2>
       </template>
-      <ActivityLog
-        :activities="activities"
-        :loading="false"
-        :category-id="category.id"
-      />
+      <ActivityLog :activities="activities" :loading="false" :category-id="category.id" />
     </a-card>
   </DashboardLayout>
 </template>
@@ -393,4 +387,3 @@ const handleViewEvent = (id) => {
   }
 }
 </style>
-

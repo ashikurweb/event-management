@@ -7,14 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
+use App\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Builder;
+
 class Category extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, LogsActivity;
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     /**
      * The attributes that are mass assignable.
-     *
-     * @var list<string>
      */
     protected $fillable = [
         'name',
@@ -28,8 +37,6 @@ class Category extends Model
 
     /**
      * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
      */
     protected function casts(): array
     {
@@ -39,17 +46,26 @@ class Category extends Model
     }
 
     /**
-     * Boot the model.
+     * Scope for searching categories.
      */
-    protected static function boot(): void
+    public function scopeSearch(Builder $query, ?string $term): void
     {
-        parent::boot();
+        if ($term) {
+            $query->where(function ($q) use ($term) {
+                $q->where('name', 'like', "%{$term}%")
+                  ->orWhere('slug', 'like', "%{$term}%")
+                  ->orWhere('description', 'like', "%{$term}%");
+            });
+        }
+    }
 
-        static::creating(function ($category) {
-            if (empty($category->slug)) {
-                $category->slug = Str::slug($category->name);
-            }
-        });
+    /**
+     * Scope for date filtering.
+     */
+    public function scopeDateBetween(Builder $query, ?string $from, ?string $to): void
+    {
+        if ($from) $query->whereDate('created_at', '>=', $from);
+        if ($to) $query->whereDate('created_at', '<=', $to);
     }
 
     /**

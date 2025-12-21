@@ -97,6 +97,15 @@ body {
     transform: translateY(-2px);
 }
 
+.glass-card {
+    background: var(--card-bg-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border-glass);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--card-shadow);
+}
+
 .card-header {
     border-bottom: 1px solid var(--border-color-light);
     padding-bottom: 16px;

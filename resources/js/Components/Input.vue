@@ -1,55 +1,42 @@
 <template>
-  <a-input-password
-    v-if="type === 'password'"
-    v-model:value="inputValue"
-    :placeholder="placeholder"
-    :size="size"
-    :disabled="disabled"
-    :readonly="readonly"
-    :maxlength="maxlength"
-    :class="inputClass"
-    v-bind="$attrs"
-    @change="handleChange"
-    @blur="handleBlur"
-    @focus="handleFocus"
-  >
-    <template v-if="$slots.prefix || icon" #prefix>
-      <slot name="prefix">
-        <component v-if="icon" :is="icon" />
-      </slot>
-    </template>
-    <template v-if="$slots.suffix" #suffix>
-      <slot name="suffix" />
-    </template>
-  </a-input-password>
-  <a-input
-    v-else
-    v-model:value="inputValue"
-    :type="type"
-    :placeholder="placeholder"
-    :size="size"
-    :disabled="disabled"
-    :readonly="readonly"
-    :maxlength="maxlength"
-    :class="inputClass"
-    v-bind="$attrs"
-    @change="handleChange"
-    @blur="handleBlur"
-    @focus="handleFocus"
-  >
-    <template v-if="$slots.prefix || icon" #prefix>
-      <slot name="prefix">
-        <component v-if="icon" :is="icon" />
-      </slot>
-    </template>
-    <template v-if="$slots.suffix" #suffix>
-      <slot name="suffix" />
-    </template>
-  </a-input>
+  <div class="modern-input-wrapper" :class="{ 'has-error': isError }">
+    <a-input-password v-if="type === 'password'" v-model:value="inputValue" :placeholder="placeholder" :size="size"
+      :disabled="disabled" :readonly="readonly" :maxlength="maxlength" :class="inputClass" :status="mergedStatus"
+      v-bind="$attrs" @blur="handleBlur" @focus="$emit('focus', $event)" @change="$emit('change', $event)">
+      <template v-if="$slots.prefix || icon" #prefix>
+        <slot name="prefix">
+          <component v-if="icon" :is="icon" />
+        </slot>
+      </template>
+      <template v-if="$slots.suffix" #suffix>
+        <slot name="suffix" />
+      </template>
+    </a-input-password>
+    <a-input v-else v-model:value="inputValue" :type="type" :placeholder="placeholder" :size="size" :disabled="disabled"
+      :readonly="readonly" :maxlength="maxlength" :class="inputClass" :status="mergedStatus" v-bind="$attrs"
+      @blur="handleBlur" @focus="$emit('focus', $event)" @change="$emit('change', $event)">
+      <template v-if="$slots.prefix || icon" #prefix>
+        <slot name="prefix">
+          <component v-if="icon" :is="icon" />
+        </slot>
+      </template>
+      <template v-if="$slots.suffix" #suffix>
+        <slot name="suffix" />
+      </template>
+    </a-input>
+  </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
+import { Form } from 'ant-design-vue';
+
+// Disable standard attribute inheritance since we handle it on the inner input
+defineOptions({
+  inheritAttrs: false
+});
+
+const formItemContext = Form.useInjectFormItemContext();
 
 const props = defineProps({
   modelValue: {
@@ -90,9 +77,13 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  status: {
+    type: String,
+    default: '',
+  },
 });
 
-const emit = defineEmits(['update:modelValue', 'change', 'blur', 'focus']);
+const emit = defineEmits(['update:modelValue', 'blur', 'focus', 'change']);
 
 const inputValue = computed({
   get: () => props.modelValue,
@@ -101,19 +92,13 @@ const inputValue = computed({
   },
 });
 
-const handleChange = (e) => {
-  emit('change', e);
-};
+const mergedStatus = computed(() => props.status || formItemContext.status);
+const isError = computed(() => mergedStatus.value === 'error');
 
 const handleBlur = (e) => {
   emit('blur', e);
-};
-
-const handleFocus = (e) => {
-  emit('focus', e);
+  formItemContext.onFieldBlur();
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

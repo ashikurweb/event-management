@@ -186,7 +186,7 @@
 
 .ant-input-search .ant-input:hover {
     background-color: #fafafa !important;
-    border-color: #1890ff !important;
+    border-color: #1890ff;
 }
 
 .ant-input-search .ant-input:focus,
@@ -248,7 +248,7 @@
 
 :root[data-theme="dark"] .ant-input-search .ant-input:hover {
     background-color: #262626 !important;
-    border-color: #595959 !important;
+    border-color: #595959;
 }
 
 :root[data-theme="dark"] .ant-input-search .ant-input:focus,
@@ -300,8 +300,8 @@
 
 .ant-input:hover {
     background-color: #fafafa !important;
-    border-color: #1890ff !important;
-    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.08) !important;
+    border-color: #1890ff;
+    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.08);
 }
 
 .ant-input:focus,
@@ -332,8 +332,8 @@
 
 :root[data-theme="dark"] .ant-input:hover {
     background-color: #262626 !important;
-    border-color: #595959 !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+    border-color: #595959;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 :root[data-theme="dark"] .ant-input:focus,
@@ -431,6 +431,40 @@
 
 :root[data-theme="dark"] .ant-input-password:focus-within .ant-input-password-icon {
     color: #40a9ff !important;
+}
+
+/* Input Error State - Light Mode */
+.ant-form-item-has-error .ant-input,
+.ant-form-item-has-error .ant-input:hover,
+.ant-form-item-has-error .ant-input:focus,
+.ant-form-item-has-error .ant-input.ant-input-focused,
+.ant-input-status-error,
+.ant-input-status-error:hover,
+.ant-input-status-error:focus,
+.ant-input-status-error.ant-input-focused {
+    border-color: #ff4d4f !important;
+    background-color: #fff !important;
+}
+
+.ant-form-item-has-error .ant-input:focus,
+.ant-form-item-has-error .ant-input.ant-input-focused,
+.ant-input-status-error:focus,
+.ant-input-status-error.ant-input-focused {
+    box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.12) !important;
+}
+
+.ant-form-item-has-error .ant-input-affix-wrapper,
+.ant-form-item-has-error .ant-input-affix-wrapper:hover,
+.ant-input-affix-wrapper-status-error,
+.ant-input-affix-wrapper-status-error:hover {
+    border-color: #ff4d4f !important;
+}
+
+.ant-form-item-has-error .ant-input-password,
+.ant-form-item-has-error .ant-input-password:hover,
+.ant-input-password-status-error,
+.ant-input-password-status-error:hover {
+    border-color: #ff4d4f !important;
 }
 
 /* Input Error State - Dark Mode */
@@ -798,8 +832,8 @@
 
 .ant-input-affix-wrapper:hover {
     background-color: #fafafa !important;
-    border-color: #1890ff !important;
-    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.08) !important;
+    border-color: #1890ff;
+    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.08);
 }
 
 .ant-input-affix-wrapper-focused {
@@ -851,8 +885,8 @@
 
 :root[data-theme="dark"] .ant-input-affix-wrapper:hover {
     background-color: #262626 !important;
-    border-color: #595959 !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+    border-color: #595959;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 :root[data-theme="dark"] .ant-input-affix-wrapper-focused {
@@ -1045,56 +1079,56 @@
 
 /* Modern Input Wrapper - Light Mode */
 .modern-input-wrapper {
-    background: var(--modern-input-bg) !important;
-    border-color: var(--modern-input-border) !important;
+    background: transparent !important;
+    border: none !important;
 }
 
 .modern-input-wrapper:hover {
-    background: var(--modern-input-bg-hover) !important;
-    border-color: var(--modern-input-border-hover) !important;
-    box-shadow: 0 0 0 1px rgba(24, 144, 255, 0.1) !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 .modern-input-wrapper:focus-within {
-    background: var(--modern-input-bg-focus) !important;
-    border-color: var(--modern-input-border-focus) !important;
-    box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.1), 0 0 0 1px var(--modern-input-border-focus) !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 .modern-input-wrapper.has-error {
-    border-color: var(--color-error, #ff4d4f) !important;
+    border: none !important;
 }
 
 .modern-input-wrapper.has-error:focus-within {
-    border-color: var(--color-error, #ff4d4f) !important;
-    box-shadow: 0 0 0 3px rgba(255, 77, 79, 0.1), 0 0 0 1px var(--color-error, #ff4d4f) !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 /* Modern Input Wrapper - Dark Mode */
 :root[data-theme="dark"] .modern-input-wrapper {
-    background: var(--modern-input-bg) !important;
-    border-color: var(--modern-input-border) !important;
+    background: transparent !important;
+    border: none !important;
 }
 
 :root[data-theme="dark"] .modern-input-wrapper:hover {
-    background: var(--modern-input-bg-hover) !important;
-    border-color: var(--modern-input-border-hover) !important;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 :root[data-theme="dark"] .modern-input-wrapper:focus-within {
-    background: var(--modern-input-bg-focus) !important;
-    border-color: var(--modern-input-border-focus) !important;
-    box-shadow: 0 0 0 3px rgba(64, 169, 255, 0.15), 0 0 0 1px var(--modern-input-border-focus) !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 :root[data-theme="dark"] .modern-input-wrapper.has-error {
-    border-color: var(--color-error, #ff7875) !important;
+    border: none !important;
 }
 
 :root[data-theme="dark"] .modern-input-wrapper.has-error:focus-within {
-    border-color: var(--color-error, #ff7875) !important;
-    box-shadow: 0 0 0 3px rgba(255, 120, 117, 0.15), 0 0 0 1px var(--color-error, #ff7875) !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 /* Modern Input Icon - Light Mode */

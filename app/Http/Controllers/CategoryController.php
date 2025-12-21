@@ -7,324 +7,144 @@ use App\Models\UserActivityLog;
 use App\Http\Requests\Category\CategoryStoreRequest;
 use App\Http\Requests\Category\CategoryUpdateRequest;
 use App\Http\Requests\Category\CategorySearchRequest;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\UserActivityResource;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
+use Inertia\Response;
+use Illuminate\Http\RedirectResponse;
 
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of categories.
      */
-    public function index()
+    public function index(): Response
     {
-        $categories = Category::with('parent', 'children')
-            ->orderBy('display_order')
-            ->orderBy('name')
-            ->paginate(15);
-
-        // Get all categories for parent dropdown
-        $allCategories = Category::orderBy('name')
-            ->get(['id', 'name', 'parent_id']);
-
-        return Inertia::render('Dashboard/Categories/Index', [
-            'categories' => $categories,
-            'allCategories' => $allCategories,
-            'filters' => [],
-        ]);
+        return $this->renderIndex(Category::paginate(15));
     }
 
     /**
-     * Search categories.
+     * Search and filter categories.
      */
-    public function search(CategorySearchRequest $request)
+    public function search(CategorySearchRequest $request): Response
     {
-        $query = Category::with('parent', 'children');
+        $categories = Category::with(['parent', 'children'])
+            ->search($request->search)
+            ->dateBetween($request->date_from, $request->date_to)
+            ->orderBy($request->get('sort_by', 'display_order'), $request->get('sort_order', 'asc'))
+            ->paginate($request->get('per_page', 15));
 
-        // Search
-        if ($request->filled('search')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('slug', 'like', '%' . $request->search . '%')
-                    ->orWhere('description', 'like', '%' . $request->search . '%');
-            });
-        }
-
-        // Filter by date range
-        if ($request->filled('date_from')) {
-            $query->whereDate('created_at', '>=', $request->date_from);
-        }
-        if ($request->filled('date_to')) {
-            $query->whereDate('created_at', '<=', $request->date_to);
-        }
-
-        // Filter by status
-        if ($request->has('is_active') && $request->is_active !== null && $request->is_active !== '') {
-            $isActive = $request->is_active === '1' || $request->is_active === 1 || $request->is_active === true;
-            $query->where('is_active', $isActive);
-        }
-
-        // Sorting
-        $sortBy = $request->get('sort_by', 'display_order');
-        $sortOrder = $request->get('sort_order', 'asc');
-        
-        if (in_array($sortBy, ['name', 'slug', 'display_order', 'created_at', 'updated_at'])) {
-            $query->orderBy($sortBy, $sortOrder);
-        } else {
-            $query->orderBy('display_order')->orderBy('name');
-        }
-
-        $categories = $query->paginate($request->get('per_page', 15));
-
-        // Get all categories for parent dropdown
-        $allCategories = Category::orderBy('name')
-            ->get(['id', 'name', 'parent_id']);
-
-        return Inertia::render('Dashboard/Categories/Index', [
-            'categories' => $categories,
-            'allCategories' => $allCategories,
-            'filters' => $request->only(['search', 'parent_id', 'is_active']),
-        ]);
+        return $this->renderIndex($categories, $request->only(['search', 'date_from', 'date_to', 'sort_by', 'sort_order']));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show category creation form.
      */
-    public function create()
+    public function create(): Response
     {
-        $categories = Category::whereNull('parent_id')
-            ->orderBy('name')
-            ->get(['id', 'name']);
-
         return Inertia::render('Dashboard/Categories/Create', [
-            'parentCategories' => $categories,
+            'parentCategories' => CategoryResource::collection(Category::whereNull('parent_id')->get()),
         ]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new category.
      */
-    public function store(CategoryStoreRequest $request)
+    public function store(CategoryStoreRequest $request): RedirectResponse
     {
-        $validated = $request->validated();
+        Category::create($request->validated());
 
-        // Generate slug if not provided
-        if (empty($validated['slug'])) {
-            $validated['slug'] = Str::slug($validated['name']);
-            
-            // Ensure uniqueness
-            $originalSlug = $validated['slug'];
-            $counter = 1;
-            while (Category::where('slug', $validated['slug'])->exists()) {
-                $validated['slug'] = $originalSlug . '-' . $counter;
-                $counter++;
-            }
-        }
-
-        $category = Category::create($validated);
-
-        // Log activity
-        UserActivityLog::create([
-            'user_id' => Auth::id(),
-            'action' => 'category.created',
-            'description' => "Category '{$category->name}' was created",
-            'metadata' => [
-                'category_id' => $category->id,
-                'category_name' => $category->name,
-                'category_slug' => $category->slug,
-            ],
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-        ]);
-
-        return redirect()
-            ->route('categories.index')
-            ->with('success', 'Category created successfully.');
+        return redirect()->route('categories.index')->with('success', 'Category created successfully.');
     }
 
     /**
-     * Display the specified resource.
+     * Display category details and activity logs.
      */
-    public function show(Category $category, Request $request)
+    public function show(Category $category, Request $request): Response
     {
-        $category->load('parent', 'children', 'events');
-
-        // Get activity logs for this category
-        $activities = UserActivityLog::where(function ($query) use ($category) {
-                $query->where('action', 'like', 'category.%')
-                    ->whereJsonContains('metadata->category_id', $category->id);
+        $activities = UserActivityLog::where('action', 'like', 'category.%')
+            ->where(function($q) use ($category) {
+                $q->whereJsonContains('metadata->model_id', $category->id)
+                  ->orWhereJsonContains('metadata->category_id', $category->id);
             })
             ->with('user')
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->paginate($request->get('per_page', 15));
 
         return Inertia::render('Dashboard/Categories/Show', [
-            'category' => $category,
-            'activities' => $activities,
+            'category' => new CategoryResource($category->load(['parent', 'children', 'events'])),
+            'activities' => UserActivityResource::collection($activities),
         ]);
     }
 
     /**
-     * Get activity logs for a category.
+     * Show category edit form.
      */
-    public function activities(Category $category, Request $request)
+    public function edit(Category $category): Response
     {
-        $activities = UserActivityLog::where(function ($query) use ($category) {
-                $query->where('action', 'like', 'category.%')
-                    ->whereJsonContains('metadata->category_id', $category->id);
-            })
-            ->with('user')
-            ->orderBy('created_at', 'desc')
-            ->paginate($request->get('per_page', 15));
-
-        return Inertia::render('Dashboard/Categories/Show', [
-            'category' => $category->load('parent', 'children', 'events'),
-            'activities' => $activities,
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        $categories = Category::where('id', '!=', $category->id)
-            ->whereNull('parent_id')
-            ->orderBy('name')
-            ->get(['id', 'name']);
+        $parents = Category::whereNull('parent_id')->where('id', '!=', $category->id)->get();
 
         return Inertia::render('Dashboard/Categories/Edit', [
-            'category' => $category,
-            'parentCategories' => $categories,
+            'category' => new CategoryResource($category),
+            'parentCategories' => CategoryResource::collection($parents),
         ]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update an existing category.
      */
-    public function update(CategoryUpdateRequest $request, Category $category)
+    public function update(CategoryUpdateRequest $request, Category $category): RedirectResponse
     {
-        $validated = $request->validated();
+        $category->update($request->validated());
 
-        // Generate slug if not provided
-        if (empty($validated['slug'])) {
-            $validated['slug'] = Str::slug($validated['name']);
-            
-            // Ensure uniqueness
-            $originalSlug = $validated['slug'];
-            $counter = 1;
-            while (Category::where('slug', $validated['slug'])->where('id', '!=', $category->id)->exists()) {
-                $validated['slug'] = $originalSlug . '-' . $counter;
-                $counter++;
-            }
-        }
-
-        $category->update($validated);
-
-        // Log activity
-        UserActivityLog::create([
-            'user_id' => Auth::id(),
-            'action' => 'category.updated',
-            'description' => "Category '{$category->name}' was updated",
-            'metadata' => [
-                'category_id' => $category->id,
-                'category_name' => $category->name,
-                'category_slug' => $category->slug,
-            ],
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-        ]);
-
-        return redirect()
-            ->route('categories.index')
-            ->with('success', 'Category updated successfully.');
+        return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a category.
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category): RedirectResponse
     {
-        // Check if category has children
-        if ($category->children()->count() > 0) {
-            return back()->withErrors(['error' => 'Cannot delete category with child categories.']);
+        if ($category->children()->exists() || $category->events()->exists()) {
+            return back()->withErrors(['error' => 'Cannot delete category with active dependencies.']);
         }
 
-        // Check if category has events
-        if ($category->events()->count() > 0) {
-            return back()->withErrors(['error' => 'Cannot delete category with associated events.']);
-        }
-
-        $categoryName = $category->name;
-        $categoryId = $category->id;
-        $categorySlug = $category->slug;
-
-        // Set deleted_by before soft delete
-        $category->deleted_by = Auth::id();
-        $category->save();
         $category->delete();
 
-        // Log activity
-        UserActivityLog::create([
-            'user_id' => Auth::id(),
-            'action' => 'category.deleted',
-            'description' => "Category '{$categoryName}' was deleted",
-            'metadata' => [
-                'category_id' => $categoryId,
-                'category_name' => $categoryName,
-                'category_slug' => $categorySlug,
-            ],
-            'ip_address' => request()->ip(),
-            'user_agent' => request()->userAgent(),
-        ]);
-
-        return redirect()
-            ->route('categories.index')
-            ->with('success', 'Category deleted successfully.');
+        return redirect()->route('categories.index')->with('success', 'Category deleted.');
     }
 
     /**
-     * Bulk actions
+     * Perform bulk operations.
      */
-    public function bulkAction(Request $request)
+    public function bulkAction(Request $request): RedirectResponse
     {
         $request->validate([
             'action' => 'required|in:activate,deactivate,delete',
-            'ids' => 'required|array',
-            'ids.*' => 'exists:categories,id',
+            'ids' => 'required|array|exists:categories,id',
         ]);
 
         $categories = Category::whereIn('id', $request->ids);
 
-        switch ($request->action) {
-            case 'activate':
-                $categories->update(['is_active' => true]);
-                $message = 'Categories activated successfully.';
-                break;
+        match ($request->action) {
+            'activate' => $categories->update(['is_active' => true]),
+            'deactivate' => $categories->update(['is_active' => false]),
+            'delete' => $categories->delete(), // Note: Soft deletes used
+        };
 
-            case 'deactivate':
-                $categories->update(['is_active' => false]);
-                $message = 'Categories deactivated successfully.';
-                break;
+        return back()->with('success', 'Bulk action completed successfully.');
+    }
 
-            case 'delete':
-                // Check for dependencies
-                $categoriesWithChildren = $categories->whereHas('children')->count();
-                $categoriesWithEvents = $categories->whereHas('events')->count();
-
-                if ($categoriesWithChildren > 0 || $categoriesWithEvents > 0) {
-                    return back()->withErrors([
-                        'error' => 'Some categories cannot be deleted due to dependencies.'
-                    ]);
-                }
-
-                $categories->delete();
-                $message = 'Categories deleted successfully.';
-                break;
-        }
-
-        return back()->with('success', $message);
+    /**
+     * Helper to render the index view with standardized props.
+     */
+    protected function renderIndex($categories, array $filters = []): Response
+    {
+        return Inertia::render('Dashboard/Categories/Index', [
+            'categories' => CategoryResource::collection($categories),
+            'allCategories' => CategoryResource::collection(Category::all()),
+            'filters' => $filters,
+        ]);
     }
 }
-

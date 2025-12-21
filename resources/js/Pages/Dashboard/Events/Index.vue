@@ -4,13 +4,19 @@
       <Breadcrumb :items="breadcrumbItems" />
       <div class="breadcrumb-actions">
         <a-button @click="handleRefresh" title="Refresh">
-          <template #icon><ReloadOutlined /></template>
+          <template #icon>
+            <ReloadOutlined />
+          </template>
         </a-button>
         <a-button @click="handleExportPDF" title="Export PDF">
-          <template #icon><FilePdfOutlined /></template>
+          <template #icon>
+            <FilePdfOutlined />
+          </template>
         </a-button>
         <a-button @click="handleExportExcel" title="Export Excel">
-          <template #icon><FileExcelOutlined /></template>
+          <template #icon>
+            <FileExcelOutlined />
+          </template>
         </a-button>
       </div>
     </div>
@@ -20,7 +26,9 @@
         <div class="card-header">
           <h2 class="card-title">Events</h2>
           <a-button type="primary" @click="handleCreate">
-            <template #icon><PlusOutlined /></template>
+            <template #icon>
+              <PlusOutlined />
+            </template>
             Create Event
           </a-button>
         </div>
@@ -29,32 +37,11 @@
       <!-- Filters -->
       <div class="filters-section">
         <a-row :gutter="16">
-          <a-col :xs="24" :sm="12" :md="8">
-            <a-input
-              v-model:value="filters.search"
-              placeholder="Search events..."
-              allow-clear
-              @pressEnter="handleSearch"
-            >
-              <template #prefix><SearchOutlined /></template>
-            </a-input>
+          <a-col :xs="24" :sm="12" :md="12">
+            <Search v-model="filters.search" placeholder="Search events..." @search="handleSearch" />
           </a-col>
-          <a-col :xs="24" :sm="12" :md="8">
-            <a-range-picker
-              v-model:value="dateRange"
-              :placeholder="['Start Date From', 'End Date To']"
-              style="width: 100%"
-              @change="handleDateChange"
-            />
-          </a-col>
-          <a-col :xs="24" :sm="24" :md="8">
-            <a-space>
-              <a-button type="primary" @click="handleSearch">
-                <template #icon><SearchOutlined /></template>
-                Search
-              </a-button>
-              <a-button @click="handleResetFilters">Reset</a-button>
-            </a-space>
+          <a-col :xs="24" :sm="12" :md="12">
+            <DatePicker v-model="dateRange" @change="handleDateChange" />
           </a-col>
         </a-row>
       </div>
@@ -74,18 +61,11 @@
       </div>
 
       <!-- Table -->
-      <a-table
-        :columns="columns"
-        :data-source="events.data"
-        :row-key="(record) => record.id"
-        :pagination="false"
-        :loading="loading"
-        :row-selection="{
+      <a-table :columns="columns" :data-source="events.data" :row-key="(record) => record.id" :pagination="false"
+        :loading="loading" :row-selection="{
           selectedRowKeys: selectedRowKeys,
           onChange: onSelectChange,
-        }"
-        @change="handleTableChange"
-      >
+        }" @change="handleTableChange">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'title'">
             <div class="event-title-cell">
@@ -147,19 +127,21 @@
           <template v-if="column.key === 'actions'">
             <a-space>
               <a-button type="link" size="small" @click="handleView(record)">
-                <template #icon><EyeOutlined /></template>
+                <template #icon>
+                  <EyeOutlined />
+                </template>
               </a-button>
               <a-button type="link" size="small" @click="handleEdit(record)">
-                <template #icon><EditOutlined /></template>
+                <template #icon>
+                  <EditOutlined />
+                </template>
               </a-button>
-              <a-popconfirm
-                title="Are you sure you want to delete this event?"
-                ok-text="Yes"
-                cancel-text="No"
-                @confirm="handleDelete(record)"
-              >
+              <a-popconfirm title="Are you sure you want to delete this event?" ok-text="Yes" cancel-text="No"
+                @confirm="handleDelete(record)">
                 <a-button type="link" size="small" danger>
-                  <template #icon><DeleteOutlined /></template>
+                  <template #icon>
+                    <DeleteOutlined />
+                  </template>
                 </a-button>
               </a-popconfirm>
             </a-space>
@@ -168,14 +150,9 @@
       </a-table>
 
       <!-- Modern Pagination -->
-      <Pagination
-        :current="pagination.current"
-        :page-size="pagination.pageSize"
-        :total="pagination.total"
-        :page-size-options="[10, 15, 20, 50, 100]"
-        @change="handlePaginationChange"
-        @page-size-change="handlePageSizeChange"
-      />
+      <Pagination :current="pagination.current" :page-size="pagination.pageSize" :total="pagination.total"
+        :page-size-options="[10, 15, 20, 50, 100]" @change="handlePaginationChange"
+        @page-size-change="handlePageSizeChange" />
     </a-card>
   </DashboardLayout>
 </template>
@@ -186,9 +163,10 @@ import { router, usePage } from '@inertiajs/vue3';
 import DashboardLayout from '../../../Layouts/DashboardLayout.vue';
 import Breadcrumb from '../../../Components/Breadcrumb.vue';
 import Pagination from '../../../Components/Pagination.vue';
+import Search from '../../../Components/Search.vue';
+import DatePicker from '../../../Components/DatePicker.vue';
 import {
   PlusOutlined,
-  SearchOutlined,
   EyeOutlined,
   EditOutlined,
   DeleteOutlined,
@@ -422,10 +400,10 @@ const handleDateChange = (dates) => {
 };
 
 const handleRefresh = () => {
-  filters.value = {};
+  filters.value = { search: '', date_from: '', date_to: '' };
   dateRange.value = null;
   selectedRowKeys.value = [];
-  
+
   router.visit('/dashboard/events', {
     preserveState: false,
     preserveScroll: false,
@@ -435,7 +413,7 @@ const handleRefresh = () => {
 const handleExportPDF = () => {
   const tableData = events.value.data || [];
   const columns = ['Title', 'Organizer', 'Category', 'Type', 'Status', 'Start Date', 'End Date'];
-  
+
   let content = `
     <html>
     <head>
@@ -474,7 +452,7 @@ const handleExportPDF = () => {
     </body>
     </html>
   `;
-  
+
   const printWindow = window.open('', '_blank');
   printWindow.document.write(content);
   printWindow.document.close();
@@ -485,7 +463,7 @@ const handleExportPDF = () => {
 
 const handleExportExcel = () => {
   const tableData = events.value.data || [];
-  
+
   const headers = ['Title', 'Organizer', 'Category', 'Type', 'Status', 'Visibility', 'Start Date', 'End Date', 'Created At'];
   const rows = tableData.map(row => [
     row.title || '',
@@ -498,12 +476,12 @@ const handleExportExcel = () => {
     row.end_date ? formatDate(row.end_date) : '',
     row.created_at ? dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss') : '',
   ]);
-  
+
   const csvContent = [
     headers.join(','),
     ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
   ].join('\n');
-  
+
   const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
   const url = URL.createObjectURL(blob);
@@ -537,7 +515,7 @@ const handleExportExcel = () => {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .breadcrumb-actions {
     width: 100%;
     justify-content: flex-end;
@@ -617,4 +595,3 @@ const handleExportExcel = () => {
   color: rgba(255, 255, 255, 0.45);
 }
 </style>
-

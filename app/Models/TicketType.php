@@ -2,13 +2,27 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TicketType extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, LogsActivity;
+
+    /**
+     * Scope a query to search ticket types.
+     */
+    public function scopeSearch(Builder $query, ?string $search): Builder
+    {
+        return $query->when($search, function ($query, $search) {
+            $query->where('name', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%")
+                ->orWhere('type', 'like', "%{$search}%");
+        });
+    }
 
     /**
      * The attributes that are mass assignable.

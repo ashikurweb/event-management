@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +11,45 @@ use Illuminate\Support\Str;
 
 class Ticket extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, LogsActivity;
+    
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($ticket) {
+            if (empty($ticket->ticket_number)) {
+                $ticket->ticket_number = 'TKT-' . strtoupper(Str::random(10));
+            }
+            if (empty($ticket->qr_code)) {
+                $ticket->qr_code = Str::uuid()->toString();
+            }
+        });
+    }
+
+    /**
+     * Scope a query to search tickets.
+     */
+    public function scopeSearch(Builder $query, ?string $search): Builder
+    {
+        return $query->when($search, function ($query, $search) {
+            $query->where('ticket_number', 'like', "%{$search}%")
+                ->orWhere('attendee_first_name', 'like', "%{$search}%")
+                ->orWhere('attendee_last_name', 'like', "%{$search}%")
+                ->orWhere('attendee_email', 'like', "%{$search}%")
+                ->orWhereHas('user', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                });
+        });
+    }
+
+    /**
+     * Map ticket_number to name for activity logging.
+     */
+    public function getNameAttribute(): string
+    {
+        return $this->ticket_number;
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -52,22 +92,6 @@ class Ticket extends Model
         ];
     }
 
-    /**
-     * Boot the model.
-     */
-    protected static function boot(): void
-    {
-        parent::boot();
-
-        static::creating(function ($ticket) {
-            if (empty($ticket->ticket_number)) {
-                $ticket->ticket_number = 'TKT-' . strtoupper(Str::random(12));
-            }
-            if (empty($ticket->qr_code)) {
-                $ticket->qr_code = Str::random(32);
-            }
-        });
-    }
 
     /**
      * Get the order for this ticket.
